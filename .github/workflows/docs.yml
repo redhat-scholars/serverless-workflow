@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - dev
 env:
   SITE_DIR: "gh-pages"
 jobs:
