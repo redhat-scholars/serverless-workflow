@@ -1,1 +1,12 @@
 Check the build courseware https://redhat-scholars.github.io/build-course[documentation]  on how folder structure, how to use macros and other gotchas
+
+To run the live preview:
+
+[source,sh]
+----
+# first time
+yarn install
+
+# run local preview
+yarn gulp
+----

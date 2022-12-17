@@ -1,5 +1,5 @@
-name: template-tutorial
-title: Template Tutorial
+name: serverless-workflow
+title: Serverless Workflow Tutorial
 version: master
 nav:
   - modules/ROOT/nav.adoc
