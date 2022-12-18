@@ -2,28 +2,66 @@
 include::_attributes.adoc[]
 
 [#prerequisite]
-== Prerequisite CLI tools
+== Prerequisite tools
 
-include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/prerequisites-kubernetes.adoc[]
+The following CLI tools are required for running the exercises in this tutorial. 
+Please have them installed and configured before you get started with any of the tutorial chapters.
+
+[cols="4*^,4*.",options="header,+attributes"]
+|===
+|**Tool**|**Fedora**|**MacOS**|**Windows**
+
+| `git`
+| `dnf install -y git`
+| https://git-scm.com/download/mac[Download]
+| https://git-scm.com/download/win[Download]
+
+| `podman`
+| `dnf install -y podman`
+| https://podman.io/getting-started/installation[Podman for Mac]
+| https://podman.io/getting-started/installation[Podman for Windows]
+
+
+| https://code.visualstudio.com/[Visual Studio Code]
+| https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions[Linux installation]
+| https://code.visualstudio.com/docs/setup/mac[Mac Install]
+| https://code.visualstudio.com/docs/setup/windows[Windows Install]
+
+| OpenJDK v11 or v17
+| `dnf install -y java-17-openjdk-devel`
+| https://adoptopenjdk.net/[Download Mac]
+| https://developers.redhat.com/products/openjdk/download[Download MSI]
+
+| `Apache Maven`
+| `dnf install -y maven`
+| https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz[Download]
+| https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.zip[Download]
+
 |===
 
-include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/optional-requisites.adoc[]
-|===
+[#vscode-extensions]
+== Visual Studio Code Extensions
 
-[#minikube]
-== Setup Kubernetes
+Launch Visual Studio Code to install the following extensions:
 
-:profile: my_profile
+* Language Support for Java(TM) by Red Hat
+* Kogito Serverless Workflow Editor
 
-include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/kubernetes-setup.adoc[]
+There are 2 ways:
 
-And then you are ready for start using Kubernetes:
+1. Click on the Extensions icon in the Activity Bar on the side of VS Code, search and install.
++
+image::extensions-view-icon.png[]
 
-image::kubelogo.png[]
+2. Launch VS Code Quick Open (Ctrl+P), paste the following commands, and press enter:
 
-[#downloadtutorial]
-== Get tutorial sources
+* `ext install redhat.java`
+* `ext install redhat.vscode-extension-serverless-workflow-editor`
 
-:tutorial-url: https://github.com/redhat-developer-demos/rhd-tutorial-common.git
-:folder: my_folder
-include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/download-sources.adoc[]
+[#base-image]
+== Pull the serverless data index image
+
+[#project-start]
+== Clone and build the startup project
+
+
