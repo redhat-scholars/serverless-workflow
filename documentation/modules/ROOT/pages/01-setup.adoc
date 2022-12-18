@@ -7,6 +7,8 @@ include::_attributes.adoc[]
 The following CLI tools are required for running the exercises in this tutorial. 
 Please have them installed and configured before you get started with any of the tutorial chapters.
 
+:docker-note: pass:c,q[footnote:disclaimer[If you prefer to use `docker` you can replace it to `podman` in the instructions.]]
+
 [cols="4*^,4*.",options="header,+attributes"]
 |===
 |**Tool**|**Fedora**|**MacOS**|**Windows**
@@ -16,7 +18,7 @@ Please have them installed and configured before you get started with any of the
 | https://git-scm.com/download/mac[Download]
 | https://git-scm.com/download/win[Download]
 
-| `podman`
+| `podman`{docker-note}
 | `dnf install -y podman`
 | https://podman.io/getting-started/installation[Podman for Mac]
 | https://podman.io/getting-started/installation[Podman for Windows]
