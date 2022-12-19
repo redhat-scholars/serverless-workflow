@@ -1,0 +1,34 @@
+= Explore the startup project
+include::_attributes.adoc[]
+
+This section explores the key elements of a serverless workflow project.
+
+[#structure]
+== The project structure
+
+
+
+
+[#run]
+== Run the workflow
+
+[.lines_7]
+[.console-input]
+[source, java,subs="+macros,+attributes"]
+----
+./mvnw quarkus:dev
+----
+
+Trigger the process with the next curl command:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+include::example$start-swf.sh[]
+----
+
+[#inspect]
+== Inspect the workflow
+
+And then you can deploy the service and execute commands inside:
+

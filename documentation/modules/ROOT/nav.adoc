@@ -3,3 +3,8 @@
 ** xref:01-setup.adoc#vscode-extensions[Visual Studio Code Extensions]
 ** xref:01-setup.adoc#base-image[Pull the serverless data index image]
 ** xref:01-setup.adoc#project-start[Clone and build the startup project]
+
+* xref:02-startup-project.adoc[2. Startup Project]
+** xref:02-startup-project.adoc#structure[The project structure]
+** xref:02-startup-project.adoc#run[Run the workflow]
+** xref:02-startup-project.adoc#inspect[Inspect the workflow]
