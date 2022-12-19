@@ -56,10 +56,13 @@
     <a class="nav-link" href="01-setup.html">1. Setup</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#prerequisite">Prerequisites</a>
+    <a class="nav-link" href="#prerequisite">Prerequisite tools</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#minikube">Setup Minikube</a>
+    <a class="nav-link" href="#vscode-extensions">Visual Studio Code Extensions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#base-image">Pull the serverless data index image</a>
   </li>
 </ul>
   </li>
@@ -106,7 +109,7 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="prerequisite"><a class="anchor" href="#prerequisite"></a>Prerequisite CLI tools</h2>
+<h2 id="prerequisite"><a class="anchor" href="#prerequisite"></a>Prerequisite tools</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The following CLI tools are required for running the exercises in this tutorial.
@@ -122,254 +125,151 @@ Please have them installed and configured before you get started with any of the
 <thead>
 <tr>
 <th class="tableblock halign-center valign-top"><strong>Tool</strong></th>
-<th class="tableblock halign-center valign-top"><strong>macOS</strong></th>
 <th class="tableblock halign-center valign-top"><strong>Fedora</strong></th>
-<th class="tableblock halign-center valign-top"><strong>windows</strong></th>
+<th class="tableblock halign-center valign-top"><strong>MacOS</strong></th>
+<th class="tableblock halign-center valign-top"><strong>Windows</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>Git</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>git</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y git</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://git-scm.com/download/mac">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://git-scm.com/download/linux">Download</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://git-scm.com/download/win">Download</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>Docker</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://docs.docker.com/docker-for-mac/install">Docker for Mac</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install docker</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://docs.docker.com/docker-for-windows/install">Docker for Windows</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>podman</code><sup class="footnote" id="_footnote_disclaimer">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y podman</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://podman.io/getting-started/installation">Podman for Mac</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://podman.io/getting-started/installation">Podman for Windows</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>VirtualBox</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://download.virtualbox.org/virtualbox/6.1.6/VirtualBox-6.1.6-137129-OSX.dmg">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://www.virtualbox.org/wiki/Linux_Downloads">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://download.virtualbox.org/virtualbox/6.1.6/VirtualBox-6.1.6-137129-Win.exe">Download</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/">Visual Studio Code</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions">Linux installation</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/docs/setup/mac">Mac Install</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/docs/setup/windows">Windows Install</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://kubernetes.io/docs/tasks/tools/install-minikube">Minikube</a> v1.25.1</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/kubernetes/minikube/releases/download/v1.25.1/minikube-darwin-amd64">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/kubernetes/minikube/releases/download/v1.25.1/minikube-linux-amd64">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/kubernetes/minikube/releases/download/v1.25.1/minikube-windows-amd64.exe">Download</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">OpenJDK v11 or v17</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y java-17-openjdk-devel</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://adoptopenjdk.net/">Download Mac</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://developers.redhat.com/products/openjdk/download">Download MSI</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>kubectl v1.23.1</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://storage.googleapis.com/kubernetes-release/release/v1.23.1/bin/darwin/amd64/kubectl">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://storage.googleapis.com/kubernetes-release/release/v1.23.1/bin/linux/amd64/kubectl">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://storage.googleapis.com/kubernetes-release/release/v1.23.1/bin/windows/amd64/kubectl.exe">Download</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/wercker/stern">stern</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>brew install stern</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/stern/stern/releases/download/v1.22.0/stern_1.22.0_linux_amd64.tar.gz">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/stern/stern/releases/download/v1.22.0/stern_1.22.0_windows_amd64.tar.gz">Download</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>Apache Maven 3.6.3</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz">Download</a></p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The following CLI tools are optional for running the exercises in this tutorial.
-Although they are used in the tutorial, you could use others without any problem.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-center valign-top"><strong>Tool</strong></th>
-<th class="tableblock halign-center valign-top"><strong>macOS</strong></th>
-<th class="tableblock halign-center valign-top"><strong>Fedora</strong></th>
-<th class="tableblock halign-center valign-top"><strong>windows</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/mikefarah/yq">yq v2.4.1</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/mikefarah/yq/releases/download/2.4.1/yq_darwin_amd64">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/mikefarah/yq/releases/download/2.4.1/yq_linux_amd64">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/mikefarah/yq/releases/download/2.4.1/yq_windows_amd64.exe">Download</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/stedolan/jq">jq v1.6.0</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/stedolan/jq/releases/download/jq-1.6/jq-osx-amd64">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe">Download</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://httpie.org/">httpie</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>brew install httpie</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install httpie</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://httpie.org/doc#windows-etc" class="bare">https://httpie.org/doc#windows-etc</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">watch</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>brew install watch</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install procps-ng</code></p></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">kubectx and kubens</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>brew install kubectx</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/ahmetb/kubectx" class="bare">https://github.com/ahmetb/kubectx</a></p></td>
-<td class="tableblock halign-center valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://github.com/rakyll/hey">hey</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>brew install hey</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://storage.googleapis.com/jblabs/dist/hey_linux_v0.1.2">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://hey-release.s3.us-east-2.amazonaws.com/hey_windows_amd64">Download</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>Apache Maven</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y maven</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz">Download</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.zip">Download</a></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="sect1">
-<h2 id="minikube"><a class="anchor" href="#minikube"></a>Setup Kubernetes</h2>
+<h2 id="vscode-extensions"><a class="anchor" href="#vscode-extensions"></a>Visual Studio Code Extensions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The profile my_profile is created to run the tutorial:</p>
+<p>Launch Visual Studio Code to install the following extensions:</p>
 </div>
-<div class="tabset is-loading">
-<div class="ulist tabs">
+<div class="ulist">
 <ul>
 <li>
-<p><a id="tabset1_minikube"></a>Minikube</p>
+<p>Language Support for Java&#8482; by Red Hat</p>
 </li>
 <li>
-<p><a id="tabset1_openshift"></a>OpenShift</p>
+<p>Kogito Serverless Workflow Editor</p>
 </li>
 </ul>
 </div>
-<div class="content">
-<div class="tab-pane" aria-labelledby="tabset1_minikube">
 <div class="paragraph">
-<p>Having <code>minikube</code> installed and in your <code>PATH</code>, then run:</p>
+<p>There are 2 ways:</p>
 </div>
-<div class="paragraph">
-<p><strong>MacOS</strong></p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">minikube start --memory=8192 --cpus=3 --kubernetes-version=v1.23.1 --vm-driver=virtualbox -p my_profile</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Linux</strong></p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">minikube start --memory=8192 --cpus=3 --kubernetes-version=v1.23.1 --vm-driver=kvm2 -p my_profile</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Windows:</strong></p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">minikube start --memory=8192 --cpus=3 --kubernetes-version=v1.23.1 --vm-driver=hyperv -p my_profile</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>And the output must be something similar like:</p>
-</div>
-<div class="listingblock console-output">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">😄  [my_profile] minikube v1.20.0 on Darwin 11.3
-✅  Created a new profile : my_profile
-✅  minikube profile was successfully set to my_profile
-😄  [default] minikube v1.25.1 on Darwin 11.3
-✨  Selecting 'virtualbox' driver from user configuration (alternates: [hyperkit])
-🔥  Creating virtualbox VM (CPUs=2, Memory=8192MB, Disk=50000MB) ...
-🐳  Preparing Kubernetes v1.23.1 on Docker '20.10.6' ...
-    ▪ apiserver.enable-admission-plugins=LimitRanger,NamespaceExists,NamespaceLifecycle,ResourceQuota,ServiceAccount,DefaultStorageClass,MutatingAdmissionWebhook
-🚜  Pulling images ...
-🚀  Launching Kubernetes ...
-⌛  Waiting for cluster to come online ...
-🏄  Done! kubectl is now configured to use "my_profile"</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Finally configure to use minikube internal docker as docker host:</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">eval $(minikube docker-env -p my_profile)</code></pre>
-</div>
-</div>
-</div>
-<div class="tab-pane" aria-labelledby="tabset1_openshift">
-<div class="paragraph">
-<p>To run OpenShift4, you need to have one provisioned using <a href="https://try.openshift.com">try.openshift.com</a> or can use any existing OpenShift4 cluster.
-Once you have your cluster, you can download the latest OpenShift client(oc) from <a href="https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/">here</a> and add to your path.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>oc version</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can check the OpenShift version using:</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc version</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The output should show oc version &gt;=4.7:</p>
-</div>
-<div class="listingblock console-output">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Client Version: 4.7.0-202102130115.p0-c66c03f
-Kubernetes Version: v1.23.1</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Then login into the OpenShift cluster using <code>oc login</code></p>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>And then you are ready for start using Kubernetes:</p>
-</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click on the Extensions icon in the Activity Bar on the side of VS Code, search and install.</p>
 <div class="imageblock">
 <div class="content">
-<img src="_images/kubelogo.png" alt="kubelogo">
+<img src="_images/extensions-view-icon.png" alt="extensions view icon">
+</div>
+</div>
+</li>
+<li>
+<p>Launch VS Code Quick Open (Ctrl+P), paste the following commands, and press enter:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ext install redhat.java</code></p>
+</li>
+<li>
+<p><code>ext install redhat.vscode-extension-serverless-workflow-editor</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="base-image"><a class="anchor" href="#base-image"></a>Pull the serverless data index image</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In order to run and test locally the Serverless Workflow project, you need the data index container image, it will be started behind the scene by quarkus.
+However, since it&#8217;s distributed through the Red Hat official registry you have to login before pulling the image.</p>
+</div>
+<div class="paragraph">
+<p>Find here the instruction on how to create / retrieve your credentials: <a href="https://access.redhat.com/RegistryAuthentication">Registry Authentication</a></p>
+</div>
+<div class="paragraph">
+<p>Run the following command to login and pull the image:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman login -u $REGISTRY_REDHAT_IO_USERNAME -p $REGISTRY_REDHAT_IO_PASSWORD registry.redhat.io
+podman pull registry.redhat.io/openshift-serverless-1/logic-data-index-ephemeral-rhel8:latest</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="downloadtutorial"><a class="anchor" href="#downloadtutorial"></a>Get tutorial sources</h2>
+<h2 id="project-start"><a class="anchor" href="#project-start"></a>Clone and build the startup project</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before we start setting up the environment, let’s clone the tutorial sources and set the <code>TUTORIAL_HOME</code> environment variable to point to the root directory of the tutorial:</p>
+<p>Get your local copy of the start up project:</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone <a href="https://github.com/redhat-developer-demos/rhd-tutorial-common.git" class="bare">https://github.com/redhat-developer-demos/rhd-tutorial-common.git</a> my_folder</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone <a href="mailto:git@github.com">git@github.com</a>:dmarrazzo/order-swf.git</code></pre>
 </div>
 </div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export TUTORIAL_HOME="$(pwd)/my_folder"</code></pre>
-</div>
+<div class="paragraph">
+<p>Enter in the project folder and start quarkus in dev mode.</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd $TUTORIAL_HOME</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd order-swf
+./mwn quarkus:dev</code></pre>
 </div>
 </div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The first time you launch <code>maven</code> on this project, it is going to take a considerable amount of time because it has to download all the dependencies from internet.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. If you prefer to use <code>docker</code> you can replace it to <code>podman</code> in the instructions.
 </div>
 </div>
 <nav class="pagination">
