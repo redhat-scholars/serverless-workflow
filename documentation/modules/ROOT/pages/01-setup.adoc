@@ -63,7 +63,39 @@ image::extensions-view-icon.png[]
 [#base-image]
 == Pull the serverless data index image
 
+In order to run and test locally the Serverless Workflow project, you need the data index container image, it will be started behind the scene by quarkus. 
+However, since it's distributed through the Red Hat official registry you have to login before pulling the image.
+
+Find here the instruction on how to create / retrieve your credentials: https://access.redhat.com/RegistryAuthentication[Registry Authentication]
+
+Run the following command to login and pull the image:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman login -u $REGISTRY_REDHAT_IO_USERNAME -p $REGISTRY_REDHAT_IO_PASSWORD registry.redhat.io
+podman pull registry.redhat.io/openshift-serverless-1/logic-data-index-ephemeral-rhel8:latest
+----
+
 [#project-start]
 == Clone and build the startup project
 
+Get your local copy of the start up project:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+git clone git@github.com:dmarrazzo/order-swf.git
+----
+
+Enter in the project folder and start quarkus in dev mode.
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+cd order-swf
+./mwn quarkus:dev
+----
+
+WARNING: The first time you launch `maven` on this project, it is going to take a considerable amount of time because it has to download all the dependencies from internet.
 

@@ -11,10 +11,7 @@ A Serverless Workflow Tutorial to show how you can deploy a Java service to a Ku
 == Browse modules
 
 [.tile]
-.xref:01-setup.adoc[Get Started]
-* xref:01-setup.adoc#minikube[Minikube]
-
-[.tile]
-.xref:02-deploy.adoc[Deploying]
-* xref:02-deploy.adoc#package[Package the Application]
-* xref:02-deploy.adoc#deploy[Deploy the Application]
+.xref:01-setup.adoc[Set up instructions]
+* xref:01-setup.adoc#prerequisite[Prerequisite tools]
+* xref:01-setup.adoc#vscode-extensions[Visual Studio Code Extensions]
+* xref:01-setup.adoc#base-image[Pull the serverless data index image]
