@@ -74,7 +74,7 @@ Run the following command to login and pull the image:
 [source,bash,subs="+macros,+attributes"]
 ----
 podman login -u $REGISTRY_REDHAT_IO_USERNAME -p $REGISTRY_REDHAT_IO_PASSWORD registry.redhat.io
-podman pull registry.redhat.io/openshift-serverless-1/logic-data-index-ephemeral-rhel8:latest
+podman pull registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.26.0-5
 ----
 
 [#project-start]
