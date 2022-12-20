@@ -2,7 +2,3 @@
 ** xref:01-setup.adoc#prerequisite[Prerequisite tools]
 ** xref:01-setup.adoc#vscode-extensions[Visual Studio Code Extensions]
 ** xref:01-setup.adoc#base-image[Pull the serverless data index image]
-
-* xref:02-deploy.adoc[2. Deploy Service]
-** xref:02-deploy.adoc#package[Build Service]
-** xref:02-deploy.adoc#deploy[Deploy Dervice]
