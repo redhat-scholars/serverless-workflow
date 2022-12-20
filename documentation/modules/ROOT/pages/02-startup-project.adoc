@@ -6,8 +6,41 @@ This section explores the key elements of a serverless workflow project.
 [#structure]
 == The project structure
 
+The Serverless Workflow technology was designed according to Microservice Architecture principles.
+A production ready solution is supported by multiple services: persistence, data index, dashboards, messaging, to name but a few.
 
+However, in this tutorial, we are going to focus on the core service which is responsible for the workflow logic execution.
 
+The workflow core logic is hosted by a plain Quarkus project with some extensions.
+
+Serverless Workflow leverages some capabilities coming from of the *Kogito* upstream initiative. For such reason, the extensions have the `kogito` prefix:
+
+* `kogito-quarkus-serverless-workflow`
+* `kogito-addons-quarkus-persistence-jdbc`
+* `kogito-addons-quarkus-process-svg`
+* `kogito-quarkus-serverless-workflow-devui`
+
+Other common Quarkus extensions used are:
+
+* `quarkus-smallrye-openapi`
+* `quarkus-resteasy`
+* `quarkus-resteasy-jackson`
+* `quarkus-jdbc-postgresql`
+
+It's worth noticing that, at the moment, serverless workflow extensions are not aligned to the quarkus platform, so they relies a dedicated _bom_:
+
+[source, xml,subs="+macros,+attributes"]
+----
+<dependency>
+  <groupId>org.kie.kogito</groupId>
+  <artifactId>kogito-bom</artifactId>
+  <version>1.27.0.Final-redhat-00005</version>
+  <type>pom</type>
+  <scope>import</scope>
+</dependency>
+----
+
+The version `1.27.0.Final-redhat-00005` comes from the developer preview.
 
 [#run]
 == Run the workflow
