@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Welcome to Serverless Workflow Tutorial :: Serverless Workflow Tutorial</title>
-    <link rel="canonical" href="https://redhat-scholars.github.io/serverless-workflow/serverless-workflow/dev/index.html">
-    <link rel="next" href="01-setup.html">
+    <title>Explore the startup project :: Serverless Workflow Tutorial</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/serverless-workflow/serverless-workflow/dev/02-startup-project.html">
+    <link rel="prev" href="01-setup.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../../_/css/site.css">
   </head>
@@ -65,18 +65,18 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="02-startup-project.html">2. Startup Project</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#structure">The project structure</a>
+    <a class="nav-link" href="#structure">The project structure</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#run">Run the workflow</a>
+    <a class="nav-link" href="#run">Run the workflow</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow</a>
+    <a class="nav-link" href="#inspect">Inspect the workflow</a>
   </li>
 </ul>
   </li>
@@ -91,61 +91,126 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="index.html" class="home-link is-current"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Serverless Workflow Tutorial</a></li>
-    <li><a href="index.html">Welcome to Serverless Workflow Tutorial</a></li>
+    <li><a href="02-startup-project.html">2. Startup Project</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/dev/documentation/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/dev/documentation/modules/ROOT/pages/02-startup-project.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Welcome to Serverless Workflow Tutorial</h1>
-<div class="sect1 text-center strong">
-<h2>Publish Services to Kubernetes</h2>
+<h1 class="page">Explore the startup project</h1>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>A Serverless Workflow Tutorial to show how you can deploy a Java service to a Kubernetes cluster as it was a child game.</p>
+<p>This section explores the key elements of a serverless workflow project.</p>
 </div>
 </div>
 </div>
-<div class="sect1 tiles browse">
-<h2>Browse modules</h2>
+<div class="sect1">
+<h2 id="structure"><a class="anchor" href="#structure"></a>The project structure</h2>
 <div class="sectionbody">
-<div class="ulist tile">
-<div class="title"><a href="01-setup.html" class="xref page">Set up instructions</a></div>
+<div class="paragraph">
+<p>The Serverless Workflow technology was designed according to Microservice Architecture principles.
+A production ready solution is supported by multiple services: persistence, data index, dashboards, messaging, to name but a few.</p>
+</div>
+<div class="paragraph">
+<p>However, in this tutorial, we are going to focus on the core service which is responsible for the workflow logic execution.</p>
+</div>
+<div class="paragraph">
+<p>The workflow core logic is hosted by a plain Quarkus project with some extensions.</p>
+</div>
+<div class="paragraph">
+<p>Serverless Workflow leverages some capabilities coming from of the <strong>Kogito</strong> upstream initiative. For such reason, the extensions have the <code>kogito</code> prefix:</p>
+</div>
+<div class="ulist">
 <ul>
 <li>
-<p><a href="01-setup.html#prerequisite" class="xref page">Prerequisite tools</a></p>
+<p><code>kogito-quarkus-serverless-workflow</code></p>
 </li>
 <li>
-<p><a href="01-setup.html#vscode-extensions" class="xref page">Visual Studio Code Extensions</a></p>
+<p><code>kogito-addons-quarkus-persistence-jdbc</code></p>
 </li>
 <li>
-<p><a href="01-setup.html#base-image" class="xref page">Pull the serverless data index image</a></p>
+<p><code>kogito-addons-quarkus-process-svg</code></p>
+</li>
+<li>
+<p><code>kogito-quarkus-serverless-workflow-devui</code></p>
 </li>
 </ul>
 </div>
-<div class="ulist tile">
-<div class="title"><a href="02-startup-project.html" class="xref page">Startup Project</a></div>
+<div class="paragraph">
+<p>Other common Quarkus extensions used are:</p>
+</div>
+<div class="ulist">
 <ul>
 <li>
-<p><a href="02-startup-project.html#structure" class="xref page">The project structure</a></p>
+<p><code>quarkus-smallrye-openapi</code></p>
 </li>
 <li>
-<p><a href="02-startup-project.html#run" class="xref page">Run the workflow</a></p>
+<p><code>quarkus-resteasy</code></p>
 </li>
 <li>
-<p><a href="02-startup-project.html#inspect" class="xref page">Inspect the workflow</a></p>
+<p><code>quarkus-resteasy-jackson</code></p>
+</li>
+<li>
+<p><code>quarkus-jdbc-postgresql</code></p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>It&#8217;s worth noticing that, at the moment, serverless workflow extensions are not aligned to the quarkus platform, so they relies a dedicated <em>bom</em>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.kie.kogito&lt;/groupId&gt;
+  &lt;artifactId&gt;kogito-bom&lt;/artifactId&gt;
+  &lt;version&gt;1.27.0.Final-redhat-00005&lt;/version&gt;
+  &lt;type&gt;pom&lt;/type&gt;
+  &lt;scope&gt;import&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The version <code>1.27.0.Final-redhat-00005</code> comes from the developer preview.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run"><a class="anchor" href="#run"></a>Run the workflow</h2>
+<div class="sectionbody">
+<div class="listingblock lines_7 console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">./mvnw quarkus:dev</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Trigger the process with the next curl command:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">#!/bin/sh
+curl -X POST <a href="http://localhost:8080/order" class="bare">http://localhost:8080/order</a> \
+  -H 'Content-Type:application/json' -H 'Accept:application/json' \
+  -d '{ "workflowdata": { "orderId": "order-123"} }'</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="inspect"><a class="anchor" href="#inspect"></a>Inspect the workflow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>And then you can deploy the service and execute commands inside:</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="next"><a href="01-setup.html">1. Setup</a></span>
+  <span class="prev"><a href="01-setup.html">1. Setup</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
