@@ -45,6 +45,8 @@ The version `1.27.0.Final-redhat-00005` comes from the developer preview.
 [#run]
 == Run the workflow
 
+If you have *closed quarkus runtime*, start it again:
+
 [.lines_7]
 [.console-input]
 [source, java,subs="+macros,+attributes"]
@@ -52,7 +54,7 @@ The version `1.27.0.Final-redhat-00005` comes from the developer preview.
 ./mvnw quarkus:dev
 ----
 
-Trigger the process with the next curl command:
+Open a new terminal and start the process with the following command:
 
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
@@ -60,8 +62,25 @@ Trigger the process with the next curl command:
 include::example$start-swf.sh[]
 ----
 
+You should get back the an output which resembles the following:
+
+[.console-output]
+[source, json,subs="+macros,+attributes"]
+----
+{"id":"7484e05f-3b95-4ac7-8c09-a2c717a0293e","workflowdata":{"orderId":"order-123"}}
+----
+
+In the other terminal where Quarkus is running you can spot the following message in log:
+[.console-output]
+[source, shell,subs="+macros,+attributes"]
+----
+Order received: order-123
+----
+
+**CONGRATULATION!!!** Your first Serverless Workflow was executed as expected!
+
 [#inspect]
 == Inspect the workflow
 
-And then you can deploy the service and execute commands inside:
+From the Quarkus terminal, type `d`, it should open for you the browser in the DevUI console: http://localhost:8080/q/dev/[]
 
