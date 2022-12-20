@@ -77,6 +77,8 @@ podman login -u $REGISTRY_REDHAT_IO_USERNAME -p $REGISTRY_REDHAT_IO_PASSWORD reg
 podman pull registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.26.0-5
 ----
 
+TIP: if you are a Mac Silicon M1 user, you can pull the image adding the following parameter `--platform linux/amd64`.
+
 [#project-start]
 == Clone and build the startup project
 
