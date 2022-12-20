@@ -183,13 +183,16 @@ A production ready solution is supported by multiple services: persistence, data
 <div class="sect1">
 <h2 id="run"><a class="anchor" href="#run"></a>Run the workflow</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>If you have <strong>closed quarkus runtime</strong>, start it again:</p>
+</div>
 <div class="listingblock lines_7 console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">./mvnw quarkus:dev</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Trigger the process with the next curl command:</p>
+<p>Open a new terminal and start the process with the following command:</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
@@ -199,13 +202,32 @@ curl -X POST <a href="http://localhost:8080/order" class="bare">http://localhost
   -d '{ "workflowdata": { "orderId": "order-123"} }'</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>You should get back the an output which resembles the following:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{"id":"7484e05f-3b95-4ac7-8c09-a2c717a0293e","workflowdata":{"orderId":"order-123"}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the other terminal where Quarkus is running you can spot the following message in log:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">Order received: order-123</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>CONGRATULATION!!!</strong> Your first Serverless Workflow was executed as expected!</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="inspect"><a class="anchor" href="#inspect"></a>Inspect the workflow</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>And then you can deploy the service and execute commands inside:</p>
+<p>From the Quarkus terminal, type <code>d</code>, it should open for you the browser in the DevUI console: <a href="http://localhost:8080/q/dev/" class="bare">http://localhost:8080/q/dev/</a></p>
 </div>
 </div>
 </div>
