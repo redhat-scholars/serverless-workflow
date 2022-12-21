@@ -93,3 +93,20 @@ image::devui-swf.png[]
 3. Click on the **Order Workflow** instance to show the details
 +
 image::devui-instances.png[]
+
+Explore the information available:
+
+* workflow diagram
++
+image::devui-svg.png[]
+
+* timeline
++
+image::devui-timeline.png[]
+
+* details
+* variables
++
+image::devui-details-vars.png[]
+
+Finally, have a look at the **monitoring** page charts on your own!
