@@ -49,7 +49,7 @@ If you have *closed quarkus runtime*, start it again:
 
 [.lines_7]
 [.console-input]
-[source, java,subs="+macros,+attributes"]
+[source, bash,subs="+macros,+attributes"]
 ----
 ./mvnw quarkus:dev
 ----
