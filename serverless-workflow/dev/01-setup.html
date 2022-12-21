@@ -182,6 +182,9 @@ Please have them installed and configured before you get started with any of the
 <li>
 <p>Kogito Serverless Workflow Editor</p>
 </li>
+<li>
+<p>REST Client (from Huachao Mao)</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -207,10 +210,49 @@ Please have them installed and configured before you get started with any of the
 <li>
 <p><code>ext install redhat.vscode-extension-serverless-workflow-editor</code></p>
 </li>
+<li>
+<p><code>ext install humao.rest-client</code></p>
+</li>
 </ul>
 </div>
 </li>
 </ol>
+</div>
+<div class="sect2">
+<h3 id="_configure_visual_studio_code"><a class="anchor" href="#_configure_visual_studio_code"></a>Configure Visual Studio Code</h3>
+<div class="paragraph">
+<p>Open the <code>Command Palette</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Hit <strong><code>F1</code></strong> or select from the menu <strong><code>View &gt; Command Palette&#8230;&#8203;</code></strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Type <strong><code>Pref</code></strong> and select <strong><code>Preferences: Open User Settings (JSON)</code></strong></p>
+</div>
+<div class="paragraph">
+<p>Add the following configuration key and close it:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">"kogito.swf.svgFilePath": "${workspaceFolder}/src/main/resources/META-INF/processSVG/"</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Add the comma as required by JSON rules (before or after depending on the key/value pair position)
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>
