@@ -82,5 +82,14 @@ Order received: order-123
 [#inspect]
 == Inspect the workflow
 
-From the Quarkus terminal, type `d`, it should open for you the browser in the DevUI console: http://localhost:8080/q/dev/[]
+There is an important tool to investigate and potentially debug workflow instances:
 
+1. From the Quarkus terminal, type `d`, it should open for you the browser in the DevUI console: http://localhost:8080/q/dev/[]
+
+2. Among other tiles focus on the **Kogito Serverless Workflow Tools** one, then click on **Workflow Instances**
++
+image::devui-swf.png[]
+
+3. Click on the **Order Workflow** instance to show the details
++
+image::devui-instances.png[]
