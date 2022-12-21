@@ -1,0 +1,148 @@
+= Inventory Logic
+include::_attributes.adoc[]
+
+In this section, you will expand the workflow logic to manage a first stage of fictional use case.
+
+[#usecase]
+== The use case
+
+NOTE: As any other tutorial use case, the situation we are going to consider is somewhat realistic, but for sake of simplicity we are going to oversee many _real_ aspects. The primary goal is to show the key capabilities of the Serverless Workflow specification, please, apologise for the many naiveties that domain experts can easily point out.
+
+An e-commerce company has to implement the following **order management** workflow: 
+
+* When a new order come in, they need to **check the inventory** for the availability of the items. If the items are available the order will be **prepared for shipping** (picking, packaging, printing label, etc), when the shipping is completed, the shipping department send an event back to the workflow and the customer is **notified** about the shipping status with usual tracking information.
+
+* If the item is out of stock, the order will be forwarded to a **external supplier** who will take care of the shipping procedure, when the **supplier ships** the order, it also send an event back to the workflow, in such a way the workflow can continue and **send the notification** to the customer.
+
+* As long as the order is not shipped, the customer has the option of **cancelling the order** by also cancelling the shipping.
+
+:sprint-note: pass:c,q[footnote:disclaimer[A Sprint is an iteration in the Agile methodology, which aims to be time-boxed, self container and always executable.]]
+
+The final use case will be implemented going through a set consecutive _sprints_{sprint-note}, in every sprint you are going to experience a new feature of the Serverless Workflow specification.
+
+
+[#inventory]
+== The Inventory Sprint
+
+In this sprint we are going to add the **check inventory** operation and based on the outcome call a **prepare for shipping** or **forward to external supplier**.
+
+1. **Open** `order.sw.json` file
+
+2. **Replace** `Order Received` with `Check Inventory` in the following places:
+
+* start
+* name of the state
+* the message
++
+TIP: To change all occurrences in one shot: select `Order Received`, press twice `CTRL-D`, perform the rename, then press `ESC`
+
+3. **Add** after the `functionRef` object the following logic:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+}, 
+"actionDataFilter": {
+  "fromStateData": ".item",
+  "results": "{inventory: test(\"0+\") }"
+}
+----
++
+This code mocks up the check inventory logic: `actionDataFilter` is a feature to manipulate the workflow data (state scoped), in practical terms it gets the `item` value and create a new data `inventory` which value can be _true_ or _false_ if the `item` contains one or more `0`
++
+TIP: The previous logic is an example of the **JQ expression language** which plays a key role in Serverless Workflow. To evaluate and manipulate data is crucial to gaining some familiarity with this language https://openshift-knative.github.io/docs/docs/latest/serverless-logic/core/understanding-jq-expressions.html[Understanding JQ expressions]
+
+4. **Move the cursor** to the end of previous state, **type** a comma and you should get the suggestion pop up
++
+image::vscode-suggestion.png[]
+
+5. **Select** `New switch state`, then **edit** the `name` and the `condition`:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+{
+  "name": "Item Available?",
+  "type": "switch",
+  "dataConditions": [
+  {
+    "condition": ".inventory",
+    "transition": "Transition to another state if condition is true"
+  }
+  ],
+  "defaultCondition": {
+    "transition": "Default transition of the workflow"
+  }
+}
+----
+
+6. Go back to `Check Inventory` state and **replace** the end declaration with transition to point to the switch state:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+"transition": "Item Available?"
+----
+
+7. After the switch state definition **add** a new operation state for `Prepare for Shipping`:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+{
+  "name": "Prepare for Shipping",
+  "type": "operation",
+  "end": true,
+  "actions": [
+    {
+      "name": "printAction",
+      "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+          "message": "\"Prepare for Shipping\""
+        }
+      }
+    }
+  ]
+},
+----
+
+8. **Add** an operation state for `Forward to External Supplier`:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+{
+  "name": "Forward to External Supplier",
+  "type": "operation",
+  "end": true,
+  "actions": [
+    {
+      "name": "printAction",
+      "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+          "message": "\"Forward to External Supplier\""
+        }
+      }
+    }
+  ]
+},
+----
+
+9. **Update** the switch state to point to the correct operation states:
+
+* for the conditional branch set the transition to `Prepare for Shipping`
++
+image::vscode-suggestion-2.png[]
+
+* for the default condition set the transition to `Forward to External Supplier`
+
+This is the expected result:
+
+image::inventory-final.png[]
+
+[#test]
+== Test the workflow logic
+
+**TODO**
