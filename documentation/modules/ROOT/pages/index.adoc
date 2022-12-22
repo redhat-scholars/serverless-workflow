@@ -10,3 +10,4 @@
 * xref:01-setup.adoc#prerequisite[Prerequisite tools]
 * xref:01-setup.adoc#vscode-extensions[Visual Studio Code Extensions]
 * xref:01-setup.adoc#base-image[Pull the serverless data index image]
+* xref:01-setup.adoc#project-start[Clone and build the startup project]
