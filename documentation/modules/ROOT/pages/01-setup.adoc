@@ -7,8 +7,6 @@ include::_attributes.adoc[]
 The following CLI tools are required for running the exercises in this tutorial. 
 Please have them installed and configured before you get started with any of the tutorial chapters.
 
-:docker-note: pass:c,q[footnote:disclaimer[If you prefer to use `docker` you can replace it to `podman` in the instructions.]]
-
 [cols="4*^,4*.",options="header,+attributes"]
 |===
 |**Tool**|**Fedora**|**MacOS**|**Windows**
@@ -18,7 +16,7 @@ Please have them installed and configured before you get started with any of the
 | https://git-scm.com/download/mac[Download]
 | https://git-scm.com/download/win[Download]
 
-| `podman`{docker-note}
+| `podman` (or docker)
 | `dnf install -y podman`
 | https://podman.io/getting-started/installation[Podman for Mac]
 | https://podman.io/getting-started/installation[Podman for Windows]
@@ -40,6 +38,8 @@ Please have them installed and configured before you get started with any of the
 | https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.zip[Download]
 
 |===
+
+NOTE: If you have already installed _Docker_ in your environment, or you feel more comfortable with it, feel free to replace Podman with Docker.
 
 [#vscode-extensions]
 == Visual Studio Code Extensions
@@ -83,7 +83,7 @@ TIP: Add the comma as required by JSON rules (before or after depending on the k
 [#base-image]
 == Pull the serverless data index image
 
-In order to run and test locally the Serverless Workflow project, you need the data index container image, it will be started behind the scene by quarkus. 
+In order to run and test locally the Serverless Workflow project, you need the data index container image, it will be *started behind the scene by Quarkus*. 
 However, since it's distributed through the Red Hat official registry you have to login before pulling the image.
 
 Find here the instruction on how to create / retrieve your credentials: https://access.redhat.com/RegistryAuthentication[Registry Authentication]
@@ -98,6 +98,78 @@ podman pull registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-in
 ----
 
 TIP: if you are a Mac Silicon M1 user, you can pull the image adding the following parameter `--platform linux/amd64`.
+
+CAUTION: Unfortunately, Podman is not already a first citizen in the Quarkus world, so you need to apply carefully the following instructions,
+
+[tabs]
+====
+Fedora::
++
+--
+Issue the following commands:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+sudo dnf install podman-docker
+systemctl --user enable podman.socket --now
+----
+
+For more information and troubleshooting refer to https://quarkus.io/guides/podman#linux[]
+--
+Mac::
++
+--
+Leverage Homebrew to install Podman and its required dependencies:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+brew install podman
+----
+
+Install the podman-mac-helper utility:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+sudo /usr/local/bin/podman-mac-helper install
+----
+
+Add the following line to your bash profile
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+alias docker='podman'
+----
+
+Before starting the Podman machine, set it to prefer rootful container execution:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman machine set --rootful
+----
+
+For more information and troubleshooting refer to https://xphyr.net/post/podman_on_osx/[]
+
+--
+Windows::
++
+--
+Follow this guide for the podman installation: https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md[]
+
+Before starting the Podman machine, set it to prefer rootful container execution:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman machine set --rootful
+----
+--
+====
+
 
 [#project-start]
 == Clone and build the startup project
