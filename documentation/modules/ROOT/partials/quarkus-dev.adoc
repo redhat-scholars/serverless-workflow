@@ -1,0 +1,8 @@
+If _Quarkus_ is not running, *start it*:
+
+[.lines_7]
+[.console-input]
+[source, bash,subs="+macros,+attributes"]
+----
+./mvnw quarkus:dev
+----
