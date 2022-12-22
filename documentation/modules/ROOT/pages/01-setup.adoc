@@ -1,6 +1,10 @@
 = Setup
 include::_attributes.adoc[]
 
+This section provides guidance on how to set up your local computer to host a Serverless Workflow development environment.
+
+WARNING: It's recommended to execute this section with a reliable connection. Avoid to run this part of the lab together with other people because of the bandwidth required. Moreover, some tasks will take a long time to download resources.
+
 [#prerequisite]
 == Prerequisite tools
 
