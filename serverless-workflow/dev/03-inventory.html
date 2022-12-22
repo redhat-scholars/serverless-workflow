@@ -210,10 +210,9 @@ To change all occurrences in one shot: select <code>Order Received</code>, press
 <p><strong>Add</strong> after the <code>functionRef</code> object the following logic:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">},
-"actionDataFilter": {
-  "fromStateData": ".item",
-  "results": "{inventory: test(\"0+\") }"
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"actionDataFilter": {
+  "fromStateData": ".",
+  "results": "{inventory: .item | test(\"0+\") }"
 }</code></pre>
 </div>
 </div>
@@ -349,7 +348,26 @@ The previous logic is an example of the <strong>JQ expression language</strong> 
 <h2 id="test"><a class="anchor" href="#test"></a>Test the workflow logic</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>TODO</strong></p>
+<p>Before connecting the workflow to an external service is a good idea to probe it in isolation (i.e. smoke test): in fact, the current actions only print messages in the console.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Open</strong> the http probing file: <code>src/test/resources/probe.http</code></p>
+</li>
+<li>
+<p>Identify the first POST request in the file and just above it <strong>click</strong> on <code>Send Request</code></p>
+<div class="paragraph">
+<p><span class="image unresolved"><img src="send-request.png" alt="send request"></span></p>
+</div>
+</li>
+<li>
+<p><strong>Check</strong> the results and the workflow execution in the quarkus console</p>
+</li>
+<li>
+<p>Repeat the previous 2 steps to check that the workflow execution follow the other branch (Forward to External Supplier)</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
