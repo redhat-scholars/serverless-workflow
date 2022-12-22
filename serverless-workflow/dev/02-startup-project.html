@@ -246,7 +246,56 @@ curl -X POST <a href="http://localhost:8080/order" class="bare">http://localhost
 <h2 id="inspect"><a class="anchor" href="#inspect"></a>Inspect the workflow</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There is an important tool to investigate and potentially debug workflow instances:</p>
+<p>Enter in the project folder and launch Visual Studio Code:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd order-swf
+code .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Open the workflow file: <code>src/main/resources/order.sw.json</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the editor is split in two panes: the text editor and the visual representation of the workflow</p>
+</li>
+<li>
+<p>at the moment there is no way to graphically edit the workflow, the only option available is to edit the <em>json</em> file on the left side and watch the changes in the diagram</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s analyze the textual notation:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>there are the classical information to identify uniquely the workflow (<code>id</code>, <code>version</code>, etc)</p>
+</li>
+<li>
+<p><code>start</code> attribute point to the first and only state in the flow <code>Order Received</code></p>
+</li>
+<li>
+<p><code>functions</code> are a set of reusable definitions for service invocations and/or expression evaluation</p>
+</li>
+<li>
+<p><code>states</code> contains a set of states which are the building block of the workflow logic</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To learn more about Serverless Workflow notation and semantic don&#8217;t hesitate to read the official specification document which is really clear and accessible: <a href="https://github.com/serverlessworkflow/specification/blob/0.8.x/specification.md" class="bare">https://github.com/serverlessworkflow/specification/blob/0.8.x/specification.md</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_monitor_the_runtime"><a class="anchor" href="#_monitor_the_runtime"></a>Monitor the runtime</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There is an important tool to investigate and potentially debug workflow instances at runtime:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
