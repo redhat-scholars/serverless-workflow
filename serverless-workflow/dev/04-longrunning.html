@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Welcome to Serverless Workflow Tutorial :: Serverless Workflow Tutorial</title>
-    <link rel="canonical" href="https://redhat-scholars.github.io/serverless-workflow/serverless-workflow/dev/index.html">
-    <link rel="next" href="01-setup.html">
+    <title>Long Running Workflows :: Serverless Workflow Tutorial</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/serverless-workflow/serverless-workflow/dev/04-longrunning.html">
+    <link rel="prev" href="03-inventory.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../../_/css/site.css">
   </head>
@@ -107,12 +107,12 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="04-longrunning.html">4. Long Running Workflows</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="04-longrunning.html#waitevent">Wait an event</a>
+    <a class="nav-link" href="#waitevent">Wait an event</a>
   </li>
 </ul>
   </li>
@@ -127,87 +127,46 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="index.html" class="home-link is-current"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Serverless Workflow Tutorial</a></li>
-    <li><a href="index.html">Welcome to Serverless Workflow Tutorial</a></li>
+    <li><a href="04-longrunning.html">4. Long Running Workflows</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/dev/documentation/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/dev/documentation/modules/ROOT/pages/04-longrunning.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Welcome to Serverless Workflow Tutorial</h1>
-<div class="sect1 tiles browse">
-<h2>Browse modules</h2>
+<h1 class="page">Long Running Workflows</h1>
+<div id="preamble">
 <div class="sectionbody">
-<div class="ulist tile">
-<div class="title"><a href="01-setup.html" class="xref page">Set up instructions</a></div>
-<ul>
-<li>
-<p><a href="01-setup.html#prerequisite" class="xref page">Prerequisite tools</a></p>
-</li>
-<li>
-<p><a href="01-setup.html#vscode-extensions" class="xref page">Visual Studio Code Extensions</a></p>
-</li>
-<li>
-<p><a href="01-setup.html#base-image" class="xref page">Pull the serverless data index image</a></p>
-</li>
-<li>
-<p><a href="01-setup.html#project-start" class="xref page">Clone and build the startup project</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Having a graphical notation to orchestrate services is nice, but you might wonder if it is worth it!</p>
 </div>
-<div class="ulist tile">
-<div class="title"><a href="02-startup-project.html" class="xref page">Startup Project</a></div>
-<ul>
-<li>
-<p><a href="02-startup-project.html#structure" class="xref page">The project structure</a></p>
-</li>
-<li>
-<p><a href="02-startup-project.html#run" class="xref page">Run the workflow</a></p>
-</li>
-<li>
-<p><a href="02-startup-project.html#inspect" class="xref page">Inspect the workflow</a></p>
-</li>
-<li>
-<p><a href="02-startup-project.html#monitor" class="xref page">Monitor the runtime</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>The real power of a workflow engine gets into action when the process is long running: in other words, when it reaches a pause status, because it has to wait an asynchronous event, a manual intervention, a timer.</p>
 </div>
-<div class="ulist tile">
-<div class="title"><a href="03-inventory.html" class="xref page">Inventory Logic</a></div>
-<ul>
-<li>
-<p><a href="03-inventory.html#usecase" class="xref page">The use case</a></p>
-</li>
-<li>
-<p><a href="03-inventory.html#inventory" class="xref page">The Inventory Sprint</a></p>
-</li>
-<li>
-<p><a href="03-inventory.html#test" class="xref page">Test the workflow logic</a></p>
-</li>
-<li>
-<p><a href="03-inventory.html#call-rest" class="xref page">Call an external REST service</a></p>
-</li>
-<li>
-<p><a href="03-inventory.html#test-rest" class="xref page">Test the external REST service</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>In this section, you will evolve the workflow to add this long running nature!</p>
 </div>
-<div class="ulist tile">
-<div class="title"><a href="04-longrunning.html" class="xref page">Long Running Workflows</a></div>
-<ul>
-<li>
-<p>.<a href="04-longrunning.html#waitevent" class="xref page">Wait an event</a></p>
-</li>
-</ul>
+</div>
+</div>
+<div class="sect1">
+<h2 id="waitevent"><a class="anchor" href="#waitevent"></a>Wait an event</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From a use case perspective, the workflow has to wait for shipment procedure completion event.
+For sake of simplicity, let&#8217;s imagine that an external integration service is able to homogenize events arriving from the internal department and those arriving from the external supplier.</p>
+</div>
+<div class="paragraph">
+<p>The event will bring an important information the <strong>correlation key</strong>, in our use case is the <code>orderId</code>.
+As the name implies, the correlation key is important to address the correct workflow instance.</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="next"><a href="01-setup.html">1. Setup</a></span>
+  <span class="prev"><a href="03-inventory.html">3. Inventory Logic</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
