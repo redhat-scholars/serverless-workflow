@@ -371,6 +371,104 @@ The previous logic is an example of the <strong>JQ expression language</strong> 
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="call-rest"><a class="anchor" href="#call-rest"></a>Call an external REST service</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Serverless Workflow have a straightforward integration with OpenAPIs.</p>
+</div>
+<div class="paragraph">
+<p>For sake of simplicity, the project contains a Simple REST resource which exposes two operations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sendOrder</code> to send order to a supplier</p>
+</li>
+<li>
+<p><code>cancelOrder</code> to send an order cancellation to a supplier</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The link between the workflow and the rest service is the <strong>OpenAPIs spec file</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The Serverless Workflow expects to find the file in the <code>src/main/resources/specs</code> folder and since the startup project already provide it, you can easily consume it from workflow definition file:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Inspect the OpenAPI yaml file at <code>src/main/resources/specs/supplier.yaml</code></p>
+</li>
+<li>
+<p>Open workflow definition <code>src/main/resources/order.sw.json</code></p>
+</li>
+<li>
+<p>Go in the <code>functions</code> definition section, <strong>add a comma</strong> to the last definition the editor will propose you the two operation available, <strong>accept</strong> the suggestion and add both definitions</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/vscode-suggestion-3.png" alt="vscode suggestion 3">
+</div>
+</div>
+</li>
+<li>
+<p><strong>Identify</strong> the <code>Forward to External Supplier</code> state</p>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+you can click on state in the workflow diagram and the tool will bring you on the state definition line in the textual representation.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p><strong>Replace</strong> the print action with the function call:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "sendOrderRestCall",
+  "functionRef": {
+    "refName": "sendOrder",
+    "arguments": {
+      "supplier-id":"\"1\"",
+      "content":".orderId"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="test-rest"><a class="anchor" href="#test-rest"></a>Test the external REST service</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Repeat the test you did before.</p>
+</div>
+<div class="paragraph">
+<p>In the log file you should notice a different output coming from the REST implementation:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">2022-12-22 12:58:02,859 INFO  [org.kie.kog.ser.wor.dev.DevModeServerlessWorkflowLogger] (executor-thread-0) Triggered node 'Forward to External Supplier' for process 'order' (e6cdca5b-795c-407a-8c4d-a58ef3e59bc4)
+2022-12-22 12:58:02,860 INFO  [org.kie.kog.ser.wor.dev.DevModeServerlessWorkflowLogger] (executor-thread-0) Triggered node 'sendOrder' for process 'order' (e6cdca5b-795c-407a-8c4d-a58ef3e59bc4)
+Supplier 1 received the order order-123</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also notice that the workflow invocation returns a different payload. What changed? Why?</p>
+</div>
+</div>
+</div>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
