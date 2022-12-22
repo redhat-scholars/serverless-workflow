@@ -1,0 +1,19 @@
+= Long Running Workflows
+
+include::_attributes.adoc[]
+
+Having a graphical notation to orchestrate services is nice, but you might wonder if it is worth it!
+
+The real power of a workflow engine gets into action when the process is long running: in other words, when it reaches a pause status, because it has to wait an asynchronous event, a manual intervention, a timer.
+
+In this section, you will evolve the workflow to add this long running nature!
+
+[#waitevent]
+== Wait an event
+
+From a use case perspective, the workflow has to wait for shipment procedure completion event.
+For sake of simplicity, let's imagine that an external integration service is able to homogenize events arriving from the internal department and those arriving from the external supplier.
+
+The event will bring an important information the *correlation key*, in our use case is the `orderId`.
+As the name implies, the correlation key is important to address the correct workflow instance.
+

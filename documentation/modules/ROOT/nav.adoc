@@ -14,3 +14,8 @@
 ** xref:03-inventory.adoc#usecase[The use case]
 ** xref:03-inventory.adoc#inventory[The Inventory Sprint]
 ** xref:03-inventory.adoc#test[Test the workflow logic]
+** xref:03-inventory.adoc#call-rest[Call an external REST service]
+** xref:03-inventory.adoc#test-rest[Test the external REST service]
+
+* xref:04-longrunning.adoc[4. Long Running Workflows]
+** .xref:04-longrunning.adoc#waitevent[Wait an event]
