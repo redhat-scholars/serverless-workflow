@@ -155,3 +155,63 @@ image:send-request.png[]
 3. *Check* the results and the workflow execution in the quarkus console
 
 4. Repeat the previous 2 steps to check that the workflow execution follow the other branch (Forward to External Supplier)
+
+[#call-rest]
+== Call an external REST service
+
+Serverless Workflow have a straightforward integration with OpenAPIs.
+
+For sake of simplicity, the project contains a Simple REST resource which exposes two operations:
+
+* `sendOrder` to send order to a supplier
+* `cancelOrder` to send an order cancellation to a supplier
+
+The link between the workflow and the rest service is the *OpenAPIs spec file*.
+
+The Serverless Workflow expects to find the file in the `src/main/resources/specs` folder and since the startup project already provide it, you can easily consume it from workflow definition file:
+
+1. Inspect the OpenAPI yaml file at `src/main/resources/specs/supplier.yaml`
+
+2. Open workflow definition `src/main/resources/order.sw.json`
+
+3. Go in the `functions` definition section, *add a comma* to the last definition the editor will propose you the two operation available, *accept* the suggestion and add both definitions
++
+image::vscode-suggestion-3.png[]
+
+4. *Identify* the `Forward to External Supplier` state
++
+TIP: you can click on state in the workflow diagram and the tool will bring you on the state definition line in the textual representation.
+
+5. *Replace* the print action with the function call:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+{
+  "name": "sendOrderRestCall",
+  "functionRef": {
+    "refName": "sendOrder",
+    "arguments": {
+      "supplier-id":"\"1\"",
+      "content":".orderId"
+    }
+  }
+}
+----
+
+[#test-rest]
+== Test the external REST service
+
+Repeat the test you did before.
+
+In the log file you should notice a different output coming from the REST implementation:
+
+[.console-output]
+[source, bash,subs="+macros,+attributes"]
+----
+2022-12-22 12:58:02,859 INFO  [org.kie.kog.ser.wor.dev.DevModeServerlessWorkflowLogger] (executor-thread-0) Triggered node 'Forward to External Supplier' for process 'order' (e6cdca5b-795c-407a-8c4d-a58ef3e59bc4)
+2022-12-22 12:58:02,860 INFO  [org.kie.kog.ser.wor.dev.DevModeServerlessWorkflowLogger] (executor-thread-0) Triggered node 'sendOrder' for process 'order' (e6cdca5b-795c-407a-8c4d-a58ef3e59bc4)
+Supplier 1 received the order order-123
+----
+
+You can also notice that the workflow invocation returns a different payload. What changed? Why?
