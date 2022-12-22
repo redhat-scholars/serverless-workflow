@@ -75,7 +75,38 @@ Order received: order-123
 [#inspect]
 == Inspect the workflow
 
-There is an important tool to investigate and potentially debug workflow instances:
+Enter in the project folder and launch Visual Studio Code:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+cd order-swf
+code .
+----
+
+Open the workflow file: `src/main/resources/order.sw.json`:
+
+* the editor is split in two panes: the text editor and the visual representation of the workflow
+* at the moment there is no way to graphically edit the workflow, the only option available is to edit the _json_ file on the left side and watch the changes in the diagram
+
+Let's analyze the textual notation:
+
+* there are the classical information to identify uniquely the workflow (`id`, `version`, etc)
+* `start` attribute point to the first and only state in the flow `Order Received`
+* `functions` are a set of reusable definitions for service invocations and/or expression evaluation
+* `states` contains a set of states which are the building block of the workflow logic
+
+The workflow logic is minimal:
+
+* `Order Received` is an operation with one simple action: print a message in the standard output console.
+* It's worth noticing that also this simple *print* capability is declared among the functions and more precisely it's a custom function which is an extension to the standard specification.
+
+To learn more about Serverless Workflow notation and semantic don't hesitate to read the official specification document which is really clear and accessible: https://github.com/serverlessworkflow/specification/blob/0.8.x/specification.md[]
+
+[#monitor]
+== Monitor the runtime
+
+There is an important tool to investigate and potentially debug workflow instances at runtime:
 
 1. From the Quarkus terminal, type `d`, it should open for you the browser in the DevUI console: http://localhost:8080/q/dev/[]
 

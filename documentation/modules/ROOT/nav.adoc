@@ -8,6 +8,7 @@
 ** xref:02-startup-project.adoc#structure[The project structure]
 ** xref:02-startup-project.adoc#run[Run the workflow]
 ** xref:02-startup-project.adoc#inspect[Inspect the workflow]
+** xref:02-startup-project.adoc#monitor[Monitor the runtime]
 
 * xref:03-inventory.adoc[3. Inventory Logic]
 ** xref:03-inventory.adoc#usecase[The use case]
