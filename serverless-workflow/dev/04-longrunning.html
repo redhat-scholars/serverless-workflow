@@ -114,6 +114,12 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="#waitevent">Wait an event</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#eventing">Eventing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#test-events">Test the events</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -156,12 +162,248 @@
 <h2 id="waitevent"><a class="anchor" href="#waitevent"></a>Wait an event</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From a use case perspective, the workflow has to wait for shipment procedure completion event.
+<p>From a use case perspective, the workflow has to wait for <strong>shipment procedure completion</strong> event.
 For sake of simplicity, let&#8217;s imagine that an external integration service is able to homogenize events arriving from the internal department and those arriving from the external supplier.</p>
 </div>
 <div class="paragraph">
 <p>The event will bring an important information the <strong>correlation key</strong>, in our use case is the <code>orderId</code>.
 As the name implies, the correlation key is important to address the correct workflow instance.</p>
+</div>
+<div class="paragraph">
+<p>The <strong>correlation key MUST BE initialized</strong> at creation time with an incoming <strong>CloudEvent</strong>.</p>
+</div>
+<div class="paragraph">
+<p>This implies two <em>catching event nodes</em> are required:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>one at the beginning of the flow to start the workflow</p>
+</li>
+<li>
+<p>another after the <code>Prepare for Shipping</code> and <code>Forward to External Supplier</code> to wait the shipping event</p>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Define the event types</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"events": [
+  {
+    "name": "orderEvent",
+    "kind": "consumed",
+    "type": "OrderEventType",
+    "source": "Client",
+    "correlation": [
+      {
+        "contextAttributeName": "orderid"
+      }
+    ]
+  },
+  {
+    "name": "shippingEvent",
+    "kind": "consumed",
+    "type": "ShippingEventType",
+    "source": "Shipper",
+    "correlation": [
+      {
+        "contextAttributeName": "orderid"
+      }
+    ]
+  }
+],</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The definition is quite self explanatory: the workflow can <strong>consume</strong> to different <strong>types of events</strong> <code>OrderEventType</code> and <code>ShippingEventType</code>, from two different <strong>sources</strong>.
+One important aspect is the <em>correlation definition</em> which says that <em>CloudEvent</em> has to carry a special <strong>attribute in the header</strong> named <code>orderid</code>.</p>
+</div>
+</li>
+<li>
+<p><strong>Add</strong> an <em>event node</em> after the start node</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "Order Received",
+  "type": "event",
+  "onEvents": [
+    {
+      "eventRefs": [
+        "orderEvent"
+      ]
+    }
+  ],
+  "transition": "Check Inventory"
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Update</strong> the <em>start</em> attribute to match the event state <code>Order Received</code>, this is the graphical outcome:</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/order-received.png" alt="order received">
+</div>
+</div>
+</li>
+<li>
+<p><strong>Add</strong> another <em>event</em> state at the end:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>name: <code>Order Shipped</code></p>
+</li>
+<li>
+<p>eventRef: <code>shippingEvent</code></p>
+</li>
+<li>
+<p>set <code>end</code> to <code>true</code>, in order to connect it to the end state.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Update</strong> <code>Prepare for Shipping</code> and <code>Forward to External Supplier</code> to <strong>transition</strong> in <code>Order Shipped</code> event node</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/order-shipped.png" alt="order shipped">
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To synchronise the project with the expected result at this stage of the exercise issue the following <code>git</code> command (it will overwrite your changes)</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git reset --hard longrunning-wait</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="eventing"><a class="anchor" href="#eventing"></a>Eventing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Events in Serverless Workflow comply to the <a href="https://cloudevents.io/">CloudEvents</a> standard which is under the <a href="https://cncf.io">Cloud Native Computing Foundation</a>.</p>
+</div>
+<div class="paragraph">
+<p>Moreover, Serverless Workflow, and in general <strong>OpenShift Serverless Logic</strong>, aims to fit seamlessly in <a href="https://knative.dev/docs/eventing">Knative eventing</a>.</p>
+</div>
+<div class="paragraph">
+<p>For such a reason, Serverless Workflow exposes two channels to ingest <em>CloudEvents</em>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>HTTP POST</p>
+</li>
+<li>
+<p>Kafka Broker</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The developer runtime listens for <em>CloudEvents</em> on the root path of the standard HTTP channel (e.g. <code>http:/localhost:8080/</code>).
+In general, the Serverless Workflow runtime can expose multiple endpoints to ingest different types of events.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="test-events"><a class="anchor" href="#test-events"></a>Test the events</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To <em>start</em> the workflow and subsequently <em>advance</em> it, you have to inject two <strong>types</strong> of <em>CloudEvent</em>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>OrderEventType</code></p>
+</li>
+<li>
+<p><code>ShippingEventType</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Inside the http probing file, there are already 3 examples of <em>CloudEvents</em>, for the current test we only need the first two.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Open</strong> <code>src/test/resources/probe.http</code> and <strong>identify</strong> the first POST statement after the comment <em>Start order workflow through CloudEvent</em></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Observe the feature of the http request: along with the usual HTTP Headers, there are some distinctive <strong>attributes</strong> of the <em>CloudEvents</em> specification, they all starts with the <code>ce-</code> prefix and are lowercase.</p>
+</li>
+<li>
+<p>A <strong>special attention</strong> deserves the custom attribute <code>orderid</code> which matches the <code>contextAttributeName</code> used in the event definition for correlation.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>{{orderId}}</code> is a convenient capability of this rest client that allows the variable defined earlier (<code>@orderId=1000</code>) to be used in this way.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Within the <em>json</em> payload, there is again an attribute named <code>orderId</code>, it&#8217;s required because the CloudEvents attributes are not accessible from the workflow logic.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Start the order workflow injecting the <code>OrderEventType</code> <strong>clicking</strong> on <code>Send Request</code></p>
+</li>
+<li>
+<p>Check the flow execution through the DevUI. Refer to <a href="02-startup-project.html#monitor" class="xref page">Monitor the runtime</a> section for detailed guidance. Make sure that the workflow instance is still running. You should notice the <code>shippingEvent</code> is active after the <code>Prepare for Shipping</code> operation.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/devui-shippingevent.png" alt="devui shippingevent"></span></p>
+</div>
+</li>
+<li>
+<p>Inject the <code>ShippingEventType</code> to make the flow advance: <strong>click</strong> <code>Send Request</code> on the POST statement right after the previous one (pay attention to the comment).</p>
+</li>
+<li>
+<p>To check the workflow instance completion, go in the <em>DevUI</em>, on the top right of the workflow instance page, <strong>click</strong> the <em>refresh icon</em>:</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/devui-refresh.png" alt="devui refresh"></span></p>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The <code>ce-orderid</code> attribute is the hook to the workflow instance, you can run multiple parallel workflow instances which will wait the corresponding events.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
