@@ -17,7 +17,7 @@ For sake of simplicity, let's imagine that an external integration service is ab
 The event will bring an important information the *correlation key*, in our use case is the `orderId`.
 As the name implies, the correlation key is important to address the correct workflow instance.
 
-The *correlation key MUST BE initialized* at creation time with an incoming *Cloud Event*.
+The *correlation key MUST BE initialized* at creation time with an incoming *CloudEvent*.
 
 This implies two _catching event nodes_ are required:
 
@@ -58,7 +58,7 @@ This implies two _catching event nodes_ are required:
 ----
 +
 The definition is quite self explanatory: the workflow can *consume* to different *types of events* `OrderEventType` and `ShippingEventType`, from two different *sources*. 
-One important aspect is the _correlation definition_ which says that _Cloud Event_ has to carry a special *attribute in the header* named `orderid`.
+One important aspect is the _correlation definition_ which says that _CloudEvent_ has to carry a special *attribute in the header* named `orderid`.
 
 2. *Add* an _event node_ after the start node
 +
@@ -83,10 +83,66 @@ One important aspect is the _correlation definition_ which says that _Cloud Even
 +
 image::order-received.png[]
 
-4. *Add* another _event node_ at the end:
+4. *Add* another _event_ state at the end:
 
 * name: `Order Shipped`
 * eventRef: `shippingEvent`
+* set `end` to `true`, in order to connect it to the end state.
+
 
 5. *Update* `Prepare for Shipping` and `Forward to External Supplier` to *transition* in `Order Shipped` event node
++
+image::order-shipped.png[]
 
+
+:git-tag: longrunning-wait
+include::partial$sync-project.adoc[]
+:!git-tag:
+
+[#eventing]
+== Eventing
+
+Events in Serverless Workflow comply to the https://cloudevents.io/[CloudEvents] standard which is under the https://cncf.io[Cloud Native Computing Foundation].
+
+Moreover, Serverless Workflow, and in general *OpenShift Serverless Logic*, aims to fit seamlessly in https://knative.dev/docs/eventing[Knative eventing].
+
+For such a reason, Serverless Workflow exposes two channels to ingest _CloudEvents_:
+
+* HTTP POST
+* Kafka Broker
+
+The developer runtime listens for _CloudEvents_ on the root path of the standard HTTP channel (e.g. `http:/localhost:8080/`).
+In general, the Serverless Workflow runtime can expose multiple endpoints to ingest different types of events.
+
+[#test-events]
+== Test the events
+
+To _start_ the workflow and subsequently _advance_ it, you have to inject two *types* of _CloudEvent_:
+
+* `OrderEventType`
+* `ShippingEventType`
+
+Inside the http probing file, there are already 3 examples of _CloudEvents_, for the current test we only need the first two.
+
+1. *Open* `src/test/resources/probe.http` and *identify* the first POST statement after the comment _Start order workflow through CloudEvent_
+
+* Observe the feature of the http request: along with the usual HTTP Headers, there are some distinctive *attributes* of the _CloudEvents_ specification, they all starts with the `ce-` prefix and are lowercase.
+* A *special attention* deserves the custom attribute `orderid` which matches the `contextAttributeName` used in the event definition for correlation. 
++
+NOTE: `{{orderId}}` is a convenient capability of this rest client that allows the variable defined earlier (`@orderId=1000`) to be used in this way.
+
+* Within the _json_ payload, there is again an attribute named `orderId`, it's required because the CloudEvents attributes are not accessible from the workflow logic.
+
+2. Start the order workflow injecting the `OrderEventType` *clicking* on `Send Request`
+
+3. Check the flow execution through the DevUI. Refer to xref:02-startup-project.adoc#monitor[Monitor the runtime] section for detailed guidance. Make sure that the workflow instance is still running. You should notice the `shippingEvent` is active after the `Prepare for Shipping` operation.
++
+image:devui-shippingevent.png[]
+
+4. Inject the `ShippingEventType` to make the flow advance: *click* `Send Request` on the POST statement right after the previous one (pay attention to the comment).
+
+5. To check the workflow instance completion, go in the _DevUI_, on the top right of the workflow instance page, *click* the _refresh icon_:
++
+image:devui-refresh.png[]
+
+IMPORTANT: The `ce-orderid` attribute is the hook to the workflow instance, you can run multiple parallel workflow instances which will wait the corresponding events.

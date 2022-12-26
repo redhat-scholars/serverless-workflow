@@ -1,0 +1,10 @@
+[TIP] 
+====
+To synchronise the project with the expected result at this stage of the exercise issue the following `git` command (it will overwrite your changes)
+
+[.console-input]
+[source, sh,subs="+macros,+attributes"]
+----
+git reset --hard {git-tag}
+----
+====
