@@ -259,9 +259,6 @@ One important aspect is the <em>correlation definition</em> which says that <em>
 <li>
 <p>eventRef: <code>shippingEvent</code></p>
 </li>
-<li>
-<p>set <code>end</code> to <code>true</code>, in order to connect it to the end state.</p>
-</li>
 </ul>
 </div>
 </li>
@@ -272,6 +269,28 @@ One important aspect is the <em>correlation definition</em> which says that <em>
 <img src="_images/order-shipped.png" alt="order shipped">
 </div>
 </div>
+</li>
+<li>
+<p>To complete the use case implementation, you have to add another operation that is responsible of <strong>notifying</strong> the customer about the shipping status with usual tracking information:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>copy</strong> the previous operation state <code>Prepare for Shipping</code></p>
+</li>
+<li>
+<p><strong>rename</strong> it to <code>Notify Customer</code></p>
+</li>
+<li>
+<p><strong>update</strong> the message to match the operation name</p>
+</li>
+<li>
+<p><strong>remove</strong> the existing <em>transition</em> and <strong>add</strong> the attribute <code>"end": true</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Update</strong> the previous <code>Order Shipped</code> event state <strong>adding</strong> the <em>transition</em> to <code>Notify Customer</code></p>
 </li>
 </ol>
 </div>
