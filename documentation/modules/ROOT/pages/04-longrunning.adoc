@@ -87,13 +87,19 @@ image::order-received.png[]
 
 * name: `Order Shipped`
 * eventRef: `shippingEvent`
-* set `end` to `true`, in order to connect it to the end state.
-
 
 5. *Update* `Prepare for Shipping` and `Forward to External Supplier` to *transition* in `Order Shipped` event node
 +
 image::order-shipped.png[]
 
+6. To complete the use case implementation, you have to add another operation that is responsible of *notifying* the customer about the shipping status with usual tracking information:
+
+* *copy* the previous operation state `Prepare for Shipping`
+* *rename* it to `Notify Customer`
+* *update* the message to match the operation name
+* *remove* the existing _transition_ and *add* the attribute `"end": true`
+
+7. *Update* the previous `Order Shipped` event state *adding* the _transition_ to `Notify Customer`
 
 :git-tag: longrunning-wait
 include::partial$sync-project.adoc[]
