@@ -18,6 +18,6 @@
 ** xref:03-inventory.adoc#test-rest[Test the external REST service]
 
 * xref:04-longrunning.adoc[4. Long Running Workflows]
-** .xref:04-longrunning.adoc#waitevent[Wait an event]
-** .xref:04-longrunning.adoc#eventing[Eventing]
-** .xref:04-longrunning.adoc#test-events[Test the events]
+** xref:04-longrunning.adoc#waitevent[Wait an event]
+** xref:04-longrunning.adoc#eventing[Eventing]
+** xref:04-longrunning.adoc#test-events[Test the events]
