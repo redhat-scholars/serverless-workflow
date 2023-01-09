@@ -38,3 +38,6 @@ image:sw-logo-transparent.png[]
 * xref:04-longrunning.adoc#waitevent[Wait an event]
 * xref:04-longrunning.adoc#eventing[Eventing]
 * xref:04-longrunning.adoc#test-events[Test the events]
+
+[.tile]
+.xref:05-compensation.adoc[5. Compensation]

@@ -1,0 +1,22 @@
+= Compensation
+
+include::_attributes.adoc[]
+
+*Sometimes the unexpected happens*: for example, a customer changes his mind and wants to cancel an order or the stock are running low. Actually, in real world: _the change is the only constant!_
+
+Workflow developers start defining the _happy path_, then they have to deal with unexpected results (out of stock, order cancellation events, etc). A workflow could define a long chain of activities and under certain conditions, it might be necessary to define an exit strategy: warning all parties involved that they *must undo* what has been done before.
+
+When you have _short running transactions_ (during milliseconds), you could put in place a traditional *atomic transaction strategy*, but this option has also many drawbacks which make it really unpopular for distributed computing systems, especially when they run in a cloud context.
+
+When you deal with _long running transactions_, as known as _business transactions_, that spans of over minutes, hours or days, one can only try to revert what was previously done, this could have consequences: for example, Hotels usually applies a cancellation fee when the cancellation is too near to the reservation day. 
+
+A workflow might involve multiple logical steps, there are conditional paths that depends on specific instance data. When the business logic requires a cancellation of the workflow instance, you need to reverse the flow of actions, undoing what was previously done. 
+
+In the workflow nomenclature, this capability is called *Compensation*, whereas in the microservices architecture this is also known as https://microservices.io/patterns/data/saga.html:[Saga Pattern].
+
+The good news is that the Serverless Workflow engine helps you in this difficult situations! In fact, the workflow developer can define for each action a *compensation action* that will only be invoked if necessary. Behind the scenes, the workflow engine, when an action is completed, records the corresponding compensation action in a stack. If the workflow subsequently encounters conditions that require compensation, only then does *the engine retrace* the stack of compensation activities to close everything correctly.
+
+[#cancellingevent]
+== Cancelling event
+
+In our use case, we have to deal with situations where customers have to cancel their orders. Specifically, if the cancellation event arrives before the shipping one, it is necessary to call for compensation: the concrete compensation action depends on the previous execution path, if the item was available, the compensation action will call the internal shipping department otherwise the compensation action will deal with the external supplier.
