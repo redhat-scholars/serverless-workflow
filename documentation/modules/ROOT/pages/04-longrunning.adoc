@@ -57,8 +57,8 @@ This implies two _catching event nodes_ are required:
 ],
 ----
 +
-The definition is quite self explanatory: the workflow can *consume* to different *types of events* `OrderEventType` and `ShippingEventType`, from two different *sources*. 
-One important aspect is the _correlation definition_ which says that _CloudEvent_ has to carry a special *attribute in the header* named `orderid`.
+The definition is quite self explanatory: the workflow can *consume* two different *types of events*: `OrderEventType` and `ShippingEventType`, from two different *sources*. 
+One important aspect is the _correlation definition_ which says that _CloudEvent_ has to carry a special *attribute in the header* named `orderid` (CloudEvents attributes are lowercase).
 
 2. *Add* an _event node_ after the start node
 +
