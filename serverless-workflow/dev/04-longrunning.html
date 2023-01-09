@@ -6,6 +6,7 @@
     <title>Long Running Workflows :: Serverless Workflow Tutorial</title>
     <link rel="canonical" href="https://redhat-scholars.github.io/serverless-workflow/serverless-workflow/dev/04-longrunning.html">
     <link rel="prev" href="03-inventory.html">
+    <link rel="next" href="05-compensation.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../../_/css/site.css">
   </head>
@@ -122,6 +123,9 @@
   </li>
 </ul>
   </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="05-compensation.html">5. Compensation</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -218,8 +222,8 @@ As the name implies, the correlation key is important to address the correct wor
 </div>
 </div>
 <div class="paragraph">
-<p>The definition is quite self explanatory: the workflow can <strong>consume</strong> to different <strong>types of events</strong> <code>OrderEventType</code> and <code>ShippingEventType</code>, from two different <strong>sources</strong>.
-One important aspect is the <em>correlation definition</em> which says that <em>CloudEvent</em> has to carry a special <strong>attribute in the header</strong> named <code>orderid</code>.</p>
+<p>The definition is quite self explanatory: the workflow can <strong>consume</strong> two different <strong>types of events</strong>: <code>OrderEventType</code> and <code>ShippingEventType</code>, from two different <strong>sources</strong>.
+One important aspect is the <em>correlation definition</em> which says that <em>CloudEvent</em> has to carry a special <strong>attribute in the header</strong> named <code>orderid</code> (CloudEvents attributes are lowercase).</p>
 </div>
 </li>
 <li>
@@ -428,6 +432,7 @@ The <code>ce-orderid</code> attribute is the hook to the workflow instance, you 
 </div>
 <nav class="pagination">
   <span class="prev"><a href="03-inventory.html">3. Inventory Logic</a></span>
+  <span class="next"><a href="05-compensation.html">5. Compensation</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

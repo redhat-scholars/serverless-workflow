@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Welcome to Serverless Workflow Tutorial :: Serverless Workflow Tutorial</title>
-    <link rel="canonical" href="https://redhat-scholars.github.io/serverless-workflow/serverless-workflow/dev/index.html">
-    <link rel="next" href="01-setup.html">
+    <title>Compensation :: Serverless Workflow Tutorial</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/serverless-workflow/serverless-workflow/dev/05-compensation.html">
+    <link rel="prev" href="04-longrunning.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../../_/css/site.css">
   </head>
@@ -122,7 +122,7 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="05-compensation.html">5. Compensation</a>
   </li>
 </ul>
@@ -136,93 +136,53 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="index.html" class="home-link is-current"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Serverless Workflow Tutorial</a></li>
-    <li><a href="index.html">Welcome to Serverless Workflow Tutorial</a></li>
+    <li><a href="05-compensation.html">5. Compensation</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/dev/documentation/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/dev/documentation/modules/ROOT/pages/05-compensation.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Welcome to Serverless Workflow Tutorial</h1>
-<div class="sect1 tiles browse">
-<h2>Browse modules</h2>
+<h1 class="page">Compensation</h1>
+<div id="preamble">
 <div class="sectionbody">
-<div class="ulist tile">
-<div class="title"><a href="01-setup.html" class="xref page">Set up instructions</a></div>
-<ul>
-<li>
-<p><a href="01-setup.html#prerequisite" class="xref page">Prerequisite tools</a></p>
-</li>
-<li>
-<p><a href="01-setup.html#vscode-extensions" class="xref page">Visual Studio Code Extensions</a></p>
-</li>
-<li>
-<p><a href="01-setup.html#base-image" class="xref page">Pull the serverless data index image</a></p>
-</li>
-<li>
-<p><a href="01-setup.html#project-start" class="xref page">Clone and build the startup project</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p><strong>Sometimes the unexpected happens</strong>: for example, a customer changes his mind and wants to cancel an order or the stock are running low. Actually, in real world: <em>the change is the only constant!</em></p>
 </div>
-<div class="ulist tile">
-<div class="title"><a href="02-startup-project.html" class="xref page">Startup Project</a></div>
-<ul>
-<li>
-<p><a href="02-startup-project.html#structure" class="xref page">The project structure</a></p>
-</li>
-<li>
-<p><a href="02-startup-project.html#run" class="xref page">Run the workflow</a></p>
-</li>
-<li>
-<p><a href="02-startup-project.html#inspect" class="xref page">Inspect the workflow</a></p>
-</li>
-<li>
-<p><a href="02-startup-project.html#monitor" class="xref page">Monitor the runtime</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Workflow developers start defining the <em>happy path</em>, then they have to deal with unexpected results (out of stock, order cancellation events, etc). A workflow could define a long chain of activities and under certain conditions, it might be necessary to define an exit strategy: warning all parties involved that they <strong>must undo</strong> what has been done before.</p>
 </div>
-<div class="ulist tile">
-<div class="title"><a href="03-inventory.html" class="xref page">Inventory Logic</a></div>
-<ul>
-<li>
-<p><a href="03-inventory.html#usecase" class="xref page">The use case</a></p>
-</li>
-<li>
-<p><a href="03-inventory.html#inventory" class="xref page">The Inventory Sprint</a></p>
-</li>
-<li>
-<p><a href="03-inventory.html#test" class="xref page">Test the workflow logic</a></p>
-</li>
-<li>
-<p><a href="03-inventory.html#call-rest" class="xref page">Call an external REST service</a></p>
-</li>
-<li>
-<p><a href="03-inventory.html#test-rest" class="xref page">Test the external REST service</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>When you have <em>short running transactions</em> (during milliseconds), you could put in place a traditional <strong>atomic transaction strategy</strong>, but this option has also many drawbacks which make it really unpopular for distributed computing systems, especially when they run in a cloud context.</p>
 </div>
-<div class="ulist tile">
-<div class="title"><a href="04-longrunning.html" class="xref page">Long Running Workflows</a></div>
-<ul>
-<li>
-<p><a href="04-longrunning.html#waitevent" class="xref page">Wait an event</a></p>
-</li>
-<li>
-<p><a href="04-longrunning.html#eventing" class="xref page">Eventing</a></p>
-</li>
-<li>
-<p><a href="04-longrunning.html#test-events" class="xref page">Test the events</a></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>When you deal with <em>long running transactions</em>, as known as <em>business transactions</em>, that spans of over minutes, hours or days, one can only try to revert what was previously done, this could have consequences: for example, Hotels usually applies a cancellation fee when the cancellation is too near to the reservation day.</p>
+</div>
+<div class="paragraph">
+<p>A workflow might involve multiple logical steps, there are conditional paths that depends on specific instance data. When the business logic requires a cancellation of the workflow instance, you need to reverse the flow of actions, undoing what was previously done.</p>
+</div>
+<div class="paragraph">
+<p>In the workflow nomenclature, this capability is called <strong>Compensation</strong>, whereas in the microservices architecture this is also known as <a href="https://microservices.io/patterns/data/saga.html:">Saga Pattern</a>.</p>
+</div>
+<div class="paragraph">
+<p>The good news is that the Serverless Workflow engine helps you in this difficult situations! In fact, the workflow developer can define for each action a <strong>compensation action</strong> that will only be invoked if necessary. Behind the scenes, the workflow engine, when an action is completed, records the corresponding compensation action in a stack. If the workflow subsequently encounters conditions that require compensation, only then does <strong>the engine retrace</strong> the stack of compensation activities to close everything correctly.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cancellingevent"><a class="anchor" href="#cancellingevent"></a>Cancelling event</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In our use case, we have to deal with situations where customers have to cancel their orders. Specifically, if the cancellation event arrives before the shipping one, it is necessary to call for compensation: the concrete compensation action depends on the previous execution path, if the item was available, the compensation action will call the internal shipping department otherwise the compensation action will deal with the external supplier.</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="next"><a href="01-setup.html">1. Setup</a></span>
+  <span class="prev"><a href="04-longrunning.html">4. Long Running Workflows</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
