@@ -142,6 +142,105 @@ At the cancellation event, we can see the statement `eventDataFilter` the effect
 +
 This measure forces the workflow termination.
 
+The following picture shows the result of the above procedure on the workflow diagram:
+
+image::cancel-event.png[]
+
+:git-tag: cancel-event
+include::partial$sync-project.adoc[]
+:!git-tag:
+
 [#cancellingtest]
 == Test the cancelling event
 
+In this section, we are going to test that the workflow is able to resume the execution when two types of CloudEvents arrives:
+
+* `ShippingEventType`
+* `CancelEventType`
+
+Then, depending on the incoming message, the workflow continues in one of the two corresponding branches.
+
+NOTE: Even if you trigger the compensation no compensation activity is defined, so at this stage of the exercise you can only look for the `Compensate Order` string in the logs.
+
+Based on the previous test activities, you should be able to figure out how to test this scenario. Please, note that in the `probe.http` file, you already have the `cancelEvent` rest request.
+
+[#compensation-activities]
+== Add the compensation activities
+
+In this section, you will add two compensation activities for `Prepare for Shipping` and  `Forward to External Supplier`.
+
+Afterward, you will check that the runtime will call them when compensation is triggered by the cancel event.
+
+NOTE: Compensation activities are *operation states*, they could be placed anywhere in the `state` array. However, we suggest to place the definition nearby the corresponding primary state so it's easier to orientate.
+
+1. Locate `Prepare for Shipping` and *append* right afterward:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+{
+    "name": "Restore Inventory",
+    "type": "operation",
+    "usedForCompensation": true,
+    "actions": [
+    {
+        "name": "printAction",
+        "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+            "message": "\"Cancel Stationary Order\""
+        }
+        }
+    }
+    ]
+},
+----
+
+2. Inside `Prepare for Shipping` *add* the following property:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+"compensatedBy": "Restore Inventory",
+----
++
+In the workflow diagram you should see the two states linked by a yellow dotted line:
++
+image::restore-inventory.png[]
+
+3. Locate `Forward to External Supplier` and *append* right afterward:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+{
+    "name": "Cancel Supplier Order",
+    "type": "operation",
+    "usedForCompensation": true,
+    "actions": [
+    {
+        "name": "printAction",
+        "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+            "message": "\"Cancel Clothing Order\""
+        }
+        }
+    }
+    ]
+},
+----
+
+4. Inside `Forward to External Supplier` *add* the following property:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+"compensatedBy": "Cancel Supplier Order",
+----
+
+In the workflow diagram you should see the following situation:
+
+image:compensation-activities.png[]
+
+WARNING: At the time of writing, the diagram rendering has a bug that create crossing lines, so the final outcome is slightly confusing.
