@@ -157,19 +157,19 @@
 <p>Workflow developers start defining the <em>happy path</em>, then they have to deal with unexpected results (out of stock, order cancellation events, etc). A workflow could define a long chain of activities and under certain conditions, it might be necessary to define an exit strategy: warning all parties involved that they <strong>must undo</strong> what has been done before.</p>
 </div>
 <div class="paragraph">
-<p>When you have <em>short running transactions</em> (during milliseconds), you could put in place a traditional <strong>atomic transaction strategy</strong>, but this option has also many drawbacks which make it really unpopular for distributed computing systems, especially when they run in a cloud context.</p>
+<p>When you have <strong><em>short running transactions</em></strong> (during milliseconds), you could aspire to the convenient <strong>atomic transaction</strong>, but as long as your tasks span over multiple systems this option brings so many drawbacks which make it unrealistic, especially when they run in a cloud context. In fact, in the microservices architecture, the <a href="https://microservices.io/patterns/data/saga.html:">Saga Pattern</a> is a well know practice when dealing with a cancellation.</p>
 </div>
 <div class="paragraph">
-<p>When you deal with <em>long running transactions</em>, as known as <em>business transactions</em>, that spans of over minutes, hours or days, one can only try to revert what was previously done, this could have consequences: for example, Hotels usually applies a cancellation fee when the cancellation is too near to the reservation day.</p>
+<p>When you deal with <strong><em>long running transactions</em></strong>, as known as <em>business transactions</em>, that spans of over minutes, hours or days, the <span class="underline">only option available</span> is to revert what was done previously, this could have consequences: for example, Hotels usually applies a cancellation fee when the cancellation is too near to the reservation day.</p>
 </div>
 <div class="paragraph">
-<p>A workflow might involve multiple logical steps, there are conditional paths that depends on specific instance data. When the business logic requires a cancellation of the workflow instance, you need to reverse the flow of actions, undoing what was previously done.</p>
+<p>A workflow might involve multiple logical steps, there are conditional paths that depends on specific instance data. When the business logic requires a cancellation of the workflow instance, you need to reverse the flow of actions, undoing what was previously done. In the workflow nomenclature, this capability is called <strong>Compensation</strong>.</p>
 </div>
 <div class="paragraph">
-<p>In the workflow nomenclature, this capability is called <strong>Compensation</strong>, whereas in the microservices architecture this is also known as <a href="https://microservices.io/patterns/data/saga.html:">Saga Pattern</a>.</p>
+<p>The good news is that the Serverless Workflow engine helps you in this difficult situations! In fact, the workflow developer can define for each action a <strong>compensation action</strong> that will only be invoked if necessary. Behind the scenes, the workflow engine, when an action is completed, records the corresponding compensation action in a stack. If the workflow subsequently encounters conditions that require compensation, only then does the <strong>engine retrace the stack</strong> of compensation activities to close everything correctly.</p>
 </div>
 <div class="paragraph">
-<p>The good news is that the Serverless Workflow engine helps you in this difficult situations! In fact, the workflow developer can define for each action a <strong>compensation action</strong> that will only be invoked if necessary. Behind the scenes, the workflow engine, when an action is completed, records the corresponding compensation action in a stack. If the workflow subsequently encounters conditions that require compensation, only then does <strong>the engine retrace</strong> the stack of compensation activities to close everything correctly.</p>
+<p>In short, Serverless Workflow Compensation is very handy whenever dealing with cancellation!</p>
 </div>
 </div>
 </div>
@@ -178,6 +178,329 @@
 <div class="sectionbody">
 <div class="paragraph">
 <p>In our use case, we have to deal with situations where customers have to cancel their orders. Specifically, if the cancellation event arrives before the shipping one, it is necessary to call for compensation: the concrete compensation action depends on the previous execution path, if the item was available, the compensation action will call the internal shipping department otherwise the compensation action will deal with the external supplier.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Given the simplistic nature of the example, one might consider replacing compensation with a gateway followed by compensatory actions. However, it should be borne in mind that in an even slightly more complex flow, implementing compensation in imperative mode would make the implementation complex and error prone.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Below, we will add the definition of the new event type <code>CancelEventType</code> and a forking that distinguishes between the two possible input events:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>shippingEvent</code></p>
+</li>
+<li>
+<p><code>cancelEvent</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Open</strong> the <code>swf</code> file:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Inside the event section <strong>add</strong> the following declaration:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "cancelEvent",
+  "kind": "consumed",
+  "type": "CancelEventType",
+  "source": "Client",
+  "correlation": [
+    {
+      "contextAttributeName": "orderid"
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>In the state section, <strong>locate</strong> the <code>Order Shipped</code> event node and <strong>overwrite</strong> it with the following snippet:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "Order Shipped or Cancelled",
+  "type": "event",
+  "transition": "Is Shipped?",
+  "exclusive": true,
+  "onEvents": [
+    {
+      "eventRefs": [
+        "shippingEvent"
+      ]
+    },
+    {
+      "eventRefs": [
+        "cancelEvent"
+      ],
+      "eventDataFilter": {
+        "data": "{cancel:true}"
+      }
+    }
+  ]
+},</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The new event state definition is able to listen for two different events.
+At the cancellation event, we can see the statement <code>eventDataFilter</code> the effect of which is to introduce a new Boolean data: <code>cancel:true</code>. In such a way, we will later be able to know which event has arrived.</p>
+</div>
+</li>
+<li>
+<p><strong>Update</strong> the <code>transition</code> the states <code>Prepare for Shipping</code> and <code>Forward to External Supplier</code> to point to the new name <code>Order Shipped or Cancelled</code></p>
+</li>
+<li>
+<p><strong>Add</strong> the following switch state after the <code>Order Shipped or Cancelled</code> state:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "name": "Is Shipped?",
+    "type": "switch",
+    "dataConditions": [
+    {
+        "name": "order cancelled",
+        "condition": ".cancel == true",
+        "transition": "Compensate Order"
+    }
+    ],
+    "defaultCondition": {
+        "transition": "Notify Customer"
+    }
+},</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>After the previous state, <strong>Add</strong> an operation to handle the cancel event:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "name": "Compensate Order",
+    "type": "operation",
+    "actions": [
+    {
+        "name": "printAction",
+        "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+            "message": "\"Compensate Order\""
+        }
+        }
+    }
+    ],
+    "end": {
+        "terminate": true,
+        "compensate": true
+    }
+},</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Locate the <code>Notify Customer</code> operation state and <strong>adjust</strong> the <code>end</code> property in this way:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"end": {
+    "terminate": true,
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This measure forces the workflow termination.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The following picture shows the result of the above procedure on the workflow diagram:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/cancel-event.png" alt="cancel event">
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To synchronise the project with the expected result at this stage of the exercise issue the following <code>git</code> command (it will overwrite your changes)</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">git reset --hard cancel-event</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cancellingtest"><a class="anchor" href="#cancellingtest"></a>Test the cancelling event</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section, we are going to test that the workflow is able to resume the execution when two types of CloudEvents arrives:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ShippingEventType</code></p>
+</li>
+<li>
+<p><code>CancelEventType</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Then, depending on the incoming message, the workflow continues in one of the two corresponding branches.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Even if you trigger the compensation no compensation activity is defined, so at this stage of the exercise you can only look for the <code>Compensate Order</code> string in the logs.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Based on the previous test activities, you should be able to figure out how to test this scenario. Please, note that in the <code>probe.http</code> file, you already have the <code>cancelEvent</code> rest request.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="compensation-activities"><a class="anchor" href="#compensation-activities"></a>Add the compensation activities</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section, you will add two compensation activities for <code>Prepare for Shipping</code> and  <code>Forward to External Supplier</code>.</p>
+</div>
+<div class="paragraph">
+<p>Afterward, you will check that the runtime will call them when compensation is triggered by the cancel event.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Compensation activities are <strong>operation states</strong>, they could be placed anywhere in the <code>state</code> array. However, we suggest to place the definition nearby the corresponding primary state so it&#8217;s easier to orientate.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Locate <code>Prepare for Shipping</code> and <strong>append</strong> right afterward:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "name": "Restore Inventory",
+    "type": "operation",
+    "usedForCompensation": true,
+    "actions": [
+    {
+        "name": "printAction",
+        "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+            "message": "\"Cancel Stationary Order\""
+        }
+        }
+    }
+    ]
+},</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Inside <code>Prepare for Shipping</code> <strong>add</strong> the following property:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"compensatedBy": "Restore Inventory",</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the workflow diagram you should see the two states linked by a yellow dotted line:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/restore-inventory.png" alt="restore inventory">
+</div>
+</div>
+</li>
+<li>
+<p>Locate <code>Forward to External Supplier</code> and <strong>append</strong> right afterward:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "name": "Cancel Supplier Order",
+    "type": "operation",
+    "usedForCompensation": true,
+    "actions": [
+    {
+        "name": "printAction",
+        "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+            "message": "\"Cancel Clothing Order\""
+        }
+        }
+    }
+    ]
+},</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Inside <code>Forward to External Supplier</code> <strong>add</strong> the following property:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"compensatedBy": "Cancel Supplier Order",</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>In the workflow diagram you should see the following situation:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/compensation-activities.png" alt="compensation activities"></span></p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+At the time of writing, the diagram rendering has a bug that create crossing lines, so the final outcome is slightly confusing.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
