@@ -20,3 +20,128 @@ In short, Serverless Workflow Compensation is very handy whenever dealing with c
 == Cancelling event
 
 In our use case, we have to deal with situations where customers have to cancel their orders. Specifically, if the cancellation event arrives before the shipping one, it is necessary to call for compensation: the concrete compensation action depends on the previous execution path, if the item was available, the compensation action will call the internal shipping department otherwise the compensation action will deal with the external supplier.
+
+NOTE: Given the simplistic nature of the example, one might consider replacing compensation with a gateway followed by compensatory actions. However, it should be borne in mind that in an even slightly more complex flow, implementing compensation in imperative mode would make the implementation complex and error prone.
+
+Below, we will add the definition of the new event type `CancelEventType` and a forking that distinguishes between the two possible input events:
+
+* `shippingEvent`
+* `cancelEvent`
+
+//-
+
+*Open* the `swf` file:
+
+1. Inside the event section *add* the following declaration:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+{
+  "name": "cancelEvent",
+  "kind": "consumed",
+  "type": "CancelEventType",
+  "source": "Client",
+  "correlation": [
+    {
+      "contextAttributeName": "orderid"
+    }
+  ]
+}
+----
+
+2. In the state section, *locate* the `Order Shipped` event node and *overwrite* it with the following snippet:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+{
+  "name": "Order Shipped or Cancelled",
+  "type": "event",
+  "transition": "Is Shipped?",
+  "exclusive": true,
+  "onEvents": [
+    {
+      "eventRefs": [
+        "shippingEvent"
+      ]
+    },
+    {
+      "eventRefs": [
+        "cancelEvent"
+      ],
+      "eventDataFilter": {
+        "data": "{cancel:true}"
+      }
+    }
+  ]
+},
+----
++
+The new event state definition is able to listen for two different events. 
+At the cancellation event, we can see the statement `eventDataFilter` the effect of which is to introduce a new Boolean data: `cancel:true`. In such a way, we will later be able to know which event has arrived.
+
+3. *Update* the `transition` the states `Prepare for Shipping` and `Forward to External Supplier` to point to the new name `Order Shipped or Cancelled`
+
+4. *Add* the following switch state after the `Order Shipped or Cancelled` state:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+{
+    "name": "Is Shipped?",
+    "type": "switch",
+    "dataConditions": [
+    {
+        "name": "order cancelled",
+        "condition": ".cancel == true",
+        "transition": "Compensate Order"
+    }
+    ],
+    "defaultCondition": {
+        "transition": "Notify Customer"
+    }
+},
+----
+
+5. After the previous state, *Add* an operation to handle the cancel event:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+{
+    "name": "Compensate Order",
+    "type": "operation",
+    "actions": [
+    {
+        "name": "printAction",
+        "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+            "message": "\"Compensate Order\""
+        }
+        }
+    }
+    ],
+    "end": {
+        "terminate": true,
+        "compensate": true
+    }
+},
+----
+
+6. Locate the `Notify Customer` operation state and *adjust* the `end` property in this way:
++
+[.console-input]
+[source, json,subs="+macros,+attributes"]
+----
+"end": {
+    "terminate": true,
+}
+----
++
+This measure forces the workflow termination.
+
+[#cancellingtest]
+== Test the cancelling event
+
