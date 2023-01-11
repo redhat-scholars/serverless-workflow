@@ -111,6 +111,41 @@ It&#8217;s recommended to execute this section with a reliable connection. Avoid
 </div>
 </div>
 <div class="sect1">
+<h2 id="_usb_stick_resources"><a class="anchor" href="#_usb_stick_resources"></a>USB Stick Resources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you had no time to prepare upfront your environment, the lab instructors will provide you an USB Stick to significantly reduce the network usage during the lab execution:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Copy on your laptop the folder <code>swf-lab</code>, unplug the USB Stick and pass it on to another attendee or the instructor.</p>
+</li>
+<li>
+<p>Load the images:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman image load --input swf-lab/oci-images-backup.tar</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Load the maven repository:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd ~
+tar xvzf swf-lab/m2-repository.tar.gz</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Install the Visual Studio Code using the provided the binaries in the <code>swf-lab</code> folder</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="prerequisite"><a class="anchor" href="#prerequisite"></a>Prerequisite tools</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -216,7 +251,7 @@ If you have already installed <em>Docker</em> in your environment, or you feel m
 <div class="ulist">
 <ul>
 <li>
-<p><code>ext install redhat.java</code></p>
+<p><code>ext install vscjava.vscode-java-pack</code></p>
 </li>
 <li>
 <p><code>ext install redhat.vscode-extension-serverless-workflow-editor</code></p>
@@ -283,7 +318,7 @@ However, since it&#8217;s distributed through the Red Hat official registry you 
 <div class="listingblock console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman login -u $REGISTRY_REDHAT_IO_USERNAME -p $REGISTRY_REDHAT_IO_PASSWORD registry.redhat.io
-podman pull registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.26.0-5</code></pre>
+podman pull registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.25</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -331,8 +366,17 @@ Unfortunately, Podman is not already a first citizen in the Quarkus world, so yo
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo dnf install podman-docker
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo dnf install -y podman-docker
 systemctl --user enable podman.socket --now</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Configure <strong>testcontainers</strong> through the following commands:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "docker.host = unix:///run/user/$(id -u)/podman/podman.sock" &gt; ~/.testcontainers.properties
+echo "ryuk.container.privileged = true" &gt;&gt;  ~/.testcontainers.properties</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -401,7 +445,7 @@ systemctl --user enable podman.socket --now</code></pre>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone <a href="mailto:git@github.com">git@github.com</a>:dmarrazzo/order-swf.git</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone <a href="https://github.com/dmarrazzo/order-swf.git" class="bare">https://github.com/dmarrazzo/order-swf.git</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -410,7 +454,7 @@ systemctl --user enable podman.socket --now</code></pre>
 <div class="listingblock console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd order-swf
-./mwn quarkus:dev</code></pre>
+mvn quarkus:dev</code></pre>
 </div>
 </div>
 <div class="admonitionblock warning">
