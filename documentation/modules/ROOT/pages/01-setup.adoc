@@ -5,6 +5,31 @@ This section provides guidance on how to set up your local computer to host a Se
 
 WARNING: It's recommended to execute this section with a reliable connection. Avoid to run this part of the lab together with other people because of the bandwidth required. Moreover, some tasks will take a long time to download resources.
 
+== USB Stick Resources 
+
+If you had no time to prepare upfront your environment, the lab instructors will provide you an USB Stick to significantly reduce the network usage during the lab execution:
+
+1. Copy on your laptop the folder `swf-lab`, unplug the USB Stick and pass it on to another attendee or the instructor.
+
+2. Load the images:
++
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman image load --input swf-lab/oci-images-backup.tar
+----
+
+3. Load the maven repository:
++
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+cd ~
+tar xvzf swf-lab/m2-repository.tar.gz
+----
+
+4. Install the Visual Studio Code using the provided the binaries in the `swf-lab` folder
+
 [#prerequisite]
 == Prerequisite tools
 
@@ -62,7 +87,7 @@ image::extensions-view-icon.png[]
 
 2. Launch VS Code Quick Open (Ctrl+P), paste the following commands, and press enter:
 
-* `ext install redhat.java`
+* `ext install vscjava.vscode-java-pack`
 * `ext install redhat.vscode-extension-serverless-workflow-editor`
 * `ext install humao.rest-client`
 
@@ -98,7 +123,7 @@ Run the following command to login and pull the image:
 [source,bash,subs="+macros,+attributes"]
 ----
 podman login -u $REGISTRY_REDHAT_IO_USERNAME -p $REGISTRY_REDHAT_IO_PASSWORD registry.redhat.io
-podman pull registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.26.0-5
+podman pull registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.25
 ----
 
 TIP: if you are a Mac Silicon M1 user, you can pull the image adding the following parameter `--platform linux/amd64`.
@@ -115,8 +140,17 @@ Issue the following commands:
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
-sudo dnf install podman-docker
+sudo dnf install -y podman-docker
 systemctl --user enable podman.socket --now
+----
+
+Configure *testcontainers* through the following commands: 
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+echo "docker.host = unix:///run/user/$(id -u)/podman/podman.sock" > ~/.testcontainers.properties
+echo "ryuk.container.privileged = true" >>  ~/.testcontainers.properties
 ----
 
 For more information and troubleshooting refer to https://quarkus.io/guides/podman#linux[]
@@ -183,7 +217,7 @@ Get your local copy of the start up project:
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
-git clone git@github.com:dmarrazzo/order-swf.git
+git clone https://github.com/dmarrazzo/order-swf.git
 ----
 
 Enter in the project folder and start quarkus in dev mode.
@@ -192,7 +226,7 @@ Enter in the project folder and start quarkus in dev mode.
 [source,bash,subs="+macros,+attributes"]
 ----
 cd order-swf
-./mwn quarkus:dev
+mvn quarkus:dev
 ----
 
 WARNING: The first time you launch `maven` on this project, it is going to take a considerable amount of time because it has to download all the dependencies from internet.
