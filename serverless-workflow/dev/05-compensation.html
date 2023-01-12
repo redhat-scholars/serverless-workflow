@@ -192,7 +192,13 @@
 <h2 id="cancellingevent"><a class="anchor" href="#cancellingevent"></a>Cancelling Event Sprint</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In our use case, we have to deal with situations where customers have to cancel their orders. Specifically, if the cancellation event arrives before the shipping one, it is necessary to call for compensation: the concrete compensation action depends on the previous execution path, if the item was available, the compensation action will call the internal shipping department otherwise the compensation action will deal with the external supplier.</p>
+<p>In our use case, we have to deal with situations where customers have to <strong>cancel their orders</strong>. Specifically, if the cancellation event arrives before the shipping one, it is necessary to call for <strong>compensation</strong>: the concrete compensation action depends on the previous execution path, if the item was available, the compensation action will call the internal shipping department otherwise the compensation action will deal with the external supplier.</p>
+</div>
+<div class="paragraph">
+<p>The following picture shows an high level design:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/high-level-flow-3.png" alt="high level flow 3"></span></p>
 </div>
 <div class="admonitionblock note">
 <table>
