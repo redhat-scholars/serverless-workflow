@@ -248,12 +248,6 @@ Please have them installed and configured before you get started with any of the
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://git-scm.com/download/win">Download</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>podman</code> (or docker)</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y podman</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://podman.io/getting-started/installation">Podman for Mac</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://podman.io/getting-started/installation">Podman for Windows</a></p></td>
-</tr>
-<tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/">Visual Studio Code</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions">Linux installation</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/docs/setup/mac">Mac Install</a></p></td>
@@ -271,6 +265,10 @@ Please have them installed and configured before you get started with any of the
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz">Download</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.zip">Download</a></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>podman</code></p></td>
+<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Check detailed instruction <strong>below</strong> under the proper tab</p></td>
+</tr>
 </tbody>
 </table>
 <div class="admonitionblock note">
@@ -284,6 +282,107 @@ If you have already installed <em>Docker</em> in your environment, or you feel m
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Instructions to <strong>install</strong> Podman and <strong>configure</strong> Quarkus (testcontainer) to rely on it:</p>
+</div>
+<div class="tabset is-loading">
+<div class="ulist tabs">
+<ul>
+<li>
+<p><a id="tabset1_fedora"></a>Fedora</p>
+</li>
+<li>
+<p><a id="tabset1_mac"></a>Mac</p>
+</li>
+<li>
+<p><a id="tabset1_windows"></a>Windows</p>
+</li>
+</ul>
+</div>
+<div class="content">
+<div class="tab-pane" aria-labelledby="tabset1_fedora">
+<div class="paragraph">
+<p>Issue the following commands:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo dnf install -y podman podman-docker
+systemctl --user enable podman.socket --now</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Configure <strong>testcontainers</strong> through the following commands:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "docker.host = unix:///run/user/$(id -u)/podman/podman.sock" &gt; ~/.testcontainers.properties
+echo "ryuk.container.privileged = true" &gt;&gt;  ~/.testcontainers.properties</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For more information and troubleshooting refer to <a href="https://quarkus.io/guides/podman#linux" class="bare">https://quarkus.io/guides/podman#linux</a></p>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset1_mac">
+<div class="paragraph">
+<p>Leverage Homebrew to install Podman and its required dependencies:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">brew install podman</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Install the podman-mac-helper utility:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo /usr/local/bin/podman-mac-helper install</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Add the following line to your bash profile</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">alias docker='podman'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Before starting the Podman machine, set it to prefer rootful container execution:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman machine set --rootful</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Configure <strong>testcontainers</strong> through the following commands:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "ryuk.container.privileged = true" &gt;  ~/.testcontainers.properties</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For more information and troubleshooting refer to <a href="https://xphyr.net/post/podman_on_osx/" class="bare">https://xphyr.net/post/podman_on_osx/</a></p>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset1_windows">
+<div class="paragraph">
+<p>Follow this guide for the podman installation: <a href="https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md" class="bare">https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md</a></p>
+</div>
+<div class="paragraph">
+<p>Before starting the Podman machine, set it to prefer rootful container execution:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman machine set --rootful</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -378,107 +477,6 @@ Add the comma as required by JSON rules (before or after depending on the key/va
 <div class="sect1">
 <h2 id="base-image"><a class="anchor" href="#base-image"></a>Pull the serverless data index image</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Instructions to <strong>install</strong> Podman and <strong>configure</strong> Quarkus (testcontainer) to rely on it:</p>
-</div>
-<div class="tabset is-loading">
-<div class="ulist tabs">
-<ul>
-<li>
-<p><a id="tabset1_fedora"></a>Fedora</p>
-</li>
-<li>
-<p><a id="tabset1_mac"></a>Mac</p>
-</li>
-<li>
-<p><a id="tabset1_windows"></a>Windows</p>
-</li>
-</ul>
-</div>
-<div class="content">
-<div class="tab-pane" aria-labelledby="tabset1_fedora">
-<div class="paragraph">
-<p>Issue the following commands:</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo dnf install -y podman-docker
-systemctl --user enable podman.socket --now</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Configure <strong>testcontainers</strong> through the following commands:</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "docker.host = unix:///run/user/$(id -u)/podman/podman.sock" &gt; ~/.testcontainers.properties
-echo "ryuk.container.privileged = true" &gt;&gt;  ~/.testcontainers.properties</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For more information and troubleshooting refer to <a href="https://quarkus.io/guides/podman#linux" class="bare">https://quarkus.io/guides/podman#linux</a></p>
-</div>
-</div>
-<div class="tab-pane" aria-labelledby="tabset1_mac">
-<div class="paragraph">
-<p>Leverage Homebrew to install Podman and its required dependencies:</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">brew install podman</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Install the podman-mac-helper utility:</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo /usr/local/bin/podman-mac-helper install</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Add the following line to your bash profile</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">alias docker='podman'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Before starting the Podman machine, set it to prefer rootful container execution:</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman machine set --rootful</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Configure <strong>testcontainers</strong> through the following commands:</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "ryuk.container.privileged = true" &gt;  ~/.testcontainers.properties</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For more information and troubleshooting refer to <a href="https://xphyr.net/post/podman_on_osx/" class="bare">https://xphyr.net/post/podman_on_osx/</a></p>
-</div>
-</div>
-<div class="tab-pane" aria-labelledby="tabset1_windows">
-<div class="paragraph">
-<p>Follow this guide for the podman installation: <a href="https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md" class="bare">https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md</a></p>
-</div>
-<div class="paragraph">
-<p>Before starting the Podman machine, set it to prefer rootful container execution:</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman machine set --rootful</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="paragraph">
 <p>In order to run and test locally the Serverless Workflow project, you need the data index container image, it will be <strong>started behind the scene by Quarkus</strong>.
 However, since it&#8217;s distributed through the Red Hat official registry you have to login before pulling the image.</p>
