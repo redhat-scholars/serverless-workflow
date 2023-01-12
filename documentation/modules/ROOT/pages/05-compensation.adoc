@@ -17,7 +17,7 @@ The good news is that the Serverless Workflow engine helps you in this difficult
 In short, Serverless Workflow Compensation is very handy whenever dealing with cancellation!
 
 [#cancellingevent]
-== Cancelling event
+== Cancelling Event Sprint
 
 In our use case, we have to deal with situations where customers have to cancel their orders. Specifically, if the cancellation event arrives before the shipping one, it is necessary to call for compensation: the concrete compensation action depends on the previous execution path, if the item was available, the compensation action will call the internal shipping department otherwise the compensation action will deal with the external supplier.
 
@@ -165,7 +165,7 @@ NOTE: Even if you trigger the compensation no compensation activity is defined, 
 Based on the previous test activities, you should be able to figure out how to test this scenario. Please, note that in the `probe.http` file, you already have the `cancelEvent` rest request.
 
 [#compensation-activities]
-== Add the compensation activities
+== Compensation Activities Sprint
 
 In this section, you will add two compensation activities for `Prepare for Shipping` and  `Forward to External Supplier`.
 

@@ -18,12 +18,12 @@
 ** xref:03-inventory.adoc#test-rest[Test the external REST service]
 
 * xref:04-longrunning.adoc[4. Long Running Workflows]
-** xref:04-longrunning.adoc#waitevent[Wait an event]
+** xref:04-longrunning.adoc#waitevent[Wait Event Sprint]
 ** xref:04-longrunning.adoc#eventing[Eventing]
 ** xref:04-longrunning.adoc#test-events[Test the events]
 
 * xref:05-compensation.adoc[5. Compensation]
-** xref:05-compensation.adoc#cancellingevent[Cancelling event]
+** xref:05-compensation.adoc#cancellingevent[Cancelling Event Sprint]
 ** xref:05-compensation.adoc#test-cancel[Test the cancelling event]
-** xref:05-compensation.adoc#compensation-activities[Add the compensation activities]
+** xref:05-compensation.adoc#compensation-activities[Compensation Activities Sprint]
 ** xref:05-compensation.adoc#test-compensation[Testing the compensation]
