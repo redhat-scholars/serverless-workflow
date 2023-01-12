@@ -140,7 +140,7 @@ At the cancellation event, we can see the statement `eventDataFilter` the effect
 [source, json,subs="+macros,+attributes"]
 ----
 "end": {
-    "terminate": true,
+    "terminate": true
 }
 ----
 +
@@ -261,7 +261,7 @@ To test the compensation you have to send the following events:
 1. New order (`OrderEventType`)
 2. Cancel the order (`CancelEventType`)
 
-Then you can check that the compensation  activity is triggered.
+Then you can check if the compensation activity is triggered.
 
 Unless, you changed it before, the rest call provided in `probe.http` contains the item id `1110` which is supposed to trigger the internal shipping path. So when you trigger the cancellation you should see in the log the following line:
 
