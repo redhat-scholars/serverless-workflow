@@ -4,7 +4,7 @@ include::_attributes.adoc[]
 
 Having a graphical notation to orchestrate services is nice, but you might wonder if it is worth it!
 
-The real power of a workflow engine gets into action when the process is long running: in other words, when it reaches a pause status, because it has to wait an asynchronous event, a manual intervention, a timer.
+The real power of a workflow engine gets into action when the workflow is long running: in other words, when it reaches a pause status, because it has to wait an asynchronous event, a manual intervention, a timer.
 
 In this section, you will evolve the workflow to add this long running nature!
 

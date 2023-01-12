@@ -47,7 +47,7 @@ The version `1.27.0.Final-redhat-00005` comes from the developer preview.
 
 include::partial$quarkus-dev.adoc[]
 
-Open a new terminal and start the process with the following command:
+Open a new terminal and start the flow with the following command:
 
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
