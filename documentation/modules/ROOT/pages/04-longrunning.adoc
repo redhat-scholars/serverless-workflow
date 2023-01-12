@@ -8,10 +8,15 @@ The real power of a workflow engine gets into action when the workflow is *long 
 
 In this section, you will evolve the workflow to add this long running nature!
 
+From a use case perspective, the workflow has to wait for an _asynchronous_ event which confirms the completion *shipment procedures*. 
+
+The following picture shows an high level design: 
+
+image:high-level-flow-2.png[]
+
 [#waitevent]
 == Wait Event Sprint
 
-From a use case perspective, the workflow has to wait for *shipment procedure completion* event.
 For sake of simplicity, let's imagine that an external integration service is able to homogenize events arriving from the internal department and those arriving from the external supplier.
 
 The event will bring an important information the *correlation key*, in our use case is the `orderId`.
