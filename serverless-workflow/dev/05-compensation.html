@@ -123,7 +123,22 @@
 </ul>
   </li>
   <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="05-compensation.html">5. Compensation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#cancellingevent">Cancelling event</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#test-cancel">Test the cancelling event</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#compensation-activities">Add the compensation activities</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#test-compensation">Testing the compensation</a>
+  </li>
+</ul>
   </li>
 </ul>
   </li>
@@ -426,7 +441,7 @@ Compensation activities are <strong>operation states</strong>, they could be pla
         "functionRef": {
         "refName": "printMessage",
         "arguments": {
-            "message": "\"Cancel Stationary Order\""
+            "message": "\"Restore Inventory\""
         }
         }
     }
@@ -465,7 +480,7 @@ Compensation activities are <strong>operation states</strong>, they could be pla
         "functionRef": {
         "refName": "printMessage",
         "arguments": {
-            "message": "\"Cancel Clothing Order\""
+            "message": "\"Cancel Supplier Order\""
         }
         }
     }
@@ -497,11 +512,17 @@ Compensation activities are <strong>operation states</strong>, they could be pla
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-At the time of writing, the diagram rendering has a bug that create crossing lines, so the final outcome is slightly confusing.
+At the time of writing, the diagram rendering has a bug that shows overlapping lines, so the final outcome is slightly confusing.
 </td>
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="compensation-test"><a class="anchor" href="#compensation-test"></a>Testing the compensation</h2>
+<div class="sectionbody">
+
 </div>
 </div>
 <nav class="pagination">
