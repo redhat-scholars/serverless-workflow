@@ -103,7 +103,7 @@
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-It&#8217;s recommended to execute this section with a reliable connection. Avoid to run this part of the lab together with other people because of the bandwidth required. Moreover, some tasks will take a long time to download resources.
+It&#8217;s recommended to execute this section with a reliable connection. Avoid running this part of the lab together with other people because of the bandwidth required. Moreover, some tasks will take a long time to download resources.
 </td>
 </tr>
 </table>
@@ -114,12 +114,12 @@ It&#8217;s recommended to execute this section with a reliable connection. Avoid
 <h2 id="_usb_stick_resources"><a class="anchor" href="#_usb_stick_resources"></a>USB Stick Resources</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you had no time to prepare upfront your environment, the lab instructors will provide you an USB Stick to significantly reduce the network usage during the lab execution:</p>
+<p>If you had no time to prepare upfront your environment, the lab instructors will provide you with a USB Stick to significantly reduce the network usage during the lab execution:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Copy on your laptop the folder <code>swf-lab</code>, unplug the USB Stick and pass it on to another attendee or the instructor.</p>
+<p>Copy on your laptop the folder <code>swf-lab</code>, unplug the USB Stick, and pass it on to another attendee or the instructor.</p>
 </li>
 <li>
 <p>Load the images:</p>
@@ -139,7 +139,7 @@ tar xvzf swf-lab/m2-repository.tar.gz</code></pre>
 </div>
 </li>
 <li>
-<p>Install the Visual Studio Code using the provided the binaries in the <code>swf-lab</code> folder</p>
+<p>Install the Visual Studio Code using the provided binaries in the <code>swf-lab</code> folder</p>
 </li>
 </ol>
 </div>
@@ -194,7 +194,7 @@ Please have them installed and configured before you get started with any of the
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><code>podman</code></p></td>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Check detailed instruction <strong>below</strong> under the proper tab</p></td>
+<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Check the detailed instructions <strong>below</strong> under the proper tab</p></td>
 </tr>
 </tbody>
 </table>
@@ -211,7 +211,7 @@ If you have already installed <em>Docker</em> in your environment, or you feel m
 </table>
 </div>
 <div class="paragraph">
-<p>Instructions to <strong>install</strong> Podman and <strong>configure</strong> Quarkus (testcontainer) to rely on it:</p>
+<p>Instructions to <strong>install</strong> Podman and <strong>configure</strong> Quarkus (Testcontainer) to rely on it:</p>
 </div>
 <div class="tabset is-loading">
 <div class="ulist tabs">
@@ -221,6 +221,9 @@ If you have already installed <em>Docker</em> in your environment, or you feel m
 </li>
 <li>
 <p><a id="tabset1_mac"></a>Mac</p>
+</li>
+<li>
+<p><a id="tabset1_mac-apple-m1"></a>Mac (Apple M1)</p>
 </li>
 <li>
 <p><a id="tabset1_windows"></a>Windows</p>
@@ -234,17 +237,25 @@ If you have already installed <em>Docker</em> in your environment, or you feel m
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo dnf install -y podman podman-docker
-systemctl --user enable podman.socket --now</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo dnf install -y podman podman-docker</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Configure <strong>testcontainers</strong> through the following commands:</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "docker.host = unix:///run/user/$(id -u)/podman/podman.sock" &gt; ~/.testcontainers.properties
-echo "ryuk.container.privileged = true" &gt;&gt;  ~/.testcontainers.properties</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">systemctl --user enable podman.socket --now</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Configure <strong>Testcontainers</strong> through the following commands:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "docker.host = unix:///run/user/$(id -u)/podman/podman.sock" &gt; ~/.testcontainers.properties</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "ryuk.container.privileged = true" &gt;&gt;  ~/.testcontainers.properties</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -253,7 +264,7 @@ echo "ryuk.container.privileged = true" &gt;&gt;  ~/.testcontainers.properties</
 </div>
 <div class="tab-pane" aria-labelledby="tabset1_mac">
 <div class="paragraph">
-<p>Leverage Homebrew to install Podman and its required dependencies:</p>
+<p>Leverage Homebrew to install <strong>Podman</strong> and its required dependencies:</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
@@ -261,39 +272,77 @@ echo "ryuk.container.privileged = true" &gt;&gt;  ~/.testcontainers.properties</
 </div>
 </div>
 <div class="paragraph">
-<p>Install the podman-mac-helper utility:</p>
+<p>Create your <strong>Podman</strong> machine, set it to run rootful containers, then start it:</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo /usr/local/bin/podman-mac-helper install</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman machine init</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Add the following line to your bash profile</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">alias docker='podman'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Before starting the Podman machine, set it to prefer rootful container execution:</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman machine set --rootful</code></pre>
 </div>
 </div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman machine start</code></pre>
+</div>
+</div>
 <div class="paragraph">
-<p>Configure <strong>testcontainers</strong> through the following commands:</p>
+<p>Configure <strong>Testcontainers</strong> through the following commands:</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "ryuk.container.privileged = true" &gt;  ~/.testcontainers.properties</code></pre>
 </div>
 </div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset1_mac-apple-m1">
 <div class="paragraph">
-<p>For more information and troubleshooting refer to <a href="https://xphyr.net/post/podman_on_osx/" class="bare">https://xphyr.net/post/podman_on_osx/</a></p>
+<p>Leverage Homebrew to install <strong>Podman</strong> and its required dependencies:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">brew install podman</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create your <strong>Podman</strong> machine, set it to run rootful containers, then start it:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman machine init</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman machine set --rootful</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman machine start</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Add support for running x86_64-based containers on a Mac with an M1 chip with the following commands</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman machine ssh
+sudo -i
+rpm-ostree install qemu-user-static
+systemctl reboot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Configure <strong>Testcontainers</strong> through the following commands:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "ryuk.container.privileged = true" &gt;  ~/.testcontainers.properties</code></pre>
+</div>
 </div>
 </div>
 <div class="tab-pane" aria-labelledby="tabset1_windows">
@@ -412,12 +461,19 @@ However, since it&#8217;s distributed through the Red Hat official registry you 
 <p>Find here the instruction on how to create / retrieve your credentials: <a href="https://access.redhat.com/RegistryAuthentication">Registry Authentication</a></p>
 </div>
 <div class="paragraph">
-<p>Run the following command to login and pull the image:</p>
+<p>Login to <strong>registry.redhat.io</strong> with your Red Hat credentials;</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman login -u $REGISTRY_REDHAT_IO_USERNAME -p $REGISTRY_REDHAT_IO_PASSWORD registry.redhat.io
-podman pull --platform linux/amd64 registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.25</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman login registry.redhat.io</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Pull the serverless data index image:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman pull --platform linux/amd64 registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.25</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -427,7 +483,7 @@ podman pull --platform linux/amd64 registry.redhat.io/openshift-serverless-1-tec
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The parameter <code>--platform linux/amd64</code> is important when you run it on a Mac Silicon M1 (which has a different processor architecture)
+The parameter <code>--platform linux/amd64</code> is important when you run it on a Mac with an M1 chip (which has a different processor architecture)
 </td>
 </tr>
 </table>
@@ -438,7 +494,7 @@ The parameter <code>--platform linux/amd64</code> is important when you run it o
 <h2 id="project-start"><a class="anchor" href="#project-start"></a>Clone and build the startup project</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Get your local copy of the start up project:</p>
+<p>Get your local copy of the start-up project:</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
@@ -446,7 +502,7 @@ The parameter <code>--platform linux/amd64</code> is important when you run it o
 </div>
 </div>
 <div class="paragraph">
-<p>Enter in the project folder and start quarkus in dev mode.</p>
+<p>Enter in the project folder and start Quarkus in dev mode.</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
@@ -461,7 +517,7 @@ mvn quarkus:dev</code></pre>
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-The first time you launch <code>maven</code> on this project, it is going to take a considerable amount of time because it has to download all the dependencies from internet.
+The first time you launch <code>maven</code> on this project, it is going to take a considerable amount of time because it has to download all the dependencies from the Internet.
 </td>
 </tr>
 </table>
