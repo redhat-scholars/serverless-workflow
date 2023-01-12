@@ -112,23 +112,7 @@ TIP: Add the comma as required by JSON rules (before or after depending on the k
 [#base-image]
 == Pull the serverless data index image
 
-In order to run and test locally the Serverless Workflow project, you need the data index container image, it will be *started behind the scene by Quarkus*. 
-However, since it's distributed through the Red Hat official registry you have to login before pulling the image.
-
-Find here the instruction on how to create / retrieve your credentials: https://access.redhat.com/RegistryAuthentication[Registry Authentication]
-
-Run the following command to login and pull the image:
-
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-podman login -u $REGISTRY_REDHAT_IO_USERNAME -p $REGISTRY_REDHAT_IO_PASSWORD registry.redhat.io
-podman pull registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.25
-----
-
-TIP: if you are a Mac Silicon M1 user, you can pull the image adding the following parameter `--platform linux/amd64`.
-
-CAUTION: Unfortunately, Podman is not already a first citizen in the Quarkus world, so you need to apply carefully the following instructions,
+Instructions to *install* Podman and *configure* Quarkus (testcontainer) to rely on it:
 
 [tabs]
 ====
@@ -190,6 +174,14 @@ Before starting the Podman machine, set it to prefer rootful container execution
 podman machine set --rootful
 ----
 
+Configure *testcontainers* through the following commands: 
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+echo "ryuk.container.privileged = true" >  ~/.testcontainers.properties
+----
+
 For more information and troubleshooting refer to https://xphyr.net/post/podman_on_osx/[]
 
 --
@@ -208,6 +200,21 @@ podman machine set --rootful
 --
 ====
 
+In order to run and test locally the Serverless Workflow project, you need the data index container image, it will be *started behind the scene by Quarkus*. 
+However, since it's distributed through the Red Hat official registry you have to login before pulling the image.
+
+Find here the instruction on how to create / retrieve your credentials: https://access.redhat.com/RegistryAuthentication[Registry Authentication]
+
+Run the following command to login and pull the image:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman login -u $REGISTRY_REDHAT_IO_USERNAME -p $REGISTRY_REDHAT_IO_PASSWORD registry.redhat.io
+podman pull --platform linux/amd64 registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.25
+----
+
+NOTE: The parameter `--platform linux/amd64` is important when you run it on a Mac Silicon M1 (which has a different processor architecture)
 
 [#project-start]
 == Clone and build the startup project
