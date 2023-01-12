@@ -188,7 +188,7 @@ NOTE: Compensation activities are *operation states*, they could be placed anywh
         "functionRef": {
         "refName": "printMessage",
         "arguments": {
-            "message": "\"Cancel Stationary Order\""
+            "message": "\"Restore Inventory\""
         }
         }
     }
@@ -223,7 +223,7 @@ image::restore-inventory.png[]
         "functionRef": {
         "refName": "printMessage",
         "arguments": {
-            "message": "\"Cancel Clothing Order\""
+            "message": "\"Cancel Supplier Order\""
         }
         }
     }
@@ -243,4 +243,4 @@ In the workflow diagram you should see the following situation:
 
 image:compensation-activities.png[]
 
-WARNING: At the time of writing, the diagram rendering has a bug that create crossing lines, so the final outcome is slightly confusing.
+WARNING: At the time of writing, the diagram rendering has a bug that shows overlapping lines, so the final outcome is slightly confusing.
