@@ -45,12 +45,6 @@ Please have them installed and configured before you get started with any of the
 | https://git-scm.com/download/mac[Download]
 | https://git-scm.com/download/win[Download]
 
-| `podman` (or docker)
-| `dnf install -y podman`
-| https://podman.io/getting-started/installation[Podman for Mac]
-| https://podman.io/getting-started/installation[Podman for Windows]
-
-
 | https://code.visualstudio.com/[Visual Studio Code]
 | https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions[Linux installation]
 | https://code.visualstudio.com/docs/setup/mac[Mac Install]
@@ -66,51 +60,12 @@ Please have them installed and configured before you get started with any of the
 | https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz[Download]
 | https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.zip[Download]
 
+| `podman`
+3+| Check detailed instruction *below* under the proper tab
+
 |===
 
 NOTE: If you have already installed _Docker_ in your environment, or you feel more comfortable with it, feel free to replace Podman with Docker.
-
-[#vscode-extensions]
-== Visual Studio Code Extensions
-
-Launch Visual Studio Code to install the following extensions:
-
-* Language Support for Java(TM) by Red Hat
-* Kogito Serverless Workflow Editor
-* REST Client (from Huachao Mao)
-
-There are 2 ways:
-
-1. Click on the Extensions icon in the Activity Bar on the side of VS Code, search and install.
-+
-image::extensions-view-icon.png[]
-
-2. Launch VS Code Quick Open (Ctrl+P), paste the following commands, and press enter:
-
-* `ext install vscjava.vscode-java-pack`
-* `ext install redhat.vscode-extension-serverless-workflow-editor`
-* `ext install humao.rest-client`
-
-=== Configure Visual Studio Code 
-
-Open the `Command Palette`:
-
-* Hit **`F1`** or select from the menu **`View > Command Palette...`**
-
-Type **`Pref`** and select **`Preferences: Open User Settings (JSON)`**
-
-Add the following configuration key and close it:
-
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-"kogito.swf.svgFilePath": "${workspaceFolder}/src/main/resources/META-INF/processSVG/"
-----
-
-TIP: Add the comma as required by JSON rules (before or after depending on the key/value pair position)
-
-[#base-image]
-== Pull the serverless data index image
 
 Instructions to *install* Podman and *configure* Quarkus (testcontainer) to rely on it:
 
@@ -124,7 +79,7 @@ Issue the following commands:
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
-sudo dnf install -y podman-docker
+sudo dnf install -y podman podman-docker
 systemctl --user enable podman.socket --now
 ----
 
@@ -199,6 +154,48 @@ podman machine set --rootful
 ----
 --
 ====
+
+[#vscode-extensions]
+== Visual Studio Code Extensions
+
+Launch Visual Studio Code to install the following extensions:
+
+* Language Support for Java(TM) by Red Hat
+* Kogito Serverless Workflow Editor
+* REST Client (from Huachao Mao)
+
+There are 2 ways:
+
+1. Click on the Extensions icon in the Activity Bar on the side of VS Code, search and install.
++
+image::extensions-view-icon.png[]
+
+2. Launch VS Code Quick Open (Ctrl+P), paste the following commands, and press enter:
+
+* `ext install vscjava.vscode-java-pack`
+* `ext install redhat.vscode-extension-serverless-workflow-editor`
+* `ext install humao.rest-client`
+
+=== Configure Visual Studio Code 
+
+Open the `Command Palette`:
+
+* Hit **`F1`** or select from the menu **`View > Command Palette...`**
+
+Type **`Pref`** and select **`Preferences: Open User Settings (JSON)`**
+
+Add the following configuration key and close it:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+"kogito.swf.svgFilePath": "${workspaceFolder}/src/main/resources/META-INF/processSVG/"
+----
+
+TIP: Add the comma as required by JSON rules (before or after depending on the key/value pair position)
+
+[#base-image]
+== Pull the serverless data index image
 
 In order to run and test locally the Serverless Workflow project, you need the data index container image, it will be *started behind the scene by Quarkus*. 
 However, since it's distributed through the Red Hat official registry you have to login before pulling the image.
