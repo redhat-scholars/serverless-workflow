@@ -112,7 +112,7 @@
     <a class="nav-link" href="04-longrunning.html">4. Long Running Workflows</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="04-longrunning.html#waitevent">Wait an event</a>
+    <a class="nav-link" href="04-longrunning.html#waitevent">Wait Event Sprint</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="04-longrunning.html#eventing">Eventing</a>
@@ -127,13 +127,13 @@
     <a class="nav-link" href="05-compensation.html">5. Compensation</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#cancellingevent">Cancelling event</a>
+    <a class="nav-link" href="#cancellingevent">Cancelling Event Sprint</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="#test-cancel">Test the cancelling event</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#compensation-activities">Add the compensation activities</a>
+    <a class="nav-link" href="#compensation-activities">Compensation Activities Sprint</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="#test-compensation">Testing the compensation</a>
@@ -189,7 +189,7 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="cancellingevent"><a class="anchor" href="#cancellingevent"></a>Cancelling event</h2>
+<h2 id="cancellingevent"><a class="anchor" href="#cancellingevent"></a>Cancelling Event Sprint</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In our use case, we have to deal with situations where customers have to cancel their orders. Specifically, if the cancellation event arrives before the shipping one, it is necessary to call for compensation: the concrete compensation action depends on the previous execution path, if the item was available, the compensation action will call the internal shipping department otherwise the compensation action will deal with the external supplier.</p>
@@ -400,7 +400,7 @@ Even if you trigger the compensation no compensation activity is defined, so at 
 </div>
 </div>
 <div class="sect1">
-<h2 id="compensation-activities"><a class="anchor" href="#compensation-activities"></a>Add the compensation activities</h2>
+<h2 id="compensation-activities"><a class="anchor" href="#compensation-activities"></a>Compensation Activities Sprint</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In this section, you will add two compensation activities for <code>Prepare for Shipping</code> and  <code>Forward to External Supplier</code>.</p>

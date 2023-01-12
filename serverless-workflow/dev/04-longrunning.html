@@ -113,7 +113,7 @@
     <a class="nav-link" href="04-longrunning.html">4. Long Running Workflows</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#waitevent">Wait an event</a>
+    <a class="nav-link" href="#waitevent">Wait Event Sprint</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="#eventing">Eventing</a>
@@ -128,13 +128,13 @@
     <a class="nav-link" href="05-compensation.html">5. Compensation</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="05-compensation.html#cancellingevent">Cancelling event</a>
+    <a class="nav-link" href="05-compensation.html#cancellingevent">Cancelling Event Sprint</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="05-compensation.html#test-cancel">Test the cancelling event</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="05-compensation.html#compensation-activities">Add the compensation activities</a>
+    <a class="nav-link" href="05-compensation.html#compensation-activities">Compensation Activities Sprint</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="05-compensation.html#test-compensation">Testing the compensation</a>
@@ -170,7 +170,7 @@
 <p>Having a graphical notation to orchestrate services is nice, but you might wonder if it is worth it!</p>
 </div>
 <div class="paragraph">
-<p>The real power of a workflow engine gets into action when the process is long running: in other words, when it reaches a pause status, because it has to wait an asynchronous event, a manual intervention, a timer.</p>
+<p>The real power of a workflow engine gets into action when the workflow is <strong>long running</strong>: in other words, when it reaches a pause status, because it has to wait an asynchronous event, a manual intervention or a timer.</p>
 </div>
 <div class="paragraph">
 <p>In this section, you will evolve the workflow to add this long running nature!</p>
@@ -178,7 +178,7 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="waitevent"><a class="anchor" href="#waitevent"></a>Wait an event</h2>
+<h2 id="waitevent"><a class="anchor" href="#waitevent"></a>Wait Event Sprint</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>From a use case perspective, the workflow has to wait for <strong>shipment procedure completion</strong> event.
