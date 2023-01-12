@@ -19,7 +19,11 @@ In short, Serverless Workflow Compensation is very handy whenever dealing with c
 [#cancellingevent]
 == Cancelling Event Sprint
 
-In our use case, we have to deal with situations where customers have to cancel their orders. Specifically, if the cancellation event arrives before the shipping one, it is necessary to call for compensation: the concrete compensation action depends on the previous execution path, if the item was available, the compensation action will call the internal shipping department otherwise the compensation action will deal with the external supplier.
+In our use case, we have to deal with situations where customers have to *cancel their orders*. Specifically, if the cancellation event arrives before the shipping one, it is necessary to call for *compensation*: the concrete compensation action depends on the previous execution path, if the item was available, the compensation action will call the internal shipping department otherwise the compensation action will deal with the external supplier.
+
+The following picture shows an high level design: 
+
+image:high-level-flow-3.png[]
 
 NOTE: Given the simplistic nature of the example, one might consider replacing compensation with a gateway followed by compensatory actions. However, it should be borne in mind that in an even slightly more complex flow, implementing compensation in imperative mode would make the implementation complex and error prone.
 
