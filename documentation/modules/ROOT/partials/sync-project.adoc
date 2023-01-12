@@ -1,4 +1,4 @@
-[TIP] 
+[IMPORTANT] 
 ====
 You can compare your resulting workflow with the expected solution at this stage in `solution/{sol-stage}`
 ====

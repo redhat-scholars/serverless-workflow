@@ -202,6 +202,8 @@ TIP: you can click on state in the workflow diagram and the tool will bring you 
   }
 }
 ----
++
+NOTE: The rest service is invoked with two _arguments_, a dummy `supplier-id` (`1`) and the `orderId`.
 
 :sol-stage: 02-rest
 include::partial$sync-project.adoc[]
