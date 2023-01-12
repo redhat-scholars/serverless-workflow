@@ -175,14 +175,22 @@
 <div class="paragraph">
 <p>In this section, you will evolve the workflow to add this long running nature!</p>
 </div>
+<div class="paragraph">
+<p>From a use case perspective, the workflow has to wait for an <em>asynchronous</em> event which confirms the completion <strong>shipment procedures</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The following picture shows an high level design:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/high-level-flow-2.png" alt="high level flow 2"></span></p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="waitevent"><a class="anchor" href="#waitevent"></a>Wait Event Sprint</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From a use case perspective, the workflow has to wait for <strong>shipment procedure completion</strong> event.
-For sake of simplicity, let&#8217;s imagine that an external integration service is able to homogenize events arriving from the internal department and those arriving from the external supplier.</p>
+<p>For sake of simplicity, let&#8217;s imagine that an external integration service is able to homogenize events arriving from the internal department and those arriving from the external supplier.</p>
 </div>
 <div class="paragraph">
 <p>The event will bring an important information the <strong>correlation key</strong>, in our use case is the <code>orderId</code>.
