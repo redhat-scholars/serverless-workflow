@@ -537,7 +537,41 @@ At the time of writing, the diagram rendering has a bug that shows overlapping l
 <div class="sect1">
 <h2 id="test-compensation"><a class="anchor" href="#test-compensation"></a>Testing the compensation</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>To test the compensation you have to send the following events:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>New order (<code>OrderEventType</code>)</p>
+</li>
+<li>
+<p>Cancel the order (<code>CancelEventType</code>)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Then you can check that the compensation  activity is triggered.</p>
+</div>
+<div class="paragraph">
+<p>Unless, you changed it before, the rest call provided in <code>probe.http</code> contains the item id <code>1110</code> which is supposed to trigger the internal shipping path. So when you trigger the cancellation you should see in the log the following line:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">Restore Inventory</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Repeat the test using an item id with no <code>0</code> (e.g. <code>1234</code>), upon cancellation you should see in the log the following line:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">Cancel Supplier Order</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>CONGRATULATION!!!</strong> Your Serverless Workflow compensates wisely!</p>
+</div>
 </div>
 </div>
 <nav class="pagination">
