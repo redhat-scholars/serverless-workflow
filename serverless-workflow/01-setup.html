@@ -306,44 +306,7 @@ Add the comma as required by JSON rules (before or after depending on the key/va
 <h2 id="base-image"><a class="anchor" href="#base-image"></a>Pull the serverless data index image</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In order to run and test locally the Serverless Workflow project, you need the data index container image, it will be <strong>started behind the scene by Quarkus</strong>.
-However, since it&#8217;s distributed through the Red Hat official registry you have to login before pulling the image.</p>
-</div>
-<div class="paragraph">
-<p>Find here the instruction on how to create / retrieve your credentials: <a href="https://access.redhat.com/RegistryAuthentication">Registry Authentication</a></p>
-</div>
-<div class="paragraph">
-<p>Run the following command to login and pull the image:</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman login -u $REGISTRY_REDHAT_IO_USERNAME -p $REGISTRY_REDHAT_IO_PASSWORD registry.redhat.io
-podman pull registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.25</code></pre>
-</div>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-if you are a Mac Silicon M1 user, you can pull the image adding the following parameter <code>--platform linux/amd64</code>.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock caution">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-caution" title="Caution"></i>
-</td>
-<td class="content">
-Unfortunately, Podman is not already a first citizen in the Quarkus world, so you need to apply carefully the following instructions,
-</td>
-</tr>
-</table>
+<p>Instructions to <strong>install</strong> Podman and <strong>configure</strong> Quarkus (testcontainer) to rely on it:</p>
 </div>
 <div class="tabset is-loading">
 <div class="ulist tabs">
@@ -417,6 +380,14 @@ echo "ryuk.container.privileged = true" &gt;&gt;  ~/.testcontainers.properties</
 </div>
 </div>
 <div class="paragraph">
+<p>Configure <strong>testcontainers</strong> through the following commands:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "ryuk.container.privileged = true" &gt;  ~/.testcontainers.properties</code></pre>
+</div>
+</div>
+<div class="paragraph">
 <p>For more information and troubleshooting refer to <a href="https://xphyr.net/post/podman_on_osx/" class="bare">https://xphyr.net/post/podman_on_osx/</a></p>
 </div>
 </div>
@@ -434,6 +405,34 @@ echo "ryuk.container.privileged = true" &gt;&gt;  ~/.testcontainers.properties</
 </div>
 </div>
 </div>
+</div>
+<div class="paragraph">
+<p>In order to run and test locally the Serverless Workflow project, you need the data index container image, it will be <strong>started behind the scene by Quarkus</strong>.
+However, since it&#8217;s distributed through the Red Hat official registry you have to login before pulling the image.</p>
+</div>
+<div class="paragraph">
+<p>Find here the instruction on how to create / retrieve your credentials: <a href="https://access.redhat.com/RegistryAuthentication">Registry Authentication</a></p>
+</div>
+<div class="paragraph">
+<p>Run the following command to login and pull the image:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman login -u $REGISTRY_REDHAT_IO_USERNAME -p $REGISTRY_REDHAT_IO_PASSWORD registry.redhat.io
+podman pull --platform linux/amd64 registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.25</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The parameter <code>--platform linux/amd64</code> is important when you run it on a Mac Silicon M1 (which has a different processor architecture)
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
