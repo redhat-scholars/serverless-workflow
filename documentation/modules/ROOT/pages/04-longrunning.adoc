@@ -101,9 +101,9 @@ image::order-shipped.png[]
 
 7. *Update* the previous `Order Shipped` event state *adding* the _transition_ to `Notify Customer`
 
-:git-tag: longrunning-wait
+:sol-stage: 03-long-wait
 include::partial$sync-project.adoc[]
-:!git-tag:
+:!sol-stage:
 
 [#eventing]
 == Eventing

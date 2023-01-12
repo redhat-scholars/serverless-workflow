@@ -141,6 +141,10 @@ This is the expected result:
 
 image::inventory-final.png[]
 
+:sol-stage: 01-inventory
+include::partial$sync-project.adoc[]
+:!sol-stage:
+
 [#test]
 == Test the workflow logic
 
@@ -198,6 +202,10 @@ TIP: you can click on state in the workflow diagram and the tool will bring you 
   }
 }
 ----
+
+:sol-stage: 02-rest
+include::partial$sync-project.adoc[]
+:!sol-stage:
 
 [#test-rest]
 == Test the external REST service

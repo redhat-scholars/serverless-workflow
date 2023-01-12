@@ -146,9 +146,9 @@ The following picture shows the result of the above procedure on the workflow di
 
 image::cancel-event.png[]
 
-:git-tag: cancel-event
+:sol-stage: 04-cancelling
 include::partial$sync-project.adoc[]
-:!git-tag:
+:!sol-stage:
 
 [#test-cancel]
 == Test the cancelling event
@@ -244,6 +244,10 @@ In the workflow diagram you should see the following situation:
 image:compensation-activities.png[]
 
 WARNING: At the time of writing, the diagram rendering has a bug that shows overlapping lines, so the final outcome is slightly confusing.
+
+:sol-stage: 05-compensation
+include::partial$sync-project.adoc[]
+:!sol-stage:
 
 [#test-compensation]
 == Testing the compensation
