@@ -255,3 +255,28 @@ include::partial$sync-project.adoc[]
 
 [#test-compensation]
 == Testing the compensation
+
+To test the compensation you have to send the following events:
+
+1. New order (`OrderEventType`)
+2. Cancel the order (`CancelEventType`)
+
+Then you can check that the compensation  activity is triggered.
+
+Unless, you changed it before, the rest call provided in `probe.http` contains the item id `1110` which is supposed to trigger the internal shipping path. So when you trigger the cancellation you should see in the log the following line:
+
+[.console-output]
+[source, json,subs="+macros,+attributes"]
+----
+Restore Inventory
+----
+
+Repeat the test using an item id with no `0` (e.g. `1234`), upon cancellation you should see in the log the following line:
+
+[.console-output]
+[source, json,subs="+macros,+attributes"]
+----
+Cancel Supplier Order
+----
+
+**CONGRATULATION!!!** Your Serverless Workflow compensates wisely!

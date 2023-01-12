@@ -228,4 +228,6 @@ In the log file you should notice a different output coming from the REST implem
 Supplier 1 received the order order-123
 ----
 
-You can also notice that the workflow invocation returns a different payload. What changed? Why?
+**CONGRATULATION!!!** Now your Serverless Workflow call a REST service!
+
+NOTE: You can also notice that the workflow invocation returns a different payload. What's changed? Why?

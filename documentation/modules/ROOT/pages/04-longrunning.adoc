@@ -156,4 +156,6 @@ image:devui-shippingevent.png[]
 +
 image:devui-refresh.png[]
 
+**CONGRATULATION!!!** Your Serverless Workflow resumes when asynchronous events arrives!
+
 IMPORTANT: The `ce-orderid` attribute is the hook to the workflow instance, you can run multiple parallel workflow instances which will wait the corresponding events.
