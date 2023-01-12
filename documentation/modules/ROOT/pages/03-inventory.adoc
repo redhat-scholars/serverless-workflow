@@ -16,6 +16,10 @@ An e-commerce company has to implement the following **order management** workfl
 
 * As long as the order is not shipped, the customer has the option of **cancelling the order** by also cancelling the shipping.
 
+The following picture shows an high level design: 
+
+image:high-level-flow.png[]
+
 :sprint-note: pass:c,q[footnote:disclaimer[A Sprint is an iteration in the Agile methodology, which aims to be time-boxed, self container and always executable.]]
 
 The final use case will be implemented going through a set consecutive _sprints_{sprint-note}, in every sprint you are going to experience a new feature of the Serverless Workflow specification.
