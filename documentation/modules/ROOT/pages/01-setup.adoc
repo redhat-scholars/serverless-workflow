@@ -3,13 +3,13 @@ include::_attributes.adoc[]
 
 This section provides guidance on how to set up your local computer to host a Serverless Workflow development environment.
 
-WARNING: It's recommended to execute this section with a reliable connection. Avoid to run this part of the lab together with other people because of the bandwidth required. Moreover, some tasks will take a long time to download resources.
+WARNING: It's recommended to execute this section with a reliable connection. Avoid running this part of the lab together with other people because of the bandwidth required. Moreover, some tasks will take a long time to download resources.
 
 == USB Stick Resources 
 
-If you had no time to prepare upfront your environment, the lab instructors will provide you an USB Stick to significantly reduce the network usage during the lab execution:
+If you had no time to prepare upfront your environment, the lab instructors will provide you with a USB Stick to significantly reduce the network usage during the lab execution:
 
-1. Copy on your laptop the folder `swf-lab`, unplug the USB Stick and pass it on to another attendee or the instructor.
+1. Copy on your laptop the folder `swf-lab`, unplug the USB Stick, and pass it on to another attendee or the instructor.
 
 2. Load the images:
 +
@@ -28,7 +28,7 @@ cd ~
 tar xvzf swf-lab/m2-repository.tar.gz
 ----
 
-4. Install the Visual Studio Code using the provided the binaries in the `swf-lab` folder
+4. Install the Visual Studio Code using the provided binaries in the `swf-lab` folder
 
 [#prerequisite]
 == Prerequisite tools
@@ -61,13 +61,13 @@ Please have them installed and configured before you get started with any of the
 | https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.zip[Download]
 
 | `podman`
-3+| Check detailed instruction *below* under the proper tab
+3+| Check the detailed instructions *below* under the proper tab
 
 |===
 
 NOTE: If you have already installed _Docker_ in your environment, or you feel more comfortable with it, feel free to replace Podman with Docker.
 
-Instructions to *install* Podman and *configure* Quarkus (testcontainer) to rely on it:
+Instructions to *install* Podman and *configure* Quarkus (Testcontainer) to rely on it:
 
 [tabs]
 ====
@@ -80,15 +80,23 @@ Issue the following commands:
 [source,bash,subs="+macros,+attributes"]
 ----
 sudo dnf install -y podman podman-docker
+----
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
 systemctl --user enable podman.socket --now
 ----
 
-Configure *testcontainers* through the following commands: 
+Configure *Testcontainers* through the following commands: 
 
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
 echo "docker.host = unix:///run/user/$(id -u)/podman/podman.sock" > ~/.testcontainers.properties
+----
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
 echo "ryuk.container.privileged = true" >>  ~/.testcontainers.properties
 ----
 
@@ -97,7 +105,7 @@ For more information and troubleshooting refer to https://quarkus.io/guides/podm
 Mac::
 +
 --
-Leverage Homebrew to install Podman and its required dependencies:
+Leverage Homebrew to install *Podman* and its required dependencies:
 
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
@@ -105,31 +113,25 @@ Leverage Homebrew to install Podman and its required dependencies:
 brew install podman
 ----
 
-Install the podman-mac-helper utility:
+Create your *Podman* machine, set it to run rootful containers, then start it:
 
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
-sudo /usr/local/bin/podman-mac-helper install
+podman machine init
 ----
-
-Add the following line to your bash profile
-
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-alias docker='podman'
-----
-
-Before starting the Podman machine, set it to prefer rootful container execution:
-
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
 podman machine set --rootful
 ----
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman machine start
+----
 
-Configure *testcontainers* through the following commands: 
+Configure *Testcontainers* through the following commands: 
 
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
@@ -137,7 +139,54 @@ Configure *testcontainers* through the following commands:
 echo "ryuk.container.privileged = true" >  ~/.testcontainers.properties
 ----
 
-For more information and troubleshooting refer to https://xphyr.net/post/podman_on_osx/[]
+--
+Mac (Apple M1)::
++
+--
+Leverage Homebrew to install *Podman* and its required dependencies:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+brew install podman
+----
+
+Create your *Podman* machine, set it to run rootful containers, then start it:
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman machine init
+----
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman machine set --rootful
+----
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman machine start
+----
+
+Add support for running x86_64-based containers on a Mac with an M1 chip with the following commands
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman machine ssh
+sudo -i
+rpm-ostree install qemu-user-static
+systemctl reboot
+----
+
+Configure *Testcontainers* through the following commands: 
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+echo "ryuk.container.privileged = true" >  ~/.testcontainers.properties
+----
 
 --
 Windows::
@@ -202,21 +251,27 @@ However, since it's distributed through the Red Hat official registry you have t
 
 Find here the instruction on how to create / retrieve your credentials: https://access.redhat.com/RegistryAuthentication[Registry Authentication]
 
-Run the following command to login and pull the image:
+Login to *registry.redhat.io* with your Red Hat credentials;
 
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
-podman login -u $REGISTRY_REDHAT_IO_USERNAME -p $REGISTRY_REDHAT_IO_PASSWORD registry.redhat.io
+podman login registry.redhat.io
+----
+
+Pull the serverless data index image:
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
 podman pull --platform linux/amd64 registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.25
 ----
 
-NOTE: The parameter `--platform linux/amd64` is important when you run it on a Mac Silicon M1 (which has a different processor architecture)
+NOTE: The parameter `--platform linux/amd64` is important when you run it on a Mac with an M1 chip (which has a different processor architecture)
 
 [#project-start]
 == Clone and build the startup project
 
-Get your local copy of the start up project:
+Get your local copy of the start-up project:
 
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
@@ -224,7 +279,7 @@ Get your local copy of the start up project:
 git clone https://github.com/dmarrazzo/order-swf.git
 ----
 
-Enter in the project folder and start quarkus in dev mode.
+Enter in the project folder and start Quarkus in dev mode.
 
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
@@ -233,5 +288,4 @@ cd order-swf
 mvn quarkus:dev
 ----
 
-WARNING: The first time you launch `maven` on this project, it is going to take a considerable amount of time because it has to download all the dependencies from internet.
-
+WARNING: The first time you launch `maven` on this project, it is going to take a considerable amount of time because it has to download all the dependencies from the Internet.
