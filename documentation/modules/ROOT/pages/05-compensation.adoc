@@ -150,7 +150,7 @@ image::cancel-event.png[]
 include::partial$sync-project.adoc[]
 :!git-tag:
 
-[#cancellingtest]
+[#test-cancel]
 == Test the cancelling event
 
 In this section, we are going to test that the workflow is able to resume the execution when two types of CloudEvents arrives:
@@ -244,3 +244,6 @@ In the workflow diagram you should see the following situation:
 image:compensation-activities.png[]
 
 WARNING: At the time of writing, the diagram rendering has a bug that shows overlapping lines, so the final outcome is slightly confusing.
+
+[#test-compensation]
+== Testing the compensation
