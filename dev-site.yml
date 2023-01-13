@@ -3,14 +3,15 @@ runtime:
 
 site:
   title: OpenShift Serverless Logic Tutorial (Dev Mode)
-  url: https://redhat-scholars.github.io/serverless-workflow/osl/dev
+  url: http://localhost:3000/rhs-build-course/index.html
   start_page: osl::index.adoc
 
 content:
   sources:
     - url: .
-      branches: HEAD
+      branches: dev
       start_path: documentation
+
 asciidoc:
   attributes:
     title: OpenShift Serverless Logic Tutorial (Dev Mode)
@@ -20,7 +21,11 @@ asciidoc:
 ui:
   bundle:
     url: https://github.com/redhat-developer-demos/rhd-tutorial-ui/releases/download/v0.1.9/ui-bundle.zip
-    snapshot: true
-  supplemental_files: ./supplemental-ui
+  supplemental_files:
+    - path: ./supplemental-ui
+    - path: .nojekyll
+    - path: ui.yml
+      contents: "static_files: [ .nojekyll ]"
+
 output:
   dir: ./gh-pages
