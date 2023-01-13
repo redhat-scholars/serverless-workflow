@@ -5,30 +5,6 @@ This section provides guidance on how to set up your local computer to host a Se
 
 WARNING: It's recommended to execute this section with a reliable connection. Avoid running this part of the lab together with other people because of the bandwidth required. Moreover, some tasks will take a long time to download resources.
 
-== USB Stick Resources 
-
-If you had no time to prepare upfront your environment, the lab instructors will provide you with a USB Stick to significantly reduce the network usage during the lab execution:
-
-1. Copy on your laptop the folder `swf-lab`, unplug the USB Stick, and pass it on to another attendee or the instructor.
-
-2. Load the images:
-+
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-podman image load --input swf-lab/oci-images-backup.tar
-----
-
-3. Load the maven repository:
-+
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-cd ~
-tar xvzf swf-lab/m2-repository.tar.gz
-----
-
-4. Install the Visual Studio Code using the provided binaries in the `swf-lab` folder
 
 [#prerequisite]
 == Prerequisite tools
@@ -46,9 +22,9 @@ Please have them installed and configured before you get started with any of the
 | https://git-scm.com/download/win[Download]
 
 | https://code.visualstudio.com/[Visual Studio Code]
-| https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions[Linux installation]
-| https://code.visualstudio.com/docs/setup/mac[Mac Install]
-| https://code.visualstudio.com/docs/setup/windows[Windows Install]
+| https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions[Download] or https://code.visualstudio.com/docs/setup/linux#_installing-rpm-package-manually[Install from the provided USB Stick Resources]
+| https://code.visualstudio.com/docs/setup/mac[Download]  or *Install from the provided USB Stick Resources*
+| https://code.visualstudio.com/docs/setup/windows[Download] or *Install from the provided USB Stick Resources*
 
 | OpenJDK v11 or v17
 | `dnf install -y java-17-openjdk-devel`
@@ -57,13 +33,14 @@ Please have them installed and configured before you get started with any of the
 
 | `Apache Maven`
 | `dnf install -y maven`
-| https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz[Download]
+| https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz[Download] or `brew install maven`
 | https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.zip[Download]
 
 | `podman`
 3+| Check the detailed instructions *below* under the proper tab
 
 |===
+
 
 NOTE: If you have already installed _Docker_ in your environment, or you feel more comfortable with it, feel free to replace Podman with Docker.
 
@@ -203,6 +180,33 @@ podman machine set --rootful
 ----
 --
 ====
+
+
+== USB Stick Resources 
+
+If you had no time to prepare upfront your environment, the lab instructors will provide you with a USB Stick to significantly reduce the network usage during the lab execution:
+
+1. Copy on your laptop the folder `swf-lab`, unplug the USB Stick, and pass it on to another attendee or the instructor.
+
+2. Load the images:
++
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman image load --input swf-lab/oci-images-backup.tar
+----
+
+3. Load the maven repository:
++
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+cd ~
+tar xvzf swf-lab/m2-repository.tar.gz
+----
+
+4. Install the Visual Studio Code using the provided binaries in the `swf-lab` folder
+
 
 [#vscode-extensions]
 == Visual Studio Code Extensions
