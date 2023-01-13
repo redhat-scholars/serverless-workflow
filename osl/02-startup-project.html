@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Explore the startup project :: Serverless Workflow Tutorial</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/osl/osl/02-startup-project.html">
+    <link rel="prev" href="01-setup.html">
+    <link rel="next" href="03-inventory.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://redhat-scholars.github.io/osl">Serverless Workflow Tutorial</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="osl" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="01-setup.html">1. Setup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#prerequisite">Prerequisite tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#vscode-extensions">Visual Studio Code Extensions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#base-image">Pull the serverless data index image</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#project-start">Clone and build the startup project</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-startup-project.html">2. Startup Project</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#structure">The project structure</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#run">Run the workflow</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#inspect">Inspect the workflow</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#monitor">Monitor the runtime</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-inventory.html">3. Inventory Logic</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#usecase">The use case</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#inventory">The Inventory Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#test">Test the workflow logic</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#call-rest">Call an external REST service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#test-rest">Test the external REST service</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="04-longrunning.html">4. Long Running Workflows</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-longrunning.html#waitevent">Wait Event Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-longrunning.html#eventing">Eventing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-longrunning.html#test-events">Test the events</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="05-compensation.html">5. Compensation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#cancellingevent">Cancelling Event Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#test-cancel">Test the cancelling event</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#compensation-activities">Compensation Activities Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#test-compensation">Testing the compensation</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Serverless Logic Tutorial</a></li>
+    <li><a href="02-startup-project.html">2. Startup Project</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/dev/documentation/modules/ROOT/pages/02-startup-project.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Explore the startup project</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section explores the key elements of a serverless workflow project.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="structure"><a class="anchor" href="#structure"></a>The project structure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Serverless Workflow technology was designed according to Microservice Architecture principles.
+A production ready solution is supported by multiple services: persistence, data index, dashboards, messaging, to name but a few.</p>
+</div>
+<div class="paragraph">
+<p>However, in this tutorial, we are going to focus on the core service which is responsible for the workflow logic execution.</p>
+</div>
+<div class="paragraph">
+<p>The workflow core logic is hosted by a plain Quarkus project with some extensions.</p>
+</div>
+<div class="paragraph">
+<p>Serverless Workflow leverages some capabilities coming from of the <strong>Kogito</strong> upstream initiative. For such reason, the extensions have the <code>kogito</code> prefix:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>kogito-quarkus-serverless-workflow</code></p>
+</li>
+<li>
+<p><code>kogito-addons-quarkus-persistence-jdbc</code></p>
+</li>
+<li>
+<p><code>kogito-addons-quarkus-process-svg</code></p>
+</li>
+<li>
+<p><code>kogito-quarkus-serverless-workflow-devui</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Other common Quarkus extensions used are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>quarkus-smallrye-openapi</code></p>
+</li>
+<li>
+<p><code>quarkus-resteasy</code></p>
+</li>
+<li>
+<p><code>quarkus-resteasy-jackson</code></p>
+</li>
+<li>
+<p><code>quarkus-jdbc-postgresql</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It&#8217;s worth noticing that, at the moment, serverless workflow extensions are not aligned to the quarkus platform, so they relies a dedicated <em>bom</em>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.kie.kogito&lt;/groupId&gt;
+  &lt;artifactId&gt;kogito-bom&lt;/artifactId&gt;
+  &lt;version&gt;1.27.0.Final-redhat-00005&lt;/version&gt;
+  &lt;type&gt;pom&lt;/type&gt;
+  &lt;scope&gt;import&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The version <code>1.27.0.Final-redhat-00005</code> comes from the developer preview.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run"><a class="anchor" href="#run"></a>Run the workflow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If <em>Quarkus</em> is not running, <strong>start it</strong>:</p>
+</div>
+<div class="listingblock lines_7 console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./mvnw quarkus:dev</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Open a new terminal and start the flow with the following command:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">#!/bin/sh
+curl -X POST <a href="http://localhost:8080/order" class="bare">http://localhost:8080/order</a> \
+  -H 'Content-Type:application/json' -H 'Accept:application/json' \
+  -d '{ "workflowdata": { "orderId": "order-123"} }'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should get back the an output which resembles the following:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{"id":"7484e05f-3b95-4ac7-8c09-a2c717a0293e","workflowdata":{"orderId":"order-123"}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the other terminal where Quarkus is running you can spot the following message in log:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">Order received: order-123</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>CONGRATULATION!!!</strong> Your first Serverless Workflow was executed as expected!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="inspect"><a class="anchor" href="#inspect"></a>Inspect the workflow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Enter in the project folder and launch Visual Studio Code:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd order-swf
+code .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Open the workflow file: <code>src/main/resources/order.sw.json</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the editor is split in two panes: the text editor and the visual representation of the workflow</p>
+</li>
+<li>
+<p>at the moment there is no way to graphically edit the workflow, the only option available is to edit the <em>json</em> file on the left side and watch the changes in the diagram</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s analyze the textual notation:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>there are the classical information to identify uniquely the workflow (<code>id</code>, <code>version</code>, etc)</p>
+</li>
+<li>
+<p><code>start</code> attribute point to the first and only state in the flow <code>Order Received</code></p>
+</li>
+<li>
+<p><code>functions</code> are a set of reusable definitions for service invocations and/or expression evaluation</p>
+</li>
+<li>
+<p><code>states</code> contains a set of states which are the building block of the workflow logic</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The workflow logic is minimal:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Order Received</code> is an operation with one simple action: print a message in the standard output console.</p>
+</li>
+<li>
+<p>It&#8217;s worth noticing that also this simple <strong>print</strong> capability is declared among the functions and more precisely it&#8217;s a custom function which is an extension to the standard specification.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To learn more about Serverless Workflow notation and semantic don&#8217;t hesitate to read the official specification document which is really clear and accessible: <a href="https://github.com/serverlessworkflow/specification/blob/0.8.x/specification.md" class="bare">https://github.com/serverlessworkflow/specification/blob/0.8.x/specification.md</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="monitor"><a class="anchor" href="#monitor"></a>Monitor the runtime</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There is an important tool to investigate and potentially debug workflow instances at runtime:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From the Quarkus terminal, type <code>d</code>, it should open for you the browser in the DevUI console: <a href="http://localhost:8080/q/dev/" class="bare">http://localhost:8080/q/dev/</a></p>
+</li>
+<li>
+<p>Among other tiles focus on the <strong>Kogito Serverless Workflow Tools</strong> one, then click on <strong>Workflow Instances</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/devui-swf.png" alt="devui swf">
+</div>
+</div>
+</li>
+<li>
+<p>Click on the <strong>Order Workflow</strong> instance to show the details</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/devui-instances.png" alt="devui instances">
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Explore the information available:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>workflow diagram</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/devui-svg.png" alt="devui svg">
+</div>
+</div>
+</li>
+<li>
+<p>timeline</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/devui-timeline.png" alt="devui timeline">
+</div>
+</div>
+</li>
+<li>
+<p>details</p>
+</li>
+<li>
+<p>variables</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/devui-details-vars.png" alt="devui details vars">
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Finally, have a look at the <strong>monitoring</strong> page charts on your own!</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="01-setup.html">1. Setup</a></span>
+  <span class="next"><a href="03-inventory.html">3. Inventory Logic</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

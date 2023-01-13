@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Long Running Workflows :: Serverless Workflow Tutorial</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/osl/osl/04-longrunning.html">
+    <link rel="prev" href="03-inventory.html">
+    <link rel="next" href="05-compensation.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://redhat-scholars.github.io/osl">Serverless Workflow Tutorial</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="osl" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="01-setup.html">1. Setup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#prerequisite">Prerequisite tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#vscode-extensions">Visual Studio Code Extensions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#base-image">Pull the serverless data index image</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#project-start">Clone and build the startup project</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-startup-project.html">2. Startup Project</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-startup-project.html#structure">The project structure</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-startup-project.html#run">Run the workflow</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-startup-project.html#monitor">Monitor the runtime</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-inventory.html">3. Inventory Logic</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#usecase">The use case</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#inventory">The Inventory Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#test">Test the workflow logic</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#call-rest">Call an external REST service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#test-rest">Test the external REST service</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="04-longrunning.html">4. Long Running Workflows</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#waitevent">Wait Event Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#eventing">Eventing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#test-events">Test the events</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="05-compensation.html">5. Compensation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#cancellingevent">Cancelling Event Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#test-cancel">Test the cancelling event</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#compensation-activities">Compensation Activities Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#test-compensation">Testing the compensation</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Serverless Logic Tutorial</a></li>
+    <li><a href="04-longrunning.html">4. Long Running Workflows</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/dev/documentation/modules/ROOT/pages/04-longrunning.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Long Running Workflows</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Having a graphical notation to orchestrate services is nice, but you might wonder if it is worth it!</p>
+</div>
+<div class="paragraph">
+<p>The real power of a workflow engine gets into action when the workflow is <strong>long running</strong>: in other words, when it reaches a pause status, because it has to wait an asynchronous event, a manual intervention or a timer.</p>
+</div>
+<div class="paragraph">
+<p>In this section, you will evolve the workflow to add this long running nature!</p>
+</div>
+<div class="paragraph">
+<p>From a use case perspective, the workflow has to wait for an <em>asynchronous</em> event which confirms the completion <strong>shipment procedures</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The following picture shows an high level design:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/high-level-flow-2.png" alt="high level flow 2"></span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="waitevent"><a class="anchor" href="#waitevent"></a>Wait Event Sprint</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For sake of simplicity, let&#8217;s imagine that an external integration service is able to homogenize events arriving from the internal department and those arriving from the external supplier.</p>
+</div>
+<div class="paragraph">
+<p>The event will bring an important information the <strong>correlation key</strong>, in our use case is the <code>orderId</code>.
+As the name implies, the correlation key is important to address the correct workflow instance.</p>
+</div>
+<div class="paragraph">
+<p>The <strong>correlation key MUST BE initialized</strong> at creation time with an incoming <strong>CloudEvent</strong>.</p>
+</div>
+<div class="paragraph">
+<p>This implies two <em>catching event nodes</em> are required:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>one at the beginning of the flow to start the workflow</p>
+</li>
+<li>
+<p>another after the <code>Prepare for Shipping</code> and <code>Forward to External Supplier</code> to wait the shipping event</p>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Define the event types</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"events": [
+  {
+    "name": "orderEvent",
+    "kind": "consumed",
+    "type": "OrderEventType",
+    "source": "Client",
+    "correlation": [
+      {
+        "contextAttributeName": "orderid"
+      }
+    ]
+  },
+  {
+    "name": "shippingEvent",
+    "kind": "consumed",
+    "type": "ShippingEventType",
+    "source": "Shipper",
+    "correlation": [
+      {
+        "contextAttributeName": "orderid"
+      }
+    ]
+  }
+],</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The definition is quite self explanatory: the workflow can <strong>consume</strong> two different <strong>types of events</strong>: <code>OrderEventType</code> and <code>ShippingEventType</code>, from two different <strong>sources</strong>.
+One important aspect is the <em>correlation definition</em> which says that <em>CloudEvent</em> has to carry a special <strong>attribute in the header</strong> named <code>orderid</code> (CloudEvents attributes are lowercase).</p>
+</div>
+</li>
+<li>
+<p><strong>Add</strong> an <em>event node</em> after the start node</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "Order Received",
+  "type": "event",
+  "onEvents": [
+    {
+      "eventRefs": [
+        "orderEvent"
+      ]
+    }
+  ],
+  "transition": "Check Inventory"
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Update</strong> the <em>start</em> attribute to match the event state <code>Order Received</code>, this is the graphical outcome:</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/order-received.png" alt="order received">
+</div>
+</div>
+</li>
+<li>
+<p><strong>Add</strong> another <em>event</em> state at the end:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>name: <code>Order Shipped</code></p>
+</li>
+<li>
+<p>eventRef: <code>shippingEvent</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Update</strong> <code>Prepare for Shipping</code> and <code>Forward to External Supplier</code> to <strong>transition</strong> in <code>Order Shipped</code> event node</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/order-shipped.png" alt="order shipped">
+</div>
+</div>
+</li>
+<li>
+<p>To complete the use case implementation, you have to add another operation that is responsible of <strong>notifying</strong> the customer about the shipping status with usual tracking information:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>copy</strong> the previous operation state <code>Prepare for Shipping</code></p>
+</li>
+<li>
+<p><strong>rename</strong> it to <code>Notify Customer</code></p>
+</li>
+<li>
+<p><strong>update</strong> the message to match the operation name</p>
+</li>
+<li>
+<p><strong>remove</strong> the existing <em>transition</em> and <strong>add</strong> the attribute <code>"end": true</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Update</strong> the previous <code>Order Shipped</code> event state <strong>adding</strong> the <em>transition</em> to <code>Notify Customer</code></p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can compare your resulting workflow with the expected solution at this stage in <code>solution/03-long-wait</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="eventing"><a class="anchor" href="#eventing"></a>Eventing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Events in Serverless Workflow comply to the <a href="https://cloudevents.io/">CloudEvents</a> standard which is under the <a href="https://cncf.io">Cloud Native Computing Foundation</a>.</p>
+</div>
+<div class="paragraph">
+<p>Moreover, Serverless Workflow, and in general <strong>OpenShift Serverless Logic</strong>, aims to fit seamlessly in <a href="https://knative.dev/docs/eventing">Knative eventing</a>.</p>
+</div>
+<div class="paragraph">
+<p>For such a reason, Serverless Workflow exposes two channels to ingest <em>CloudEvents</em>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>HTTP POST</p>
+</li>
+<li>
+<p>Kafka Broker</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The developer runtime listens for <em>CloudEvents</em> on the root path of the standard HTTP channel (e.g. <code>http:/localhost:8080/</code>).
+In general, the Serverless Workflow runtime can expose multiple endpoints to ingest different types of events.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="test-events"><a class="anchor" href="#test-events"></a>Test the events</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To <em>start</em> the workflow and subsequently <em>advance</em> it, you have to inject two <strong>types</strong> of <em>CloudEvent</em>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>OrderEventType</code></p>
+</li>
+<li>
+<p><code>ShippingEventType</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Inside the http probing file, there are already 3 examples of <em>CloudEvents</em>, for the current test we only need the first two.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Open</strong> <code>src/test/resources/probe.http</code> and <strong>identify</strong> the first POST statement after the comment <em>Start order workflow through CloudEvent</em></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Observe the feature of the http request: along with the usual HTTP Headers, there are some distinctive <strong>attributes</strong> of the <em>CloudEvents</em> specification, they all starts with the <code>ce-</code> prefix and are lowercase.</p>
+</li>
+<li>
+<p>A <strong>special attention</strong> deserves the custom attribute <code>orderid</code> which matches the <code>contextAttributeName</code> used in the event definition for correlation.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>{{orderId}}</code> is a convenient capability of this rest client that allows the variable defined earlier (<code>@orderId=1000</code>) to be used in this way.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Within the <em>json</em> payload, there is again an attribute named <code>orderId</code>, it&#8217;s required because the CloudEvents attributes are not accessible from the workflow logic.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Start the order workflow injecting the <code>OrderEventType</code> <strong>clicking</strong> on <code>Send Request</code></p>
+</li>
+<li>
+<p>Check the flow execution through the DevUI. Refer to <a href="02-startup-project.html#monitor" class="xref page">Monitor the runtime</a> section for detailed guidance. Make sure that the workflow instance is still running. You should notice the <code>shippingEvent</code> is active after the <code>Prepare for Shipping</code> operation.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/devui-shippingevent.png" alt="devui shippingevent"></span></p>
+</div>
+</li>
+<li>
+<p>Inject the <code>ShippingEventType</code> to make the flow advance: <strong>click</strong> <code>Send Request</code> on the POST statement right after the previous one (pay attention to the comment).</p>
+</li>
+<li>
+<p>To check the workflow instance completion, go in the <em>DevUI</em>, on the top right of the workflow instance page, <strong>click</strong> the <em>refresh icon</em>:</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/devui-refresh.png" alt="devui refresh"></span></p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>CONGRATULATION!!!</strong> Your Serverless Workflow resumes when asynchronous events arrives!</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The <code>ce-orderid</code> attribute is the hook to the workflow instance, you can run multiple parallel workflow instances which will wait the corresponding events.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="03-inventory.html">3. Inventory Logic</a></span>
+  <span class="next"><a href="05-compensation.html">5. Compensation</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

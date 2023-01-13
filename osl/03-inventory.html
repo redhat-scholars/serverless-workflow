@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Inventory Logic :: Serverless Workflow Tutorial</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/osl/osl/03-inventory.html">
+    <link rel="prev" href="02-startup-project.html">
+    <link rel="next" href="04-longrunning.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://redhat-scholars.github.io/osl">Serverless Workflow Tutorial</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="osl" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="01-setup.html">1. Setup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#prerequisite">Prerequisite tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#vscode-extensions">Visual Studio Code Extensions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#base-image">Pull the serverless data index image</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#project-start">Clone and build the startup project</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-startup-project.html">2. Startup Project</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-startup-project.html#structure">The project structure</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-startup-project.html#run">Run the workflow</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-startup-project.html#monitor">Monitor the runtime</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-inventory.html">3. Inventory Logic</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#usecase">The use case</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#inventory">The Inventory Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#test">Test the workflow logic</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#call-rest">Call an external REST service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#test-rest">Test the external REST service</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="04-longrunning.html">4. Long Running Workflows</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-longrunning.html#waitevent">Wait Event Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-longrunning.html#eventing">Eventing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-longrunning.html#test-events">Test the events</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="05-compensation.html">5. Compensation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#cancellingevent">Cancelling Event Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#test-cancel">Test the cancelling event</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#compensation-activities">Compensation Activities Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#test-compensation">Testing the compensation</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Serverless Logic Tutorial</a></li>
+    <li><a href="03-inventory.html">3. Inventory Logic</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/dev/documentation/modules/ROOT/pages/03-inventory.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Inventory Logic</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section, you will expand the workflow logic to manage a first stage of fictional use case.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="usecase"><a class="anchor" href="#usecase"></a>The use case</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+As any other tutorial use case, the situation we are going to consider is somewhat realistic, but for sake of simplicity we are going to oversee many <em>real</em> aspects. The primary goal is to show the key capabilities of the Serverless Workflow specification, please, apologise for the many naiveties that domain experts can easily point out.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>An e-commerce company has to implement the following <strong>order management</strong> workflow:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When a new order come in, they need to <strong>check the inventory</strong> for the availability of the items. If the items are available the order will be <strong>prepared for shipping</strong> (picking, packaging, printing label, etc), when the shipping is completed, the shipping department send an event back to the workflow and the customer is <strong>notified</strong> about the shipping status with usual tracking information.</p>
+</li>
+<li>
+<p>If the item is out of stock, the order will be forwarded to a <strong>external supplier</strong> who will take care of the shipping procedure, when the <strong>supplier ships</strong> the order, it also send an event back to the workflow, in such a way the workflow can continue and <strong>send the notification</strong> to the customer.</p>
+</li>
+<li>
+<p>As long as the order is not shipped, the customer has the option of <strong>cancelling the order</strong> by also cancelling the shipping.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following picture shows an high level design:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/high-level-flow.png" alt="high level flow"></span></p>
+</div>
+<div class="paragraph">
+<p>The final use case will be implemented going through a set consecutive <em>sprints</em><sup class="footnote" id="_footnote_disclaimer">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>, in every sprint you are going to experience a new feature of the Serverless Workflow specification.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="inventory"><a class="anchor" href="#inventory"></a>The Inventory Sprint</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this sprint we are going to add the <strong>check inventory</strong> operation and based on the outcome call a <strong>prepare for shipping</strong> or <strong>forward to external supplier</strong>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Open</strong> <code>order.sw.json</code> file</p>
+</li>
+<li>
+<p><strong>Replace</strong> <code>Order Received</code> with <code>Check Inventory</code> in the following places:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>start</p>
+</li>
+<li>
+<p>name of the state</p>
+</li>
+<li>
+<p>the message</p>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+To change all occurrences in one shot: select <code>Order Received</code>, press twice <code>CTRL-D</code>, perform the rename, then press <code>ESC</code>
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Add</strong> after the <code>functionRef</code> object the following logic:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"actionDataFilter": {
+  "fromStateData": ".",
+  "results": "{inventory: .item | test(\"0+\") }"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This code mocks up the check inventory logic: <code>actionDataFilter</code> is a feature to manipulate the workflow data (state scoped), in practical terms it gets the <code>item</code> value and create a new data <code>inventory</code> which value can be <em>true</em> or <em>false</em> if the <code>item</code> contains one or more <code>0</code></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The previous logic is an example of the <strong>JQ expression language</strong> which plays a key role in Serverless Workflow. To evaluate and manipulate data is crucial to gaining some familiarity with this language <a href="https://openshift-knative.github.io/docs/docs/latest/serverless-logic/core/understanding-jq-expressions.html">Understanding JQ expressions</a>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p><strong>Move the cursor</strong> to the end of previous state, <strong>type</strong> a comma and you should get the suggestion pop up</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/vscode-suggestion.png" alt="vscode suggestion">
+</div>
+</div>
+</li>
+<li>
+<p><strong>Select</strong> <code>New switch state</code>, then <strong>edit</strong> the <code>name</code> and the <code>condition</code>:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "Item Available?",
+  "type": "switch",
+  "dataConditions": [
+  {
+    "condition": ".inventory",
+    "transition": "Transition to another state if condition is true"
+  }
+  ],
+  "defaultCondition": {
+    "transition": "Default transition of the workflow"
+  }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Go back to <code>Check Inventory</code> state and <strong>replace</strong> the end declaration with transition to point to the switch state:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"transition": "Item Available?"</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>After the switch state definition <strong>add</strong> a new operation state for <code>Prepare for Shipping</code>:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "Prepare for Shipping",
+  "type": "operation",
+  "end": true,
+  "actions": [
+    {
+      "name": "printAction",
+      "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+          "message": "\"Prepare for Shipping\""
+        }
+      }
+    }
+  ]
+},</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Add</strong> an operation state for <code>Forward to External Supplier</code>:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "Forward to External Supplier",
+  "type": "operation",
+  "end": true,
+  "actions": [
+    {
+      "name": "printAction",
+      "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+          "message": "\"Forward to External Supplier\""
+        }
+      }
+    }
+  ]
+},</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Update</strong> the switch state to point to the correct operation states:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>for the conditional branch set the transition to <code>Prepare for Shipping</code></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/vscode-suggestion-2.png" alt="vscode suggestion 2">
+</div>
+</div>
+</li>
+<li>
+<p>for the default condition set the transition to <code>Forward to External Supplier</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This is the expected result:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/inventory-final.png" alt="inventory final">
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can compare your resulting workflow with the expected solution at this stage in <code>solution/01-inventory</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="test"><a class="anchor" href="#test"></a>Test the workflow logic</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before connecting the workflow to an external service is a good idea to probe it in isolation (i.e. smoke test): in fact, the current actions only print messages in the console.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Open</strong> the http probing file: <code>src/test/resources/probe.http</code></p>
+</li>
+<li>
+<p>Identify the first POST request in the file and just above it <strong>click</strong> on <code>Send Request</code></p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/send-request.png" alt="send request"></span></p>
+</div>
+</li>
+<li>
+<p><strong>Check</strong> the results and the workflow execution in the quarkus console</p>
+</li>
+<li>
+<p>Repeat the previous 2 steps to check that the workflow execution follow the other branch (Forward to External Supplier)</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="call-rest"><a class="anchor" href="#call-rest"></a>Call an external REST service</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Serverless Workflow have a straightforward integration with OpenAPIs.</p>
+</div>
+<div class="paragraph">
+<p>For sake of simplicity, the project contains a Simple REST resource which exposes two operations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sendOrder</code> to send order to a supplier</p>
+</li>
+<li>
+<p><code>cancelOrder</code> to send an order cancellation to a supplier</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The link between the workflow and the rest service is the <strong>OpenAPIs spec file</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The Serverless Workflow expects to find the file in the <code>src/main/resources/specs</code> folder and since the startup project already provide it, you can easily consume it from workflow definition file:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Inspect the OpenAPI yaml file at <code>src/main/resources/specs/supplier.yaml</code></p>
+</li>
+<li>
+<p>Open workflow definition <code>src/main/resources/order.sw.json</code></p>
+</li>
+<li>
+<p>Go in the <code>functions</code> definition section, <strong>add a comma</strong> to the last definition the editor will propose you the two operation available, <strong>accept</strong> the suggestion and add both definitions</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/vscode-suggestion-3.png" alt="vscode suggestion 3">
+</div>
+</div>
+</li>
+<li>
+<p><strong>Identify</strong> the <code>Forward to External Supplier</code> state</p>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+you can click on state in the workflow diagram and the tool will bring you on the state definition line in the textual representation.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p><strong>Replace</strong> the print action with the function call:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "sendOrderRestCall",
+  "functionRef": {
+    "refName": "sendOrder",
+    "arguments": {
+      "supplier-id":"\"1\"",
+      "content":".orderId"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The rest service is invoked with two <em>arguments</em>, a dummy <code>supplier-id</code> (<code>1</code>) and the <code>orderId</code>.
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can compare your resulting workflow with the expected solution at this stage in <code>solution/02-rest</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="test-rest"><a class="anchor" href="#test-rest"></a>Test the external REST service</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Repeat the test you did before.</p>
+</div>
+<div class="paragraph">
+<p>In the log file you should notice a different output coming from the REST implementation:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">2022-12-22 12:58:02,859 INFO  [org.kie.kog.ser.wor.dev.DevModeServerlessWorkflowLogger] (executor-thread-0) Triggered node 'Forward to External Supplier' for process 'order' (e6cdca5b-795c-407a-8c4d-a58ef3e59bc4)
+2022-12-22 12:58:02,860 INFO  [org.kie.kog.ser.wor.dev.DevModeServerlessWorkflowLogger] (executor-thread-0) Triggered node 'sendOrder' for process 'order' (e6cdca5b-795c-407a-8c4d-a58ef3e59bc4)
+Supplier 1 received the order order-123</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>CONGRATULATION!!!</strong> Now your Serverless Workflow call a REST service!</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You can also notice that the workflow invocation returns a different payload. What&#8217;s changed? Why?
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. A Sprint is an iteration in the Agile methodology, which aims to be time-boxed, self container and always executable.
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="02-startup-project.html">2. Startup Project</a></span>
+  <span class="next"><a href="04-longrunning.html">4. Long Running Workflows</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

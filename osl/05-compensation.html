@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Compensation :: Serverless Workflow Tutorial</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/osl/osl/05-compensation.html">
+    <link rel="prev" href="04-longrunning.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://redhat-scholars.github.io/osl">Serverless Workflow Tutorial</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="osl" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="01-setup.html">1. Setup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#prerequisite">Prerequisite tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#vscode-extensions">Visual Studio Code Extensions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#base-image">Pull the serverless data index image</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#project-start">Clone and build the startup project</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-startup-project.html">2. Startup Project</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-startup-project.html#structure">The project structure</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-startup-project.html#run">Run the workflow</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-startup-project.html#monitor">Monitor the runtime</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-inventory.html">3. Inventory Logic</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#usecase">The use case</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#inventory">The Inventory Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#test">Test the workflow logic</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#call-rest">Call an external REST service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#test-rest">Test the external REST service</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="04-longrunning.html">4. Long Running Workflows</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-longrunning.html#waitevent">Wait Event Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-longrunning.html#eventing">Eventing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-longrunning.html#test-events">Test the events</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="05-compensation.html">5. Compensation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#cancellingevent">Cancelling Event Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#test-cancel">Test the cancelling event</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#compensation-activities">Compensation Activities Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#test-compensation">Testing the compensation</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Serverless Logic Tutorial</a></li>
+    <li><a href="05-compensation.html">5. Compensation</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/dev/documentation/modules/ROOT/pages/05-compensation.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Compensation</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Sometimes the unexpected happens</strong>: for example, a customer changes his mind and wants to cancel an order or the stock are running low. Actually, in real world: <em>the change is the only constant!</em></p>
+</div>
+<div class="paragraph">
+<p>Workflow developers start defining the <em>happy path</em>, then they have to deal with unexpected results (out of stock, order cancellation events, etc). A workflow could define a long chain of activities and under certain conditions, it might be necessary to define an exit strategy: warning all parties involved that they <strong>must undo</strong> what has been done before.</p>
+</div>
+<div class="paragraph">
+<p>When you have <strong><em>short running transactions</em></strong> (during milliseconds), you could aspire to the convenient <strong>atomic transaction</strong>, but as long as your tasks span over multiple systems this option brings so many drawbacks which make it unrealistic, especially when they run in a cloud context. In fact, in the microservices architecture, the <a href="https://microservices.io/patterns/data/saga.html:">Saga Pattern</a> is a well know practice when dealing with a cancellation.</p>
+</div>
+<div class="paragraph">
+<p>When you deal with <strong><em>long running transactions</em></strong>, as known as <em>business transactions</em>, that spans of over minutes, hours or days, the <span class="underline">only option available</span> is to revert what was done previously, this could have consequences: for example, Hotels usually applies a cancellation fee when the cancellation is too near to the reservation day.</p>
+</div>
+<div class="paragraph">
+<p>A workflow might involve multiple logical steps, there are conditional paths that depends on specific instance data. When the business logic requires a cancellation of the workflow instance, you need to reverse the flow of actions, undoing what was previously done. In the workflow nomenclature, this capability is called <strong>Compensation</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The good news is that the Serverless Workflow engine helps you in this difficult situations! In fact, the workflow developer can define for each action a <strong>compensation action</strong> that will only be invoked if necessary. Behind the scenes, the workflow engine, when an action is completed, records the corresponding compensation action in a stack. If the workflow subsequently encounters conditions that require compensation, only then does the <strong>engine retrace the stack</strong> of compensation activities to close everything correctly.</p>
+</div>
+<div class="paragraph">
+<p>In short, Serverless Workflow Compensation is very handy whenever dealing with cancellation!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cancellingevent"><a class="anchor" href="#cancellingevent"></a>Cancelling Event Sprint</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In our use case, we have to deal with situations where customers have to <strong>cancel their orders</strong>. Specifically, if the cancellation event arrives before the shipping one, it is necessary to call for <strong>compensation</strong>: the concrete compensation action depends on the previous execution path, if the item was available, the compensation action will call the internal shipping department otherwise the compensation action will deal with the external supplier.</p>
+</div>
+<div class="paragraph">
+<p>The following picture shows an high level design:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/high-level-flow-3.png" alt="high level flow 3"></span></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Given the simplistic nature of the example, one might consider replacing compensation with a gateway followed by compensatory actions. However, it should be borne in mind that in an even slightly more complex flow, implementing compensation in imperative mode would make the implementation complex and error prone.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Below, we will add the definition of the new event type <code>CancelEventType</code> and a forking that distinguishes between the two possible input events:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>shippingEvent</code></p>
+</li>
+<li>
+<p><code>cancelEvent</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Open</strong> the <code>swf</code> file:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Inside the event section <strong>add</strong> the following declaration:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "cancelEvent",
+  "kind": "consumed",
+  "type": "CancelEventType",
+  "source": "Client",
+  "correlation": [
+    {
+      "contextAttributeName": "orderid"
+    }
+  ]
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>In the state section, <strong>locate</strong> the <code>Order Shipped</code> event node and <strong>overwrite</strong> it with the following snippet:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "Order Shipped or Cancelled",
+  "type": "event",
+  "transition": "Is Shipped?",
+  "exclusive": true,
+  "onEvents": [
+    {
+      "eventRefs": [
+        "shippingEvent"
+      ]
+    },
+    {
+      "eventRefs": [
+        "cancelEvent"
+      ],
+      "eventDataFilter": {
+        "data": "{cancel:true}"
+      }
+    }
+  ]
+},</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The new event state definition is able to listen for two different events.
+At the cancellation event, we can see the statement <code>eventDataFilter</code> the effect of which is to introduce a new Boolean data: <code>cancel:true</code>. In such a way, we will later be able to know which event has arrived.</p>
+</div>
+</li>
+<li>
+<p><strong>Update</strong> the <code>transition</code> the states <code>Prepare for Shipping</code> and <code>Forward to External Supplier</code> to point to the new name <code>Order Shipped or Cancelled</code></p>
+</li>
+<li>
+<p><strong>Add</strong> the following switch state after the <code>Order Shipped or Cancelled</code> state:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "name": "Is Shipped?",
+    "type": "switch",
+    "dataConditions": [
+    {
+        "name": "order cancelled",
+        "condition": ".cancel == true",
+        "transition": "Compensate Order"
+    }
+    ],
+    "defaultCondition": {
+        "transition": "Notify Customer"
+    }
+},</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>After the previous state, <strong>Add</strong> an operation to handle the cancel event:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "name": "Compensate Order",
+    "type": "operation",
+    "actions": [
+    {
+        "name": "printAction",
+        "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+            "message": "\"Compensate Order\""
+        }
+        }
+    }
+    ],
+    "end": {
+        "terminate": true,
+        "compensate": true
+    }
+},</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Locate the <code>Notify Customer</code> operation state and <strong>adjust</strong> the <code>end</code> property in this way:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"end": {
+    "terminate": true
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This measure forces the workflow termination.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The following picture shows the result of the above procedure on the workflow diagram:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/cancel-event.png" alt="cancel event">
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can compare your resulting workflow with the expected solution at this stage in <code>solution/04-cancelling</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="test-cancel"><a class="anchor" href="#test-cancel"></a>Test the cancelling event</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section, we are going to test that the workflow is able to resume the execution when two types of CloudEvents arrives:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ShippingEventType</code></p>
+</li>
+<li>
+<p><code>CancelEventType</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Then, depending on the incoming message, the workflow continues in one of the two corresponding branches.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Even if you trigger the compensation no compensation activity is defined, so at this stage of the exercise you can only look for the <code>Compensate Order</code> string in the logs.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Based on the previous test activities, you should be able to figure out how to test this scenario. Please, note that in the <code>probe.http</code> file, you already have the <code>cancelEvent</code> rest request.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="compensation-activities"><a class="anchor" href="#compensation-activities"></a>Compensation Activities Sprint</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section, you will add two compensation activities for <code>Prepare for Shipping</code> and  <code>Forward to External Supplier</code>.</p>
+</div>
+<div class="paragraph">
+<p>Afterward, you will check that the runtime will call them when compensation is triggered by the cancel event.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Compensation activities are <strong>operation states</strong>, they could be placed anywhere in the <code>state</code> array. However, we suggest to place the definition nearby the corresponding primary state so it&#8217;s easier to orientate.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Locate <code>Prepare for Shipping</code> and <strong>append</strong> right afterward:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "name": "Restore Inventory",
+    "type": "operation",
+    "usedForCompensation": true,
+    "actions": [
+    {
+        "name": "printAction",
+        "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+            "message": "\"Restore Inventory\""
+        }
+        }
+    }
+    ]
+},</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Inside <code>Prepare for Shipping</code> <strong>add</strong> the following property:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"compensatedBy": "Restore Inventory",</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the workflow diagram you should see the two states linked by a yellow dotted line:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/restore-inventory.png" alt="restore inventory">
+</div>
+</div>
+</li>
+<li>
+<p>Locate <code>Forward to External Supplier</code> and <strong>append</strong> right afterward:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "name": "Cancel Supplier Order",
+    "type": "operation",
+    "usedForCompensation": true,
+    "actions": [
+    {
+        "name": "printAction",
+        "functionRef": {
+        "refName": "printMessage",
+        "arguments": {
+            "message": "\"Cancel Supplier Order\""
+        }
+        }
+    }
+    ]
+},</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Inside <code>Forward to External Supplier</code> <strong>add</strong> the following property:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"compensatedBy": "Cancel Supplier Order",</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>In the workflow diagram you should see the following situation:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/compensation-activities.png" alt="compensation activities"></span></p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+At the time of writing, the diagram rendering has a bug that shows overlapping lines, so the final outcome is slightly confusing.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can compare your resulting workflow with the expected solution at this stage in <code>solution/05-compensation</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="test-compensation"><a class="anchor" href="#test-compensation"></a>Testing the compensation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To test the compensation you have to send the following events:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>New order (<code>OrderEventType</code>)</p>
+</li>
+<li>
+<p>Cancel the order (<code>CancelEventType</code>)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Then you can check if the compensation activity is triggered.</p>
+</div>
+<div class="paragraph">
+<p>Unless, you changed it before, the rest call provided in <code>probe.http</code> contains the item id <code>1110</code> which is supposed to trigger the internal shipping path. So when you trigger the cancellation you should see in the log the following line:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">Restore Inventory</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Repeat the test using an item id with no <code>0</code> (e.g. <code>1234</code>), upon cancellation you should see in the log the following line:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">Cancel Supplier Order</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>CONGRATULATION!!!</strong> Your Serverless Workflow compensates wisely!</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="04-longrunning.html">4. Long Running Workflows</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
