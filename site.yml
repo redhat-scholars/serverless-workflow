@@ -3,8 +3,8 @@ runtime:
 
 site:
   title: Serverless Workflow Tutorial
-  url: https://redhat-scholars.github.io/serverless-workflow
-  start_page: serverless-workflow::index.adoc
+  url: https://redhat-scholars.github.io/osl
+  start_page: osl::index.adoc
 
 content:
   sources:

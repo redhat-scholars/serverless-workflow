@@ -1,7 +1,7 @@
 = Setup
 include::_attributes.adoc[]
 
-This section provides guidance on how to set up your local computer to host a Serverless Workflow development environment.
+This section provides guidance on how to set up your local computer to host a OpenShift Serverless Logic development environment.
 
 WARNING: It's recommended to execute this section with a reliable connection. Avoid running this part of the lab together with other people because of the bandwidth required. Moreover, some tasks will take a long time to download resources.
 

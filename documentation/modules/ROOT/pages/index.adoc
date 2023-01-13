@@ -1,6 +1,12 @@
-= Welcome to Serverless Workflow Tutorial
+= Welcome to OpenShift Serverless Logic Tutorial
 :page-layout: home
 :!sectids:
+
+*Cloud Native Applications* often deal with µServices orchestration in order to implement complex long running *business transactions*. Without a workflow engine many challenges arise: lack of single point of control and visibility, inconsistent state, how to handle errors. OpenShift Serverless Logic introduces the workflow capability based on *Serverless Workflow Specification*, moreover it leverages many other cloud native initiatives like _Knative_, _CloudEvents_, _OpenAPI_, _AsyncAPI_, _GraphQL_, and _gRPC_.
+
+In this tutorial you will learn how to develop a workflow to address some common service orchestration challenges.
+
+image:sw-logo-transparent.png[]
 
 [.tiles.browse]
 == Browse modules

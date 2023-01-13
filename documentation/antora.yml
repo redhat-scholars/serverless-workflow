@@ -1,5 +1,5 @@
-name: serverless-workflow
-title: Serverless Workflow Tutorial
+name: osl
+title: OpenShift Serverless Logic Tutorial
 version: master
 nav:
   - modules/ROOT/nav.adoc
