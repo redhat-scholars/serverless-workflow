@@ -3,10 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Setup :: Serverless Workflow Tutorial</title>
-    <link rel="canonical" href="https://redhat-scholars.github.io/osl/osl/01-setup.html">
+    <title>Setup :: OpenShift Serverless Logic Tutorial</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/serverless-workflow/osl/osl/01-setup.html">
     <link rel="prev" href="index.html">
-    <link rel="next" href="02-startup-project.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -15,7 +14,7 @@
   <nav class="navbar">
     <div class="navbar-brand">
       <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
-      <a class="navbar-item" style="font-size: 24px; color: white" href="https://redhat-scholars.github.io/osl">Serverless Workflow Tutorial</a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://redhat-scholars.github.io/serverless-workflow/osl">OpenShift Serverless Logic Tutorial</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -69,78 +68,6 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item" data-depth="1">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="02-startup-project.html">2. Startup Project</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#structure">The project structure</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#run">Run the workflow</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#monitor">Monitor the runtime</a>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="03-inventory.html">3. Inventory Logic</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="03-inventory.html#usecase">The use case</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="03-inventory.html#inventory">The Inventory Sprint</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="03-inventory.html#test">Test the workflow logic</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="03-inventory.html#call-rest">Call an external REST service</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="03-inventory.html#test-rest">Test the external REST service</a>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="04-longrunning.html">4. Long Running Workflows</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="04-longrunning.html#waitevent">Wait Event Sprint</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="04-longrunning.html#eventing">Eventing</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="04-longrunning.html#test-events">Test the events</a>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="05-compensation.html">5. Compensation</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="05-compensation.html#cancellingevent">Cancelling Event Sprint</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="05-compensation.html#test-cancel">Test the cancelling event</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="05-compensation.html#compensation-activities">Compensation Activities Sprint</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="05-compensation.html#test-compensation">Testing the compensation</a>
-  </li>
-</ul>
-  </li>
 </ul>
   </li>
 </ul>
@@ -159,7 +86,7 @@
     <li><a href="01-setup.html">1. Setup</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/dev/documentation/modules/ROOT/pages/01-setup.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/master/documentation/modules/ROOT/pages/01-setup.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
@@ -221,14 +148,14 @@ Please have them installed and configured before you get started with any of the
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">OpenJDK v11 or v17</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y java-17-openjdk-devel</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://adoptopenjdk.net/">Mac Version Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://developers.redhat.com/products/openjdk/download">Windows Download</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://adoptopenjdk.net/">Download Mac</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://developers.redhat.com/products/openjdk/download">Download MSI</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><code>Apache Maven</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y maven</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.zip">Download</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz">Download</a> or <code>brew install maven</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.zip">Download</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><code>podman</code></p></td>
@@ -599,7 +526,6 @@ The first time you launch <code>maven</code> on this project, it is going to tak
 </div>
 <nav class="pagination">
   <span class="prev"><a href="index.html">OpenShift Serverless Logic Tutorial</a></span>
-  <span class="next"><a href="02-startup-project.html">2. Startup Project</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
