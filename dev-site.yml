@@ -2,8 +2,8 @@ runtime:
   cache_dir: ./.cache/antora
 
 site:
-  title: Serverless Workflow Tutorial (Dev Mode)
-  url: http://localhost:3000/rhs-build-course/index.html
+  title: OpenShift Serverless Logic Tutorial (Dev Mode)
+  url: https://redhat-scholars.github.io/serverless-workflow/osl/dev
   start_page: osl::index.adoc
 
 content:
@@ -13,7 +13,7 @@ content:
       start_path: documentation
 asciidoc:
   attributes:
-    title: Serverless Workflow Tutorial (Dev Mode)
+    title: OpenShift Serverless Logic Tutorial (Dev Mode)
   extensions:
     - ./lib/remote-include-processor.js
     - ./lib/tab-block.js
