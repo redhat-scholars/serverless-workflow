@@ -3,7 +3,7 @@ runtime:
 
 site:
   title: OpenShift Serverless Logic Tutorial (Dev Mode)
-  url: http://localhost:3000/rhs-build-course/index.html
+  url: https://redhat-scholars.github.io/serverless-workflow/osl/dev
   start_page: osl::index.adoc
 
 content:
