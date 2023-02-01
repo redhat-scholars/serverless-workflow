@@ -6,7 +6,7 @@
 
 In this tutorial you will learn how to develop a workflow to address some common service orchestration challenges.
 
-image:sw-logo-transparent.png[]
+image:serverless.png[]
 
 [.tiles.browse]
 == Browse modules
