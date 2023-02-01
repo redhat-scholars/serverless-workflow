@@ -90,6 +90,14 @@ Leverage Homebrew to install *Podman* and its required dependencies:
 brew install podman
 ----
 
+Install podman helper: 
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+sudo /usr/local/Cellar/podman/4.3.1/bin/podman-mac-helper install
+----
+
 Create your *Podman* machine, set it to run rootful containers, then start it:
 
 [.console-input]
@@ -126,6 +134,14 @@ Leverage Homebrew to install *Podman* and its required dependencies:
 [source,bash,subs="+macros,+attributes"]
 ----
 brew install podman
+----
+
+Install podman helper: 
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+sudo /usr/local/Cellar/podman/4.3.1/bin/podman-mac-helper install
 ----
 
 Create your *Podman* machine, set it to run rootful containers, then start it:
