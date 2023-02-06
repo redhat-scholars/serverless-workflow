@@ -26,8 +26,8 @@ Please have them installed and configured before you get started with any of the
 | https://code.visualstudio.com/docs/setup/mac[Download]  or *Install from the provided USB Stick Resources*
 | https://code.visualstudio.com/docs/setup/windows[Download] or *Install from the provided USB Stick Resources*
 
-| OpenJDK v11 or v17
-| `dnf install -y java-17-openjdk-devel`
+| OpenJDK v11
+| `dnf install -y java-11-openjdk-devel`
 | https://adoptopenjdk.net/[Mac Version Download]
 | https://developers.redhat.com/products/openjdk/download[Windows Download]
 
@@ -36,7 +36,7 @@ Please have them installed and configured before you get started with any of the
 | https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz[Download]
 | https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.zip[Download]
 
-| `podman`
+| `podman` v4.3.1
 3+| Check the detailed instructions *below* under the proper tab
 
 |===
@@ -58,6 +58,17 @@ Issue the following commands:
 ----
 sudo dnf install -y podman podman-docker
 ----
+
+Make sure that you have installed the `4.3.1` version or later, issuing `podman --version`:
+
+[.console-output]
+[source,bash,subs="+macros,+attributes"]
+----
+podman version 4.3.1
+----
+
+Enable podman socket listener:
+
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
@@ -88,6 +99,14 @@ Leverage Homebrew to install *Podman* and its required dependencies:
 [source,bash,subs="+macros,+attributes"]
 ----
 brew install podman
+----
+
+Make sure that you have installed the `4.3.1` version or later, issuing `podman --version`:
+
+[.console-output]
+[source,bash,subs="+macros,+attributes"]
+----
+podman version 4.3.1
 ----
 
 Install podman helper: 
@@ -134,6 +153,14 @@ Leverage Homebrew to install *Podman* and its required dependencies:
 [source,bash,subs="+macros,+attributes"]
 ----
 brew install podman
+----
+
+Make sure that you have installed the `4.3.1` version or later, issuing `podman --version`:
+
+[.console-output]
+[source,bash,subs="+macros,+attributes"]
+----
+podman version 4.3.1
 ----
 
 Install podman helper: 
@@ -187,6 +214,14 @@ Windows::
 --
 Follow this guide for the podman installation: https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md[]
 
+Make sure that you have installed the `4.3.1` version or later, issuing `podman --version`:
+
+[.console-output]
+[source,bash,subs="+macros,+attributes"]
+----
+podman version 4.3.1
+----
+
 Before starting the Podman machine, set it to prefer rootful container execution:
 
 [.console-input]
@@ -212,7 +247,7 @@ If you had no time to prepare upfront your environment, the lab instructors will
 podman image load --input swf-lab/oci-images-backup.tar
 ----
 
-3. Load the maven repository:
+3. Load the maven repository (pay attention to expand the archive from your *home directory*):
 +
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
