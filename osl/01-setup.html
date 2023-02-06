@@ -219,8 +219,8 @@ Please have them installed and configured before you get started with any of the
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/docs/setup/windows">Download</a> or <strong>Install from the provided USB Stick Resources</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">OpenJDK v11 or v17</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y java-17-openjdk-devel</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">OpenJDK v11</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y java-11-openjdk-devel</code></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://adoptopenjdk.net/">Mac Version Download</a></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://developers.redhat.com/products/openjdk/download">Windows Download</a></p></td>
 </tr>
@@ -231,7 +231,7 @@ Please have them installed and configured before you get started with any of the
 <td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.zip">Download</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>podman</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>podman</code> v4.3.1</p></td>
 <td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Check the detailed instructions <strong>below</strong> under the proper tab</p></td>
 </tr>
 </tbody>
@@ -278,6 +278,17 @@ If you have already installed <em>Docker</em> in your environment, or you feel m
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sudo dnf install -y podman podman-docker</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Make sure that you have installed the <code>4.3.1</code> version or later, issuing <code>podman --version</code>:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman version 4.3.1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Enable podman socket listener:</p>
+</div>
 <div class="listingblock console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">systemctl --user enable podman.socket --now</code></pre>
@@ -307,6 +318,14 @@ If you have already installed <em>Docker</em> in your environment, or you feel m
 <div class="listingblock console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">brew install podman</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Make sure that you have installed the <code>4.3.1</code> version or later, issuing <code>podman --version</code>:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman version 4.3.1</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -351,6 +370,14 @@ If you have already installed <em>Docker</em> in your environment, or you feel m
 <div class="listingblock console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">brew install podman</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Make sure that you have installed the <code>4.3.1</code> version or later, issuing <code>podman --version</code>:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman version 4.3.1</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -404,6 +431,14 @@ systemctl reboot</code></pre>
 <p>Follow this guide for the podman installation: <a href="https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md" class="bare">https://github.com/containers/podman/blob/main/docs/tutorials/podman-for-windows.md</a></p>
 </div>
 <div class="paragraph">
+<p>Make sure that you have installed the <code>4.3.1</code> version or later, issuing <code>podman --version</code>:</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman version 4.3.1</code></pre>
+</div>
+</div>
+<div class="paragraph">
 <p>Before starting the Podman machine, set it to prefer rootful container execution:</p>
 </div>
 <div class="listingblock console-input">
@@ -436,7 +471,7 @@ systemctl reboot</code></pre>
 </div>
 </li>
 <li>
-<p>Load the maven repository:</p>
+<p>Load the maven repository (pay attention to expand the archive from your <strong>home directory</strong>):</p>
 <div class="listingblock console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd ~
