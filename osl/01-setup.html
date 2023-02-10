@@ -452,41 +452,6 @@ systemctl reboot</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_usb_stick_resources"><a class="anchor" href="#_usb_stick_resources"></a>USB Stick Resources</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>If you had no time to prepare upfront your environment, the lab instructors will provide you with a USB Stick to significantly reduce the network usage during the lab execution:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Copy on your laptop the folder <code>swf-lab</code>, unplug the USB Stick, and pass it on to another attendee or the instructor.</p>
-</li>
-<li>
-<p>Load the images:</p>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman image load --input swf-lab/oci-images-backup.tar</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Load the maven repository (pay attention to expand the archive from your <strong>home directory</strong>):</p>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd ~
-tar xvzf swf-lab/m2-repository.tar.gz</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Install the Visual Studio Code using the provided binaries in the <code>swf-lab</code> folder</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="vscode-extensions"><a class="anchor" href="#vscode-extensions"></a>Visual Studio Code Extensions</h2>
 <div class="sectionbody">
 <div class="paragraph">
