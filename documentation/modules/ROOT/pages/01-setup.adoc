@@ -232,33 +232,6 @@ podman machine set --rootful
 --
 ====
 
-
-== USB Stick Resources 
-
-If you had no time to prepare upfront your environment, the lab instructors will provide you with a USB Stick to significantly reduce the network usage during the lab execution:
-
-1. Copy on your laptop the folder `swf-lab`, unplug the USB Stick, and pass it on to another attendee or the instructor.
-
-2. Load the images:
-+
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-podman image load --input swf-lab/oci-images-backup.tar
-----
-
-3. Load the maven repository (pay attention to expand the archive from your *home directory*):
-+
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-cd ~
-tar xvzf swf-lab/m2-repository.tar.gz
-----
-
-4. Install the Visual Studio Code using the provided binaries in the `swf-lab` folder
-
-
 [#vscode-extensions]
 == Visual Studio Code Extensions
 
