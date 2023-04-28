@@ -253,24 +253,6 @@ image::extensions-view-icon.png[]
 * `ext install redhat.vscode-extension-serverless-workflow-editor`
 * `ext install humao.rest-client`
 
-=== Configure Visual Studio Code 
-
-Open the `Command Palette`:
-
-* Hit **`F1`** or select from the menu **`View > Command Palette...`**
-
-Type **`Pref`** and select **`Preferences: Open User Settings (JSON)`**
-
-Add the following configuration key and close it:
-
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-"kogito.swf.svgFilePath": "${workspaceFolder}/src/main/resources/META-INF/processSVG/"
-----
-
-TIP: Add the comma as required by JSON rules (before or after depending on the key/value pair position)
-
 [#base-image]
 == Pull the serverless data index image
 
@@ -291,7 +273,7 @@ Pull the serverless data index image:
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
-podman pull --platform linux/amd64 registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.25
+podman pull --platform linux/amd64 registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.28
 ----
 
 NOTE: The parameter `--platform linux/amd64` is important when you run it on a Mac with an M1 chip (which has a different processor architecture)
