@@ -1,6 +1,6 @@
 name: osl
 title: OpenShift Serverless Logic Tutorial
-version: master
+version: v1.33
 nav:
   - modules/ROOT/nav.adoc
 

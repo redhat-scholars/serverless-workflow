@@ -9,13 +9,13 @@ site:
 content:
   sources:
     - url: .
-      branches: [master, dev]
+      branches: [ v1.33 ]
       start_path: documentation
 
 asciidoc:
   attributes:
     title: OpenShift Serverless Logic Tutorial (Dev Mode)
-    release-version: master
+    release-version: v1.33
     page-pagination: true
   extensions:
     - ./lib/remote-include-processor.js
