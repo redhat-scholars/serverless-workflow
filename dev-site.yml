@@ -9,23 +9,22 @@ site:
 content:
   sources:
     - url: .
-      branches: HEAD
+      branches: [master, dev]
       start_path: documentation
 
 asciidoc:
   attributes:
     title: OpenShift Serverless Logic Tutorial (Dev Mode)
+    release-version: master
+    page-pagination: true
   extensions:
     - ./lib/remote-include-processor.js
     - ./lib/tab-block.js
 ui:
   bundle:
-    url: https://github.com/redhat-developer-demos/rhd-tutorial-ui/releases/download/v0.1.10/ui-bundle.zip
-  supplemental_files:
-    - path: ./supplemental-ui
-    - path: .nojekyll
-    - path: ui.yml
-      contents: "static_files: [ .nojekyll ]"
+    url: https://github.com/redhat-scholars/course-ui/releases/download/v0.1.14/ui-bundle.zip
+    snapshot: true
+  supplemental_files: ./supplemental-ui
 
 output:
   dir: ./gh-pages
