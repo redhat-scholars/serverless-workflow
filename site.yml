@@ -8,7 +8,7 @@ site:
 
 content:
   sources:
-    - url: ./
+    - url: git@github.com:redhat-scholars/serverless-workflow.git
       branches: [master, dev]
       start_path: documentation
 
