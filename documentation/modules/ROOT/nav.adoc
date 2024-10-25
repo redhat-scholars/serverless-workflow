@@ -5,7 +5,7 @@
 ** xref:01-setup.adoc#project-start[Clone and build the startup project]
 
 * xref:02-startup-project.adoc[2. Startup Project]
-** xref:02-startup-project.adoc#structure[The project structure]
+** xref:02-startup-project.adoc#basic-workflow[A basic workflow]
 ** xref:02-startup-project.adoc#run[Run the workflow]
 ** xref:02-startup-project.adoc#inspect[Inspect the workflow]
 ** xref:02-startup-project.adoc#monitor[Monitor the runtime]

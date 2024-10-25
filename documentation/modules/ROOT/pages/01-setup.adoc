@@ -1,16 +1,22 @@
 = Setup
 include::_attributes.adoc[]
 
-This section provides guidance on how to set up your local computer to host a OpenShift Serverless Logic development environment.
+There are several ways to develop on OpenShift Serverless Logic:
 
-WARNING: It's recommended to execute this section with a reliable connection. Avoid running this part of the lab together with other people because of the bandwidth required. Moreover, some tasks will take a long time to download resources.
+* *Pure Cloud*: using https://start.kubesmarts.org/[Serverless Logic Web Tools] and OpenShift as the runtime engine.
+* *Browser with local runtime*: using https://start.kubesmarts.org/[Serverless Logic Web Tools] and `kn-workflow` command line (which leverages a local container engine, e.g. `podman`, `docker`)
+* *Full-fledged local development workstation*: using _Visual Studio Code_ and _Quarkus_.
+
+This tutorial suggests the first option to minimize the workstation preparation work.
+The rest of this chapter provides instructions for setting up the _full local development workstation_, and *you can skip it*.
 
 
 [#prerequisite]
 == Prerequisite tools
 
-The following CLI tools are required for running the exercises in this tutorial. 
-Please have them installed and configured before you get started with any of the tutorial chapters.
+WARNING: It is recommended that you complete this section using a reliable connection. Avoid doing this part of the lab on a shared connection because of the bandwidth requirements. Also, some tasks will take a long time to download resources.
+
+Here the tools to install:
 
 [cols="4*^,4*.",options="header,+attributes"]
 |===

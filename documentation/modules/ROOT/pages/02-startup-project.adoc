@@ -1,136 +1,165 @@
-= Explore the startup project
+= Startup project
 include::_attributes.adoc[]
 
-This section explores the key elements of a serverless workflow project.
+This section shows how to create a simple Serverless Workflow using https://start.kubesmarts.org/[Serverless Logic Web Tools].
 
-[#structure]
-== The project structure
+[#basic-workflow]
+== A basic workflow
 
-The Serverless Workflow technology was designed according to Microservice Architecture principles.
-A production ready solution is supported by multiple services: persistence, data index, dashboards, messaging, to name but a few.
+. Open the https://start.kubesmarts.org/[Serverless Logic Web Tools] in your browser.
 
-However, in this tutorial, we are going to focus on the core service which is responsible for the workflow logic execution.
+. Select `YAML` button in the *Create* pane 
+image:02_webtool.png[alt]
 
-The workflow core logic is hosted by a plain Quarkus project with some extensions.
+. *Change* the workflow name with `order`
+image:02_new_swf.png[alt]
 
-Serverless Workflow leverages some capabilities coming from of the *Kogito* upstream initiative. For such reason, the extensions have the `kogito` prefix:
+. *Click* the text `Create a Serverless Workflow` and select `Serverless Workflow Example`: a simple template is generated.
 
-* `kogito-quarkus-serverless-workflow`
-* `kogito-addons-quarkus-persistence-jdbc`
-* `kogito-addons-quarkus-process-svg`
-* `kogito-quarkus-serverless-workflow-devui`
+The workflow editor is split in two panes: the _text_ editor and the _visual_ representation of the workflow.
 
-Other common Quarkus extensions used are:
+At the moment there is no way to graphically edit the workflow, the user can edit the _yaml_ file on the left side and see the diagram changes on the right.
+When the user clicks on a node of the graph, the cursor in the text editor is moved to the corresponding section of the _yaml_ definition.
 
-* `quarkus-smallrye-openapi`
-* `quarkus-resteasy`
-* `quarkus-resteasy-jackson`
-* `quarkus-jdbc-postgresql`
+*Change* the template to match the following:
 
-It's worth noticing that, at the moment, serverless workflow extensions are not aligned to the quarkus platform, so they relies a dedicated _bom_:
-
-[source, xml,subs="+macros,+attributes"]
+[.console-input]
+[source, yaml,subs="+macros,+attributes"]
 ----
-<dependency>
-  <groupId>org.kie.kogito</groupId>
-  <artifactId>kogito-bom</artifactId>
-  <version>1.35.0.Final-redhat-00003</version>
-  <type>pom</type>
-  <scope>import</scope>
-</dependency>
+id: order
+version: "1.0"
+specVersion: "0.8"
+name: Order Workflow
+description: Order Workflow Sample
+start: Order Received
+functions:
+  - name: printMessage
+    type: custom
+    operation: sysout
+states:
+  - name: Order Received
+    type: operation
+    actions:
+      - name: printAction
+        functionRef:
+          refName: printMessage
+          arguments:
+            message: '"Order received: " + .orderId'
+    end: true
 ----
 
-The version `1.27.0.Final-redhat-00005` comes from the developer preview.
+Let's analyze the content:
+
+* At the beginning there are some identification details: the unique `id`, `version`, `name`, `description` and the `specVersion`.
+* The `start` attribute point to the first state in the flow `Order Received`.
+* `functions` are a set of reusable definitions for service invocations or expression evaluation. In this example, *printMessage* is a custom function which print a message in the log.
+* `states` contains a set of states which are the building block of the workflow logic.
+
+The workflow logic is pretty straightforward: when the workflow starts the `Order Received` state is executed then it ends. However, there are some other aspects:
+
+* The workflow is started with an input message that is copied in the internal workflow state.
+* The `Order Received` state invokes the `printMessage` function: it's worth noticing that `.orderId` is a https://jqlang.github.io/jq/manual[*jq* expression] to read the workflow state. In other word, it expect to find `orderId` in the workflow state.
+
+To learn more about Serverless Workflow notation and semantic don't hesitate to read the official specification document which is really clear and accessible: https://github.com/serverlessworkflow/specification/blob/0.8.x/specification.md[]
 
 [#run]
 == Run the workflow
 
-include::partial$quarkus-dev.adoc[]
+You can easily run your first workflow in your OpenShift environment:
 
-Open a new terminal and start the flow with the following command:
+. Locate the `Try on OpenShift` button at the top right of the page and *select* it.
 
-[.console-input]
+. *Select* `Setup...`
++
+image:02_try_openshift.png[try openshift]
+
+. In the *OpenShift* setting page select `Add connection` button
+
+. Fill in the OpenShift connection details:
+
+.. *Namespace (project)*: Use the namespace provided by the proctor (if you are running this tutorial on your own, create a new namespace and use it)
+
+.. To retrieve the values for *Host* and *Token*:
+
+... *Open* the OpenShift console in a different browser window.
+
+... In the top right corner *select* the _username_ and the `Copy login command` entry.
++
+image:02_oc_command.png[oc command]
+
+... After the login process, *select* `Dysplay token` link to get a command line that resemble the following:
++
+[.console-output]
 [source,bash,subs="+macros,+attributes"]
 ----
-include::example$start-swf.sh[]
+oc login --token=sha256~VPMhRtYqHghxlRLWD5X92lg3ZIxr0V7dYYcP5DWxJq4 --server=https://api.ocp4.dmshift.eu:6443
 ----
 
-You should get back the an output which resembles the following:
+... *Copy* the string after `--token` into the _Token_ field in the other browser window.
 
-[.console-output]
+... Likewise, *copy* the string after `--server` into the _Host_ field in the other browser window.
+
+... Finally, *select* the `Connect` button, you should see the following confirmation message:
++
+image:02_connection_ok.png[connection ok]
+
+Now that the OpenShift connection is up, you need to reopen the workflow:
+
+. Go back on the main page *clicking* on the top banner:
++
+image:02_home.png[home]
+
+. From the left navigation menu *select* `Recent Models`.
+
+. *Select* `order` to open again the workflow designer.
+
+. *Select* again `Try on OpenShift` button and then `Upload "*order*" to Dev Mode`.
++
+image:02_upload.png[upload]
+
+. Wait for the confirmation message and *select* `Go to Serverless Workflow Dev UI ↗` to open the _Dev UI_ in a new browser tab.
++
+image:02_devui.png[Dev UI]
+
+From *Dev UI* you can trigger a new workflow instance and inspect its execution:
+
+. *Select* `Workflow Definitions`
+
+. *Click* on the arrow button in corresponding to the `order` row.
++
+image:02_wf-def.png[Workflow definitions]
+
+. *Fill* in the `Start Workflow Data` edit box with the following JSON payload:
++
+[.console-input]
 [source, json,subs="+macros,+attributes"]
 ----
-{"id":"7484e05f-3b95-4ac7-8c09-a2c717a0293e","workflowdata":{"orderId":"order-123"}}
+{"orderId":"order-123"}
 ----
 
-In the other terminal where Quarkus is running you can spot the following message in log:
-[.console-output]
-[source, shell,subs="+macros,+attributes"]
-----
-Order received: order-123
-----
+. *Select* the `Start` button below.
 
-**CONGRATULATION!!!** Your first Serverless Workflow was executed as expected!
+You should get a confirmation message stating that your _workflow instance was triggered_.
+
+*CONGRATULATION!!!* Your first Serverless Workflow was executed as expected!
+
 
 [#inspect]
-== Inspect the workflow
+== Inspect the workflow execution
 
-Enter in the project folder and launch Visual Studio Code:
+To inspect the workflow execution just triggered *select* `Go to workflow list` at the bottom of the confirmation message.
 
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-cd order-swf
-code .
-----
+image:02_started.png[Workflow definitions]
 
-Open the workflow file: `src/main/resources/order.sw.json`:
+In the _Workflow Instances_ page, *select* the first instance in the list:
 
-* the editor is split in two panes: the text editor and the visual representation of the workflow
-* at the moment there is no way to graphically edit the workflow, the only option available is to edit the _json_ file on the left side and watch the changes in the diagram
+image:02_wf_list.png[Workflow list]
 
-Let's analyze the textual notation:
+In this _Workflow Details_ page, you can inspect all the details of the workflow execution from the following boxes:
 
-* there are the classical information to identify uniquely the workflow (`id`, `version`, etc)
-* `start` attribute point to the first and only state in the flow `Order Received`
-* `functions` are a set of reusable definitions for service invocations and/or expression evaluation
-* `states` contains a set of states which are the building block of the workflow logic
+- Diagram: the serverless workflow diagram is shown, with completed nodes colored green.
+- Timeline: the main workflow tasks, listed in order of execution.
+- Details: the workflow instance metadata.
+- Variables: the internal state of the workflow instance.
 
-The workflow logic is minimal:
-
-* `Order Received` is an operation with one simple action: print a message in the standard output console.
-* It's worth noticing that also this simple *print* capability is declared among the functions and more precisely it's a custom function which is an extension to the standard specification.
-
-To learn more about Serverless Workflow notation and semantic don't hesitate to read the official specification document which is really clear and accessible: https://github.com/serverlessworkflow/specification/blob/0.8.x/specification.md[]
-
-[#monitor]
-== Monitor the runtime
-
-There is an important tool to investigate and potentially debug workflow instances at runtime:
-
-1. From the Quarkus terminal, type `d`, it should open for you the browser in the DevUI console: http://localhost:8080/q/dev/[]
-
-2. Among other tiles focus on the **Kogito Serverless Workflow Tools** one, then click on **Workflow Instances**
-+
-image::devui-swf.png[]
-
-3. Click on the **Order Workflow** instance to show the details
-+
-image::devui-instances.png[]
-
-Explore the information available:
-
-* workflow diagram
-+
-image::devui-svg.png[]
-
-* timeline
-+
-image::devui-timeline.png[]
-
-* details
-* variables
-+
-image::devui-details-vars.png[]
-
-Finally, have a look at the **monitoring** page charts on your own!
+Finally, have a look at the **Monitoring** page charts on your own!
