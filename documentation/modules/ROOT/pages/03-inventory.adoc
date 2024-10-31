@@ -30,120 +30,104 @@ The final use case will be implemented going through a set consecutive _sprints_
 
 In this sprint we are going to add the **check inventory** operation and based on the outcome call a **prepare for shipping** or **forward to external supplier**.
 
-1. **Open** `order.sw.json` file
+Switch back to the *Serverless Logic Web Tools* to edit the `order` workflow:
 
-2. **Replace** `Order Received` with `Check Inventory` in the following places:
+. **Rename** the first state from `Order Received` to `Check Inventory` updating the following places:
 
-* start
-* name of the state
-* the message
+* the `start` value
+* state `name`
+* the `message` content
+
 +
 TIP: To change all occurrences in one shot: select `Order Received`, press twice `CTRL-D`, perform the rename, then press `ESC`
 
-3. **Add** after the `functionRef` object the following logic:
+. In the `Check Inventory` state, **add** the following definition just after the `functionRef` object (at the same level):
 +
 [.console-input]
 [source, json,subs="+macros,+attributes"]
 ----
-"actionDataFilter": {
-  "fromStateData": ".",
-  "results": "{inventory: .item | test(\"0+\") }"
-}
+        actionDataFilter:
+          fromStateData: .
+          results: '{inventory: .item | test("0+") }'
 ----
 +
 This code mocks up the check inventory logic: `actionDataFilter` is a feature to manipulate the workflow data (state scoped), in practical terms it gets the `item` value and create a new data `inventory` which value can be _true_ or _false_ if the `item` contains one or more `0`
 +
 TIP: The previous logic is an example of the **JQ expression language** which plays a key role in Serverless Workflow. To evaluate and manipulate data is crucial to gaining some familiarity with this language https://openshift-knative.github.io/docs/docs/latest/serverless-logic/core/understanding-jq-expressions.html[Understanding JQ expressions]
 
-4. **Move the cursor** to the end of previous state, **type** a comma and you should get the suggestion pop up
-+
-image::vscode-suggestion.png[]
+. Introduce a new switch state after the previous state:
 
-5. **Select** `New switch state`, then **edit** the `name` and the `condition`:
+.. *Move the cursor* to the end of yaml file at state level and *type* ```- ``` (a dash followed by a space) and you should get the suggestion pop up, *hit* `Enter` to confirm the suggestion.
 +
-[.console-input]
-[source, json,subs="+macros,+attributes"]
-----
-{
-  "name": "Item Available?",
-  "type": "switch",
-  "dataConditions": [
-  {
-    "condition": ".inventory",
-    "transition": "Transition to another state if condition is true"
-  }
-  ],
-  "defaultCondition": {
-    "transition": "Default transition of the workflow"
-  }
-}
-----
+image::03_suggest.png[new switch state]
 
-6. Go back to `Check Inventory` state and **replace** the end declaration with transition to point to the switch state:
+.. *Update* the template keys `name` and `condition` as in the following snippet:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-"transition": "Item Available?"
+  - name: 'Item Available?'
+    type: switch
+    dataConditions:
+      - condition: '.inventory'
+        transition: 'Transition to another state if condition is true'
+    defaultCondition:
+      transition: 'Default transition of the workflow'
 ----
 
-7. After the switch state definition **add** a new operation state for `Prepare for Shipping`:
+.. Go back to `Check Inventory` state and **replace** the `end` declaration with transition to point to the switch state:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-{
-  "name": "Prepare for Shipping",
-  "type": "operation",
-  "end": true,
-  "actions": [
-    {
-      "name": "printAction",
-      "functionRef": {
-        "refName": "printMessage",
-        "arguments": {
-          "message": "\"Prepare for Shipping\""
-        }
-      }
-    }
-  ]
-},
+transition: Item Available?
 ----
 
-8. **Add** an operation state for `Forward to External Supplier`:
+. After the switch, you have to add other two states:
+
+.. **Add** a new operation state for `Prepare for Shipping`:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source, yaml,subs="+macros,+attributes"]
 ----
-{
-  "name": "Forward to External Supplier",
-  "type": "operation",
-  "end": true,
-  "actions": [
-    {
-      "name": "printAction",
-      "functionRef": {
-        "refName": "printMessage",
-        "arguments": {
-          "message": "\"Forward to External Supplier\""
-        }
-      }
-    }
-  ]
-},
+  - name: 'Prepare for Shipping'
+    type: operation
+    actions:
+      - name: printAction
+        functionRef:
+          refName: printMessage
+          arguments:
+            message: Prepare for Shipping
+    end: true
 ----
 
-9. **Update** the switch state to point to the correct operation states:
-
-* for the conditional branch set the transition to `Prepare for Shipping`
+.. **Add** an new operation state for `Forward to External Supplier`:
 +
-image::vscode-suggestion-2.png[]
+[.console-input]
+[source, yaml,subs="+macros,+attributes"]
+----
+  - name: 'Forward to External Supplier'
+    type: operation
+    actions:
+      - name: printAction
+        functionRef:
+          refName: printMessage
+          arguments:
+            message: Forward to External Supplier
+    end: true
+----
 
-* for the default condition set the transition to `Forward to External Supplier`
+. **Update** the switch state to point to the correct operation states:
 
-This is the expected result:
+.. for the conditional branch set the transition to `Prepare for Shipping`
++
+image::03_condition.png[]
 
-image::inventory-final.png[]
+.. for the default condition set the transition to `Forward to External Supplier`
+
+The workflow diagram should now resemble the following:
+
+image::03_wf_switch.png[]
 
 :sol-stage: 01-inventory
 include::partial$sync-project.adoc[]
@@ -154,15 +138,64 @@ include::partial$sync-project.adoc[]
 
 Before connecting the workflow to an external service is a good idea to probe it in isolation (i.e. smoke test): in fact, the current actions only print messages in the console.
 
-1. *Open* the http probing file: `src/test/resources/probe.http`
+. *Deploy* the current workflow:
 
-2. Identify the first POST request in the file and just above it *click* on `Send Request`
+.. *Select* `Try on OpenShift` button and then `Upload "*order*" to Dev Mode`.
 +
-image:send-request.png[]
+image:02_upload.png[upload]
 
-3. *Check* the results and the workflow execution in the quarkus console
+.. Wait for the confirmation message and *select* `Go to Serverless Workflow Dev UI ↗` to open the _Dev UI_ in a new browser tab.
++
+image:02_devui.png[Dev UI]
 
-4. Repeat the previous 2 steps to check that the workflow execution follow the other branch (Forward to External Supplier)
+. *Trigger* a new workflow instance:
+
+.. *Select* `Workflow Definitions`
+
+.. *Click* on the arrow button in corresponding to the `order` row.
++
+image:02_wf-def.png[Workflow definitions]
+
+.. *Fill* in the `Start Workflow Data` edit box with the following JSON payload:
++
+[.console-input]
+[source,json,subs="+macros,+attributes"]
+----
+{
+    "orderId": "1000",
+    "item": "1110"
+}
+----
+
+.. *Select* the `Start` button below.
+
+. *Check* the results and the workflow execution:
+
+.. *Switch* to the _Workflow Instances_ page
+
+.. *Click* on the latest instance to show the _Workflow Details_ page
+
+. *Trigger* a new workflow instance with the following payload and make sure that the workflow execution follow the other branch (`Forward to External Supplier`)
++
+[.console-input]
+[source,json,subs="+macros,+attributes"]
+----
+{
+    "orderId": "1001",
+    "item": "1111"
+}
+----
+
+Another tool for checking the workflow execution is the *Console*:
+
+. At the bottom of the _Dev UI_, *click* on the `Open` toggle.
++
+image:03_open_con.png[open console]
+
+. Among other log lines, you should spot the output of `printMessage`:
++
+image:03_console.png[console]
+
 
 [#call-rest]
 == Call an external REST service
