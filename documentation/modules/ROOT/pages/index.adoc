@@ -20,10 +20,9 @@ image:serverless.png[]
 
 [.tile]
 .xref:02-startup-project.adoc[Startup Project]
-* xref:02-startup-project.adoc#structure[The project structure]
+* xref:02-startup-project.adoc#basic-workflow[A basic workflow]
 * xref:02-startup-project.adoc#run[Run the workflow]
-* xref:02-startup-project.adoc#inspect[Inspect the workflow]
-* xref:02-startup-project.adoc#monitor[Monitor the runtime]
+* xref:02-startup-project.adoc#inspect[Inspect the workflow execution]
 
 [.tile]
 .xref:03-inventory.adoc[Inventory Logic]
