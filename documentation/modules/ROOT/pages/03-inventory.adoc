@@ -202,65 +202,88 @@ image:03_console.png[console]
 
 Serverless Workflow have a straightforward integration with OpenAPIs.
 
-For sake of simplicity, the project contains a Simple REST resource which exposes two operations:
+In order to experiment this capability, we'll use a side application called `order-swf-tut-svc` that exposes two simple REST operations:
 
 * `sendOrder` to send order to a supplier
 * `cancelOrder` to send an order cancellation to a supplier
 
-The link between the workflow and the rest service is the *OpenAPIs spec file*.
+NOTE: `order-swf-tut-svc` application should be already deployed in the `swf-shared` namespace. However, if it's not the case, you'll find direction on how to deploy it in the xref:01-setup.adoc[Setup] chapter.
 
-The Serverless Workflow expects to find the file in the `src/main/resources/specs` folder and since the startup project already provide it, you can easily consume it from workflow definition file:
+The link between the workflow and the rest service is the *OpenAPIs spec file* that should be located inside the `specs` folder.
 
-1. Inspect the OpenAPI yaml file at `src/main/resources/specs/supplier.yaml`
+For sake of simplicity, you will import a project that contains all the required files: the workflow yaml, the OpenAPI spec and the `application.property` file. The latter contains information about the REST service endpoint.
 
-2. Open workflow definition `src/main/resources/order.sw.json`
+. Open the https://start.kubesmarts.org/[Serverless Logic Web Tools] in your browser (if you already have it in your browser window, make sure to click on the top banner to open the home page).
 
-3. Go in the `functions` definition section, *add a comma* to the last definition the editor will propose you the two operation available, *accept* the suggestion and add both definitions
-+
-image::vscode-suggestion-3.png[]
+. Locate the `Import` box in the page and *copy* the following address in the URL field: `https://github.com/dmarrazzo/order-swf-tut.git`
 
-4. *Identify* the `Forward to External Supplier` state
-+
-TIP: you can click on state in the workflow diagram and the tool will bring you on the state definition line in the textual representation.
+. *Click* the `Clone` button
 
-5. *Replace* the print action with the function call:
+The tool will take you to the Serverless Workflow designer, but you can switch to the other files in the project by clicking the arrow next the file name:
+
+image::03_repo_nav.png[repository navigation]
+
+In the following steps, you'll enhance the workflow design to call an external service:
+
+. *Add* the OpenAPI references in the `functions` declaration section:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-{
-  "name": "sendOrderRestCall",
-  "functionRef": {
-    "refName": "sendOrder",
-    "arguments": {
-      "supplier-id":"\"1\"",
-      "content":".orderId"
-    }
-  }
-}
+- name: sendOrder
+  operation: specs/supplier.yaml#sendOrder
+  type: rest
+- name: cancelOrder
+  operation: specs/supplier.yaml#cancelOrder
+  type: rest
+----
+
+. *Locate* the `Forward to External Supplier` state declaration.
++
+TIP: You can click on state in the workflow diagram and the tool will take the cursor to the declaration line in the yaml editor.
+
+. *Replace* `printAction` with `sendOrder`:
++
+[.console-input]
+[source,yaml,subs="+macros,+attributes"]
+----
+  actions:
+  - name: sendOrder
+    functionRef:
+      refName: sendOrder
+      arguments:
+        supplier-id: sup-01
+        content: '.orderId'
 ----
 +
-NOTE: The rest service is invoked with two _arguments_, a dummy `supplier-id` (`1`) and the `orderId`.
-
-:sol-stage: 02-rest
-include::partial$sync-project.adoc[]
-:!sol-stage:
+NOTE: The rest service is invoked with two _arguments_, a dummy `supplier-id` (`sup-01`) and the value of `orderId`.
 
 [#test-rest]
 == Test the external REST service
 
-Repeat the test you did before.
+In order to test the REST call you have to *trigger* a new workflow instance with the following payload:
+
+[.console-input]
+[source,json,subs="+macros,+attributes"]
+----
+{
+    "orderId": "1002",
+    "item": "1111"
+}
+----
 
 In the log file you should notice a different output coming from the REST implementation:
 
 [.console-output]
 [source, bash,subs="+macros,+attributes"]
 ----
-2022-12-22 12:58:02,859 INFO  [org.kie.kog.ser.wor.dev.DevModeServerlessWorkflowLogger] (executor-thread-0) Triggered node 'Forward to External Supplier' for process 'order' (e6cdca5b-795c-407a-8c4d-a58ef3e59bc4)
-2022-12-22 12:58:02,860 INFO  [org.kie.kog.ser.wor.dev.DevModeServerlessWorkflowLogger] (executor-thread-0) Triggered node 'sendOrder' for process 'order' (e6cdca5b-795c-407a-8c4d-a58ef3e59bc4)
-Supplier 1 received the order order-123
+Triggered node 'Forward to External Supplier' for process 'order' (0ce6279c-2e84-42d0-b651-5e7b5257ef74)
+Triggered node 'sendOrder' for process 'order' (0ce6279c-2e84-42d0-b651-5e7b5257ef74)
+Property 'workflowdata.response' changed value from: 'null', to: '"receipt-sup-01-1002"'
 ----
 
-**CONGRATULATION!!!** Now your Serverless Workflow call a REST service!
+Finally, *open* the _workflow instance details_ and pay attention to a new variable which is injected by the REST service response:
 
-NOTE: You can also notice that the workflow invocation returns a different payload. What's changed? Why?
+image::03_response.png[response variable]
+
+**CONGRATULATION!!!** Now your Serverless Workflow call a REST service!
