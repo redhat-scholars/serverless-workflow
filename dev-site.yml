@@ -8,18 +8,18 @@ site:
 
 content:
   sources:
-    - url: .
-      branches: [ v1.33 ]
-      start_path: documentation
+  - url: .
+    branches: [ smart ]
+    start_path: documentation
 
 asciidoc:
   attributes:
     title: OpenShift Serverless Logic Tutorial (Dev Mode)
-    release-version: v1.33
+    release-version: smart
     page-pagination: true
   extensions:
-    - ./lib/remote-include-processor.js
-    - ./lib/tab-block.js
+  - ./lib/remote-include-processor.js
+  - ./lib/tab-block.js
 ui:
   bundle:
     url: https://github.com/redhat-scholars/course-ui/releases/download/v0.1.14/ui-bundle.zip
