@@ -1,0 +1,70 @@
+{
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+        "annotations": {
+            "openshift.io/description": "",
+            "openshift.io/display-name": "",
+            "openshift.io/requester": "admin",
+            "openshift.io/sa.scc.mcs": "s0:c28,c12",
+            "openshift.io/sa.scc.supplemental-groups": "1000780000/10000",
+            "openshift.io/sa.scc.uid-range": "1000780000/10000"
+        },
+        "creationTimestamp": "2024-06-21T13:48:15Z",
+        "deletionTimestamp": "2024-06-28T14:38:05Z",
+        "labels": {
+            "kubernetes.io/metadata.name": "quarkus-dev",
+            "pod-security.kubernetes.io/audit": "restricted",
+            "pod-security.kubernetes.io/audit-version": "v1.24",
+            "pod-security.kubernetes.io/warn": "restricted",
+            "pod-security.kubernetes.io/warn-version": "v1.24"
+        },
+        "name": "quarkus-dev",
+        "resourceVersion": "246546061",
+        "uid": "556688f0-f242-4797-a91a-6249029c4531"
+    },
+    "spec": {
+        "finalizers": [
+        ]
+    },
+    "status": {
+        "conditions": [
+            {
+                "lastTransitionTime": "2024-11-03T06:37:10Z",
+                "message": "All resources successfully discovered",
+                "reason": "ResourcesDiscovered",
+                "status": "False",
+                "type": "NamespaceDeletionDiscoveryFailure"
+            },
+            {
+                "lastTransitionTime": "2024-06-28T14:38:11Z",
+                "message": "All legacy kube types successfully parsed",
+                "reason": "ParsedGroupVersions",
+                "status": "False",
+                "type": "NamespaceDeletionGroupVersionParsingFailure"
+            },
+            {
+                "lastTransitionTime": "2024-10-21T12:57:20Z",
+                "message": "All content successfully deleted, may be waiting on finalization",
+                "reason": "ContentDeleted",
+                "status": "False",
+                "type": "NamespaceDeletionContentFailure"
+            },
+            {
+                "lastTransitionTime": "2024-06-28T14:38:11Z",
+                "message": "Some resources are remaining: checlusters.org.eclipse.che has 1 resource instances",
+                "reason": "SomeResourcesRemain",
+                "status": "True",
+                "type": "NamespaceContentRemaining"
+            },
+            {
+                "lastTransitionTime": "2024-06-28T14:38:11Z",
+                "message": "Some content in the namespace has finalizers remaining: cheGateway.clusterpermissions.finalizers.che.eclipse.org in 1 resource instances, cluster-resources.finalizers.che.eclipse.org in 1 resource instances, consolelink.finalizers.che.eclipse.org in 1 resource instances, container-build.finalizers.che.eclipse.org in 1 resource instances, dashboard.clusterpermissions.finalizers.che.eclipse.org in 1 resource instances, oauthclients.finalizers.che.eclipse.org in 1 resource instances",
+                "reason": "SomeFinalizersRemain",
+                "status": "True",
+                "type": "NamespaceFinalizersRemaining"
+            }
+        ],
+        "phase": "Terminating"
+    }
+}

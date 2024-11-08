@@ -27,84 +27,84 @@ The *correlation key MUST BE initialized* at creation time with an incoming *Clo
 This implies two _catching event nodes_ are required:
 
 * one at the beginning of the flow to start the workflow
+
 * another after the `Prepare for Shipping` and `Forward to External Supplier` to wait the shipping event
 
 //-
+Open the workflow editor and follow these steps:
 
-1. Define the event types
+. Before the `start` declaration, *add* the following _event declaration_:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-"events": [
-  {
-    "name": "orderEvent",
-    "kind": "consumed",
-    "type": "OrderEventType",
-    "source": "Client",
-    "correlation": [
-      {
-        "contextAttributeName": "orderid"
-      }
-    ]
-  },
-  {
-    "name": "shippingEvent",
-    "kind": "consumed",
-    "type": "ShippingEventType",
-    "source": "Shipper",
-    "correlation": [
-      {
-        "contextAttributeName": "orderid"
-      }
-    ]
-  }
-],
+events:
+- name: orderEvent
+  kind: consumed
+  type: OrderEventType
+  source: Client
+  correlation:
+  - contextAttributeName: orderid
+- name: shippingEvent
+  kind: consumed
+  type: ShippingEventType
+  source: Shipper
+  correlation:
+  - contextAttributeName: orderid
 ----
 +
 The definition is quite self explanatory: the workflow can *consume* two different *types of events*: `OrderEventType` and `ShippingEventType`, from two different *sources*. 
-One important aspect is the _correlation definition_ which says that _CloudEvent_ has to carry a special *attribute in the header* named `orderid` (CloudEvents attributes are lowercase).
+One important aspect is the _correlation definition_ which says that _CloudEvent_ has to carry a special *attribute in the header* named `orderid` (CloudEvents attributes must be _lowercase_).
 
-2. *Add* an _event node_ after the start node
+. Add an *_event state_* at the beginning of the workflow:
+
+.. *Insert* the following immediately after the declaration of `states`:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-{
-  "name": "Order Received",
-  "type": "event",
-  "onEvents": [
-    {
-      "eventRefs": [
-        "orderEvent"
-      ]
-    }
-  ],
-  "transition": "Check Inventory"
-}
+- name: Order Received
+  type: event
+  onEvents:
+    - eventRefs:
+        - orderEvent
+  transition: Check Inventory
 ----
 
-3. *Update* the _start_ attribute to match the event state `Order Received`, this is the graphical outcome:
+.. *Update* the `start` attribute to match the event state `Order Received`, this is the graphical outcome:
 +
-image::order-received.png[]
+image::04_order-received.png[]
 
-4. *Add* another _event_ state at the end:
+. Add another *_event state_* at the end of the workflow:
+
+.. *Insert* another _event_ state declaration:
 
 * name: `Order Shipped`
 * eventRef: `shippingEvent`
 
-5. *Update* `Prepare for Shipping` and `Forward to External Supplier` to *transition* in `Order Shipped` event node
 +
-image::order-shipped.png[]
++
+NOTE: It's worth noting that the order of the declarations is irrelevant, but to make the file easier to read, it's a good practice to follow the same order in the textual representation as in the graphical one.
 
-6. To complete the use case implementation, you have to add another operation that is responsible of *notifying* the customer about the shipping status with usual tracking information:
+.. *Update* the `Prepare for Shipping` and `Forward to External Supplier` states to *transition* in the `Order Shipped` event node; on both declarations:
+
+... remove `end: true`
+... add `transition: Order Shipped`
+
++
+The resulting diagram is:
+
++
+image::04_order-shipped.png[]
+
+. To complete the use case implementation, you have to add another operation that is responsible of *notifying* the customer about the shipping status with usual tracking information:
 
 * *copy* the previous operation state `Prepare for Shipping`
 * *rename* it to `Notify Customer`
 * *update* the message to match the operation name
-* *remove* the existing _transition_ and *add* the attribute `"end": true`
+* *remove* the existing _transition_ and *add* the attribute `end: true`
 
-7. *Update* the previous `Order Shipped` event state *adding* the _transition_ to `Notify Customer`
+. *Update* the previous `Order Shipped` event state *adding* the _transition_ to `Notify Customer`
 
 :sol-stage: 03-long-wait
 include::partial$sync-project.adoc[]

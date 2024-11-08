@@ -31,11 +31,11 @@ version: "1.0"
 specVersion: "0.8"
 name: Order Workflow
 description: Order Workflow Sample
-start: Order Received
 functions:
   - name: printMessage
     type: custom
     operation: sysout
+start: Order Received
 states:
   - name: Order Received
     type: operation
