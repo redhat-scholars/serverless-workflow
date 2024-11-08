@@ -95,7 +95,7 @@ NOTE: It's worth noting that the order of the declarations is irrelevant, but to
 The resulting diagram is:
 
 +
-image::04_order-shipped.png[]
+image::04_order-shipped.png[order shipped]
 
 . To complete the use case implementation, you have to add another operation that is responsible of *notifying* the customer about the shipping status with usual tracking information:
 
@@ -133,29 +133,53 @@ To _start_ the workflow and subsequently _advance_ it, you have to inject two *t
 * `OrderEventType`
 * `ShippingEventType`
 
-Inside the http probing file, there are already 3 examples of _CloudEvents_, for the current test we only need the first two.
+The Dev UI offers a convenient web form to inject _Cloud Events_ in the Serverless Workflow runtime:
 
-1. *Open* `src/test/resources/probe.http` and *identify* the first POST statement after the comment _Start order workflow through CloudEvent_
+. *Open* the `Workflow Definitions` page.
 
-* Observe the feature of the http request: along with the usual HTTP Headers, there are some distinctive *attributes* of the _CloudEvents_ specification, they all starts with the `ce-` prefix and are lowercase.
-* A *special attention* deserves the custom attribute `orderid` which matches the `contextAttributeName` used in the event definition for correlation. 
+. In workflow list, *click* on the event icon:
+
 +
-NOTE: `{{orderId}}` is a convenient capability of this rest client that allows the variable defined earlier (`@orderId=1000`) to be used in this way.
+image::04_cloud-event.png[cloud event button]
 
-* Within the _json_ payload, there is again an attribute named `orderId`, it's required because the CloudEvents attributes are not accessible from the workflow logic.
+. *Fill in* the form with the following values:
 
-2. Start the order workflow injecting the `OrderEventType` *clicking* on `Send Request`
+- *Event Type* : `OrderEventType`
 
-3. Check the flow execution through the DevUI. Refer to xref:02-startup-project.adoc#monitor[Monitor the runtime] section for detailed guidance. Make sure that the workflow instance is still running. You should notice the `shippingEvent` is active after the `Prepare for Shipping` operation.
+- *Event Custom Headers* : `orderid = 1000`
+
 +
-image:devui-shippingevent.png[]
-
-4. Inject the `ShippingEventType` to make the flow advance: *click* `Send Request` on the POST statement right after the previous one (pay attention to the comment).
-
-5. To check the workflow instance completion, go in the _DevUI_, on the top right of the workflow instance page, *click* the _refresh icon_:
 +
-image:devui-refresh.png[]
+image::04_ce-header.png[cloud event header]
+
+
+- *Event Data* : `{"orderId": "1000", "item": "1111"}`
+
+. *Click* `Trigger`
+
+IMPORTANT: The *custom event header* `orderid` matches the `contextAttributeName` used in the event definition for correlation. In other words, `orderid` is the hook to the workflow instance, you can run multiple workflow instances in parallel, but they must wait for a distinct `orderid`.
+
+Open the *_Workflow Details_* page to inspect the instance status: you should see the the workflow instance still active, waiting for the shipping event:
+
+image:04_shipping.png[Shipping Event]
+
+To advance the workflow execution, you have to send another event:
+
+. *Open* the `Workflow Definitions` page.
+
+. In workflow list, *click* on the event icon:
+
++
+image::04_cloud-event.png[cloud event button]
+
+. *Fill in* the form with the following values:
+
+- *Event Type* : `ShippingEventType`
+
+- *Event Custom Headers* : `orderid = 1000`
+
+. *Click* `Trigger`
+
+Use the *_Workflow Details_* page to check that the workflow instance is correctly completed.
 
 **CONGRATULATION!!!** Your Serverless Workflow resumes when asynchronous events arrives!
-
-IMPORTANT: The `ce-orderid` attribute is the hook to the workflow instance, you can run multiple parallel workflow instances which will wait the corresponding events.
