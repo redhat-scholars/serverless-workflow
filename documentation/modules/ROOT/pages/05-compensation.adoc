@@ -231,32 +231,15 @@ image::restore-inventory.png[]
 
 In the workflow diagram you should see the following situation:
 
-image:compensation-activities.png[]
+image::compensation-activities.png[]
 
 [#test-compensation]
 == Testing the compensation
 
-To test the compensation you have to send the following events:
+Compensation comes in action when the workflow instance receives the cancel event: repeat the test procedure above.
 
-1. New order (`OrderEventType`)
-2. Cancel the order (`CancelEventType`)
+In the workflow details page, you can see that the corresponding compensation state is triggered as shown in the following picture:
 
-Then you can check if the compensation activity is triggered.
-
-Unless, you changed it before, the rest call provided in `probe.http` contains the item id `1110` which is supposed to trigger the internal shipping path. So when you trigger the cancellation you should see in the log the following line:
-
-[.console-output]
-[source, json,subs="+macros,+attributes"]
-----
-Restore Inventory
-----
-
-Repeat the test using an item id with no `0` (e.g. `1234`), upon cancellation you should see in the log the following line:
-
-[.console-output]
-[source, json,subs="+macros,+attributes"]
-----
-Cancel Supplier Order
-----
+image::05_compensated.png[]
 
 **CONGRATULATION!!!** Your Serverless Workflow compensates wisely!
