@@ -34,125 +34,93 @@ Below, we will add the definition of the new event type `CancelEventType` and a 
 
 //-
 
-*Open* the `swf` file:
+*Open* the workflow designer:
 
-1. Inside the event section *add* the following declaration:
+. Inside the event section *add* the `cancelEvent` declaration:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-{
-  "name": "cancelEvent",
-  "kind": "consumed",
-  "type": "CancelEventType",
-  "source": "Client",
-  "correlation": [
-    {
-      "contextAttributeName": "orderid"
-    }
-  ]
-}
+- name: cancelEvent
+  kind: consumed
+  type: CancelEventType
+  source: Client
+  correlation:
+  - contextAttributeName: orderid
 ----
 
-2. In the state section, *locate* the `Order Shipped` event node and *overwrite* it with the following snippet:
+. In the state section, *locate* the `Order Shipped` event state and *overwrite* it with the following snippet:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-{
-  "name": "Order Shipped or Cancelled",
-  "type": "event",
-  "transition": "Is Shipped?",
-  "exclusive": true,
-  "onEvents": [
-    {
-      "eventRefs": [
-        "shippingEvent"
-      ]
-    },
-    {
-      "eventRefs": [
-        "cancelEvent"
-      ],
-      "eventDataFilter": {
-        "data": "{cancel:true}"
-      }
-    }
-  ]
-},
+- name: Order Shipped or Cancelled
+  type: event
+  exclusive: true
+  onEvents:
+  - eventRefs:
+    - shippingEvent
+  - eventRefs:
+    - cancelEvent
+    eventDataFilter:
+      data: '{cancel:true}'
+  transition: Is Shipped?
 ----
 +
 The new event state definition is able to listen for two different events. 
 At the cancellation event, we can see the statement `eventDataFilter` the effect of which is to introduce a new Boolean data: `cancel:true`. In such a way, we will later be able to know which event has arrived.
 
-3. *Update* the `transition` the states `Prepare for Shipping` and `Forward to External Supplier` to point to the new name `Order Shipped or Cancelled`
+. Since the event state has a new name, you have to *update* the states `Prepare for Shipping` and `Forward to External Supplier` to point to it.
 
-4. *Add* the following switch state after the `Order Shipped or Cancelled` state:
+* Search and *update* the corresponding transition declarations in this way: `transition: Order Shipped or Cancelled`.
+
+. *Add* the following switch state after the `Order Shipped or Cancelled` state:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-{
-    "name": "Is Shipped?",
-    "type": "switch",
-    "dataConditions": [
-    {
-        "name": "order cancelled",
-        "condition": ".cancel == true",
-        "transition": "Compensate Order"
-    }
-    ],
-    "defaultCondition": {
-        "transition": "Notify Customer"
-    }
-},
+- name: Is Shipped?
+  type: switch
+  dataConditions:
+  - name: order cancelled
+    condition: .cancel == true
+    transition: Compensate Order
+  defaultCondition:
+    transition: Notify Customer
 ----
 
-5. After the previous state, *Add* an operation to handle the cancel event:
+. After the previous state, *Add* an operation to handle the cancel event:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-{
-    "name": "Compensate Order",
-    "type": "operation",
-    "actions": [
-    {
-        "name": "printAction",
-        "functionRef": {
-        "refName": "printMessage",
-        "arguments": {
-            "message": "\"Compensate Order\""
-        }
-        }
-    }
-    ],
-    "end": {
-        "terminate": true,
-        "compensate": true
-    }
-},
+- name: Compensate Order
+  type: operation
+  actions:
+  - name: printAction
+    functionRef:
+      refName: printMessage
+      arguments:
+        message: '"Compensate Order"'
+  end:
+    terminate: true
+    compensate: true
 ----
 
-6. Locate the `Notify Customer` operation state and *adjust* the `end` property in this way:
+. Locate the `Notify Customer` operation state and *adjust* the `end` property in this way:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-"end": {
-    "terminate": true
-}
+  end:
+    terminate: true
 ----
 +
 This measure forces the workflow termination.
 
 The following picture shows the result of the above procedure on the workflow diagram:
 
-image::cancel-event.png[]
-
-:sol-stage: 04-cancelling
-include::partial$sync-project.adoc[]
-:!sol-stage:
+image::05_cancel-event.png[]
 
 [#test-cancel]
 == Test the cancelling event
