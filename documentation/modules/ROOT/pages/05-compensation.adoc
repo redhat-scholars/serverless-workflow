@@ -130,11 +130,42 @@ In this section, we are going to test that the workflow is able to resume the ex
 * `ShippingEventType`
 * `CancelEventType`
 
-Then, depending on the incoming message, the workflow continues in one of the two corresponding branches.
+Start a new workflow instance:
+
+. *Open* the `Workflow Definitions` page.
+
+. In workflow list, *click* on the event icon:
+
++
+image::04_cloud-event.png[cloud event button]
+
+. *Fill in* the form with the following values:
+
+- *Event Type* : `OrderEventType`
+
+- *Event Custom Headers* : `orderid = 1002`
+
+- *Event Data* : `{"orderId": "1002", "item": "1111"}`
+
+. *Click* `Trigger`
+
+Repeat the previous step to start a second workflow instance with `orderid = 1003`.
+
+Inject other two CloudEvents:
+
+. First event will test the happy path:
+
+- *Event Type* : `ShippingEventType`
+
+- *Event Custom Headers* : `orderid = 1002`
+
+. Second event will test the cancellation path:
+
+- *Event Type* : `CancelEventType`
+
+- *Event Custom Headers* : `orderid = 1003`
 
 NOTE: Even if you trigger the compensation no compensation activity is defined, so at this stage of the exercise you can only look for the `Compensate Order` string in the logs.
-
-Based on the previous test activities, you should be able to figure out how to test this scenario. Please, note that in the `probe.http` file, you already have the `cancelEvent` rest request.
 
 [#compensation-activities]
 == Compensation Activities Sprint
