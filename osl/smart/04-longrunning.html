@@ -8,8 +8,8 @@
     <link rel="prev" href="03-inventory.html">
     <link rel="next" href="05-compensation.html">
     <meta name="generator" content="Antora 3.0.0">
-    <link rel="stylesheet" href="../_/css/site.css">
-<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body class="article">
@@ -17,7 +17,7 @@
   <nav class="navbar">
     <div class="navbar-brand">
       <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
-          src="../_/img/RHDLogo.svg" height="40px" alt="Red Hat Developer Program"></a>
+          src="../../_/img/RHDLogo.svg" height="40px" alt="Red Hat Developer Program"></a>
       <a class="navbar-item" href="https://redhat-scholars.github.io/serverless-workflow/osl">OpenShift Serverless Logic Tutorial</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
@@ -62,7 +62,7 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="osl" data-version="master">
+<div class="nav-container" data-component="osl" data-version="smart">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
@@ -94,16 +94,13 @@
     <a class="nav-link" href="02-startup-project.html">2. Startup Project</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#structure">The project structure</a>
+    <a class="nav-link" href="02-startup-project.html#basic-workflow">A basic workflow</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="02-startup-project.html#run">Run the workflow</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#monitor">Monitor the runtime</a>
+    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow execution</a>
   </li>
 </ul>
   </li>
@@ -169,17 +166,17 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">OpenShift Serverless Logic Tutorial</span>
-    <span class="version">master</span>
+    <span class="version">smart</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">OpenShift Serverless Logic Tutorial</span>
       <ul class="versions">
-        <li class="version">
-          <a href="smart/index.html">smart</a>
-        </li>
         <li class="version is-current">
-          <a href="index.html">master</a>
+          <a href="index.html">smart</a>
+        </li>
+        <li class="version">
+          <a href="../index.html">master</a>
         </li>
       </ul>
     </li>
@@ -191,7 +188,7 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="smart/index.html" class="home-link"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Serverless Logic Tutorial</a></li>
@@ -199,13 +196,13 @@
   </ul>
 </nav>
 <div class="page-versions">
-  <button class="version-menu-toggle" title="Show other versions of page">master</button>
+  <button class="version-menu-toggle" title="Show other versions of page">smart</button>
   <div class="version-menu">
-    <a class="version" href="smart/04-longrunning.html">smart</a>
-    <a class="version is-current" href="04-longrunning.html">master</a>
+    <a class="version is-current" href="04-longrunning.html">smart</a>
+    <a class="version" href="../04-longrunning.html">master</a>
   </div>
 </div>
-  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/master/documentation/modules/ROOT/pages/04-longrunning.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/smart/documentation/modules/ROOT/pages/04-longrunning.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
@@ -258,72 +255,69 @@ As the name implies, the correlation key is important to address the correct wor
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>Open the workflow editor and follow these steps:</p>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Define the event types</p>
+<p>Before the <code>start</code> declaration, <strong>add</strong> the following <em>event declaration</em>:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"events": [
-  {
-    "name": "orderEvent",
-    "kind": "consumed",
-    "type": "OrderEventType",
-    "source": "Client",
-    "correlation": [
-      {
-        "contextAttributeName": "orderid"
-      }
-    ]
-  },
-  {
-    "name": "shippingEvent",
-    "kind": "consumed",
-    "type": "ShippingEventType",
-    "source": "Shipper",
-    "correlation": [
-      {
-        "contextAttributeName": "orderid"
-      }
-    ]
-  }
-],</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">events:
+- name: orderEvent
+  kind: consumed
+  type: OrderEventType
+  source: Client
+  correlation:
+  - contextAttributeName: orderid
+- name: shippingEvent
+  kind: consumed
+  type: ShippingEventType
+  source: Shipper
+  correlation:
+  - contextAttributeName: orderid</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>The definition is quite self explanatory: the workflow can <strong>consume</strong> two different <strong>types of events</strong>: <code>OrderEventType</code> and <code>ShippingEventType</code>, from two different <strong>sources</strong>.
-One important aspect is the <em>correlation definition</em> which says that <em>CloudEvent</em> has to carry a special <strong>attribute in the header</strong> named <code>orderid</code> (CloudEvents attributes are lowercase).</p>
+One important aspect is the <em>correlation definition</em> which says that <em>CloudEvent</em> has to carry a special <strong>attribute in the header</strong> named <code>orderid</code> (CloudEvents attributes must be <em>lowercase</em>).</p>
 </div>
 </li>
 <li>
-<p><strong>Add</strong> an <em>event node</em> after the start node</p>
+<p>Add an <strong><em>event state</em></strong> at the beginning of the workflow:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Insert</strong> the following immediately after the declaration of <code>states</code>:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-  "name": "Order Received",
-  "type": "event",
-  "onEvents": [
-    {
-      "eventRefs": [
-        "orderEvent"
-      ]
-    }
-  ],
-  "transition": "Check Inventory"
-}</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: Order Received
+  type: event
+  onEvents:
+    - eventRefs:
+        - orderEvent
+  transition: Check Inventory</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p><strong>Update</strong> the <em>start</em> attribute to match the event state <code>Order Received</code>, this is the graphical outcome:</p>
+<p><strong>Update</strong> the <code>start</code> attribute to match the event state <code>Order Received</code>, this is the graphical outcome:</p>
 <div class="imageblock">
 <div class="content">
-<img src="_images/order-received.png" alt="order received">
+<img src="_images/04_order-received.png" alt="04 order received">
 </div>
 </div>
 </li>
+</ol>
+</div>
+</li>
 <li>
-<p><strong>Add</strong> another <em>event</em> state at the end:</p>
+<p>Add another <strong><em>event state</em></strong> at the end of the workflow:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Insert</strong> another <em>event</em> state declaration:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -331,15 +325,43 @@ One important aspect is the <em>correlation definition</em> which says that <em>
 </li>
 <li>
 <p>eventRef: <code>shippingEvent</code></p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It&#8217;s worth noting that the order of the declarations is irrelevant, but to make the file easier to read, it&#8217;s a good practice to follow the same order in the textual representation as in the graphical one.
+</td>
+</tr>
+</table>
+</div>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Update</strong> <code>Prepare for Shipping</code> and <code>Forward to External Supplier</code> to <strong>transition</strong> in <code>Order Shipped</code> event node</p>
+<p><strong>Update</strong> the <code>Prepare for Shipping</code> and <code>Forward to External Supplier</code> states to <strong>transition</strong> in the <code>Order Shipped</code> event node; on both declarations:</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>remove <code>end: true</code></p>
+</li>
+<li>
+<p>add <code>transition: Order Shipped</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The resulting diagram is:</p>
+</div>
+</li>
+</ol>
+</div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/order-shipped.png" alt="order shipped">
+<img src="_images/04_order-shipped.png" alt="order shipped">
 </div>
 </div>
 </li>
@@ -357,7 +379,7 @@ One important aspect is the <em>correlation definition</em> which says that <em>
 <p><strong>update</strong> the message to match the operation name</p>
 </li>
 <li>
-<p><strong>remove</strong> the existing <em>transition</em> and <strong>add</strong> the attribute <code>"end": true</code></p>
+<p><strong>remove</strong> the existing <em>transition</em> and <strong>add</strong> the attribute <code>end: true</code></p>
 </li>
 </ul>
 </div>
@@ -428,60 +450,46 @@ In general, the Serverless Workflow runtime can expose multiple endpoints to ing
 </ul>
 </div>
 <div class="paragraph">
-<p>Inside the http probing file, there are already 3 examples of <em>CloudEvents</em>, for the current test we only need the first two.</p>
+<p>The Dev UI offers a convenient web form to inject <em>Cloud Events</em> in the Serverless Workflow runtime:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><strong>Open</strong> <code>src/test/resources/probe.http</code> and <strong>identify</strong> the first POST statement after the comment <em>Start order workflow through CloudEvent</em></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Observe the feature of the http request: along with the usual HTTP Headers, there are some distinctive <strong>attributes</strong> of the <em>CloudEvents</em> specification, they all starts with the <code>ce-</code> prefix and are lowercase.</p>
+<p><strong>Open</strong> the <code>Workflow Definitions</code> page.</p>
 </li>
 <li>
-<p>A <strong>special attention</strong> deserves the custom attribute <code>orderid</code> which matches the <code>contextAttributeName</code> used in the event definition for correlation.</p>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>{{orderId}}</code> is a convenient capability of this rest client that allows the variable defined earlier (<code>@orderId=1000</code>) to be used in this way.
-</td>
-</tr>
-</table>
+<p>In workflow list, <strong>click</strong> on the event icon:</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/04_cloud-event.png" alt="cloud event button">
+</div>
 </div>
 </li>
 <li>
-<p>Within the <em>json</em> payload, there is again an attribute named <code>orderId</code>, it&#8217;s required because the CloudEvents attributes are not accessible from the workflow logic.</p>
+<p><strong>Fill in</strong> the form with the following values:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Event Type</strong> : <code>OrderEventType</code></p>
+</li>
+<li>
+<p><strong>Event Custom Headers</strong> : <code>orderid = 1000</code></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/04_ce-header.png" alt="cloud event header">
+</div>
+</div>
+</li>
+<li>
+<p><strong>Event Data</strong> : <code>{"orderId": "1000", "item": "1111"}</code></p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Start the order workflow injecting the <code>OrderEventType</code> <strong>clicking</strong> on <code>Send Request</code></p>
-</li>
-<li>
-<p>Check the flow execution through the DevUI. Refer to <a href="02-startup-project.html#monitor" class="xref page">Monitor the runtime</a> section for detailed guidance. Make sure that the workflow instance is still running. You should notice the <code>shippingEvent</code> is active after the <code>Prepare for Shipping</code> operation.</p>
-<div class="paragraph">
-<p><span class="image"><img src="_images/devui-shippingevent.png" alt="devui shippingevent"></span></p>
-</div>
-</li>
-<li>
-<p>Inject the <code>ShippingEventType</code> to make the flow advance: <strong>click</strong> <code>Send Request</code> on the POST statement right after the previous one (pay attention to the comment).</p>
-</li>
-<li>
-<p>To check the workflow instance completion, go in the <em>DevUI</em>, on the top right of the workflow instance page, <strong>click</strong> the <em>refresh icon</em>:</p>
-<div class="paragraph">
-<p><span class="image"><img src="_images/devui-refresh.png" alt="devui refresh"></span></p>
-</div>
+<p><strong>Click</strong> <code>Trigger</code></p>
 </li>
 </ol>
-</div>
-<div class="paragraph">
-<p><strong>CONGRATULATION!!!</strong> Your Serverless Workflow resumes when asynchronous events arrives!</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -490,10 +498,56 @@ In general, the Serverless Workflow runtime can expose multiple endpoints to ing
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-The <code>ce-orderid</code> attribute is the hook to the workflow instance, you can run multiple parallel workflow instances which will wait the corresponding events.
+The <strong>custom event header</strong> <code>orderid</code> matches the <code>contextAttributeName</code> used in the event definition for correlation. In other words, <code>orderid</code> is the hook to the workflow instance, you can run multiple workflow instances in parallel, but they must wait for a distinct <code>orderid</code>.
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Open the <strong><em>Workflow Details</em></strong> page to inspect the instance status: you should see the the workflow instance still active, waiting for the shipping event:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/04_shipping.png" alt="Shipping Event"></span></p>
+</div>
+<div class="paragraph">
+<p>To advance the workflow execution, you have to send another event:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Open</strong> the <code>Workflow Definitions</code> page.</p>
+</li>
+<li>
+<p>In workflow list, <strong>click</strong> on the event icon:</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/04_cloud-event.png" alt="cloud event button">
+</div>
+</div>
+</li>
+<li>
+<p><strong>Fill in</strong> the form with the following values:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Event Type</strong> : <code>ShippingEventType</code></p>
+</li>
+<li>
+<p><strong>Event Custom Headers</strong> : <code>orderid = 1000</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Click</strong> <code>Trigger</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Use the <strong><em>Workflow Details</em></strong> page to check that the workflow instance is correctly completed.</p>
+</div>
+<div class="paragraph">
+<p><strong>CONGRATULATION!!!</strong> Your Serverless Workflow resumes when asynchronous events arrives!</p>
 </div>
 </div>
 </div>
@@ -511,8 +565,8 @@ The <code>ce-orderid</code> attribute is the hook to the workflow instance, you 
 <footer class="footer">
   <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
 </footer>
-<script src="../_/js/vendor/clipboard.js"></script>
-<script src="../_/js/site.js"></script>
-<script async src="../_/js/vendor/highlight.js"></script>
+<script src="../../_/js/vendor/clipboard.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
   </body>
 </html>

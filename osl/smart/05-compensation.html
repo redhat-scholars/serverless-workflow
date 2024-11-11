@@ -7,8 +7,8 @@
     <link rel="canonical" href="https://redhat-scholars.github.io/serverless-workflow/osl/osl/smart/05-compensation.html">
     <link rel="prev" href="04-longrunning.html">
     <meta name="generator" content="Antora 3.0.0">
-    <link rel="stylesheet" href="../_/css/site.css">
-<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body class="article">
@@ -16,7 +16,7 @@
   <nav class="navbar">
     <div class="navbar-brand">
       <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
-          src="../_/img/RHDLogo.svg" height="40px" alt="Red Hat Developer Program"></a>
+          src="../../_/img/RHDLogo.svg" height="40px" alt="Red Hat Developer Program"></a>
       <a class="navbar-item" href="https://redhat-scholars.github.io/serverless-workflow/osl">OpenShift Serverless Logic Tutorial</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
@@ -61,7 +61,7 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="osl" data-version="master">
+<div class="nav-container" data-component="osl" data-version="smart">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
@@ -93,16 +93,13 @@
     <a class="nav-link" href="02-startup-project.html">2. Startup Project</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#structure">The project structure</a>
+    <a class="nav-link" href="02-startup-project.html#basic-workflow">A basic workflow</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="02-startup-project.html#run">Run the workflow</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#monitor">Monitor the runtime</a>
+    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow execution</a>
   </li>
 </ul>
   </li>
@@ -168,17 +165,17 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">OpenShift Serverless Logic Tutorial</span>
-    <span class="version">master</span>
+    <span class="version">smart</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">OpenShift Serverless Logic Tutorial</span>
       <ul class="versions">
-        <li class="version">
-          <a href="smart/index.html">smart</a>
-        </li>
         <li class="version is-current">
-          <a href="index.html">master</a>
+          <a href="index.html">smart</a>
+        </li>
+        <li class="version">
+          <a href="../index.html">master</a>
         </li>
       </ul>
     </li>
@@ -190,7 +187,7 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="smart/index.html" class="home-link"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Serverless Logic Tutorial</a></li>
@@ -198,13 +195,13 @@
   </ul>
 </nav>
 <div class="page-versions">
-  <button class="version-menu-toggle" title="Show other versions of page">master</button>
+  <button class="version-menu-toggle" title="Show other versions of page">smart</button>
   <div class="version-menu">
-    <a class="version" href="smart/05-compensation.html">smart</a>
-    <a class="version is-current" href="05-compensation.html">master</a>
+    <a class="version is-current" href="05-compensation.html">smart</a>
+    <a class="version" href="../05-compensation.html">master</a>
   </div>
 </div>
-  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/master/documentation/modules/ROOT/pages/05-compensation.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/smart/documentation/modules/ROOT/pages/05-compensation.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
@@ -272,53 +269,38 @@ Given the simplistic nature of the example, one might consider replacing compens
 </ul>
 </div>
 <div class="paragraph">
-<p><strong>Open</strong> the <code>swf</code> file:</p>
+<p><strong>Open</strong> the workflow designer:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Inside the event section <strong>add</strong> the following declaration:</p>
+<p>Inside the event section <strong>add</strong> the <code>cancelEvent</code> declaration:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-  "name": "cancelEvent",
-  "kind": "consumed",
-  "type": "CancelEventType",
-  "source": "Client",
-  "correlation": [
-    {
-      "contextAttributeName": "orderid"
-    }
-  ]
-}</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: cancelEvent
+  kind: consumed
+  type: CancelEventType
+  source: Client
+  correlation:
+  - contextAttributeName: orderid</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>In the state section, <strong>locate</strong> the <code>Order Shipped</code> event node and <strong>overwrite</strong> it with the following snippet:</p>
+<p>In the state section, <strong>locate</strong> the <code>Order Shipped</code> event state and <strong>overwrite</strong> it with the following snippet:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-  "name": "Order Shipped or Cancelled",
-  "type": "event",
-  "transition": "Is Shipped?",
-  "exclusive": true,
-  "onEvents": [
-    {
-      "eventRefs": [
-        "shippingEvent"
-      ]
-    },
-    {
-      "eventRefs": [
-        "cancelEvent"
-      ],
-      "eventDataFilter": {
-        "data": "{cancel:true}"
-      }
-    }
-  ]
-},</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: Order Shipped or Cancelled
+  type: event
+  exclusive: true
+  onEvents:
+  - eventRefs:
+    - shippingEvent
+  - eventRefs:
+    - cancelEvent
+    eventDataFilter:
+      data: '{cancel:true}'
+  transition: Is Shipped?</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -327,26 +309,27 @@ At the cancellation event, we can see the statement <code>eventDataFilter</code>
 </div>
 </li>
 <li>
-<p><strong>Update</strong> the <code>transition</code> the states <code>Prepare for Shipping</code> and <code>Forward to External Supplier</code> to point to the new name <code>Order Shipped or Cancelled</code></p>
+<p>Since the event state has a new name, you have to <strong>update</strong> the states <code>Prepare for Shipping</code> and <code>Forward to External Supplier</code> to point to it.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Search and <strong>update</strong> the corresponding transition declarations in this way: <code>transition: Order Shipped or Cancelled</code>.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p><strong>Add</strong> the following switch state after the <code>Order Shipped or Cancelled</code> state:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-    "name": "Is Shipped?",
-    "type": "switch",
-    "dataConditions": [
-    {
-        "name": "order cancelled",
-        "condition": ".cancel == true",
-        "transition": "Compensate Order"
-    }
-    ],
-    "defaultCondition": {
-        "transition": "Notify Customer"
-    }
-},</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: Is Shipped?
+  type: switch
+  dataConditions:
+  - name: order cancelled
+    condition: .cancel == true
+    transition: Compensate Order
+  defaultCondition:
+    transition: Notify Customer</code></pre>
 </div>
 </div>
 </li>
@@ -354,25 +337,17 @@ At the cancellation event, we can see the statement <code>eventDataFilter</code>
 <p>After the previous state, <strong>Add</strong> an operation to handle the cancel event:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-    "name": "Compensate Order",
-    "type": "operation",
-    "actions": [
-    {
-        "name": "printAction",
-        "functionRef": {
-        "refName": "printMessage",
-        "arguments": {
-            "message": "\"Compensate Order\""
-        }
-        }
-    }
-    ],
-    "end": {
-        "terminate": true,
-        "compensate": true
-    }
-},</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: Compensate Order
+  type: operation
+  actions:
+  - name: printAction
+    functionRef:
+      refName: printMessage
+      arguments:
+        message: '"Compensate Order"'
+  end:
+    terminate: true
+    compensate: true</code></pre>
 </div>
 </div>
 </li>
@@ -380,9 +355,8 @@ At the cancellation event, we can see the statement <code>eventDataFilter</code>
 <p>Locate the <code>Notify Customer</code> operation state and <strong>adjust</strong> the <code>end</code> property in this way:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"end": {
-    "terminate": true
-}</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">  end:
+    terminate: true</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -396,22 +370,8 @@ At the cancellation event, we can see the statement <code>eventDataFilter</code>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/cancel-event.png" alt="cancel event">
+<img src="_images/05_cancel-event.png" alt="05 cancel event">
 </div>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>You can compare your resulting workflow with the expected solution at this stage in <code>solution/04-cancelling</code></p>
-</div>
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>
@@ -432,7 +392,77 @@ At the cancellation event, we can see the statement <code>eventDataFilter</code>
 </ul>
 </div>
 <div class="paragraph">
-<p>Then, depending on the incoming message, the workflow continues in one of the two corresponding branches.</p>
+<p>Start a new workflow instance:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Open</strong> the <code>Workflow Definitions</code> page.</p>
+</li>
+<li>
+<p>In workflow list, <strong>click</strong> on the event icon:</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/04_cloud-event.png" alt="cloud event button">
+</div>
+</div>
+</li>
+<li>
+<p><strong>Fill in</strong> the form with the following values:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Event Type</strong> : <code>OrderEventType</code></p>
+</li>
+<li>
+<p><strong>Event Custom Headers</strong> : <code>orderid = 1002</code></p>
+</li>
+<li>
+<p><strong>Event Data</strong> : <code>{"orderId": "1002", "item": "1111"}</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Click</strong> <code>Trigger</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Repeat the previous step to start a second workflow instance with <code>orderid = 1003</code>.</p>
+</div>
+<div class="paragraph">
+<p>Inject other two CloudEvents:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>First event will test the happy path:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Event Type</strong> : <code>ShippingEventType</code></p>
+</li>
+<li>
+<p><strong>Event Custom Headers</strong> : <code>orderid = 1002</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Second event will test the cancellation path:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Event Type</strong> : <code>CancelEventType</code></p>
+</li>
+<li>
+<p><strong>Event Custom Headers</strong> : <code>orderid = 1003</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -445,9 +475,6 @@ Even if you trigger the compensation no compensation activity is defined, so at 
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>Based on the previous test activities, you should be able to figure out how to test this scenario. Please, note that in the <code>probe.http</code> file, you already have the <code>cancelEvent</code> rest request.</p>
 </div>
 </div>
 </div>
@@ -478,30 +505,23 @@ Compensation activities are <strong>operation states</strong>, they could be pla
 <p>Locate <code>Prepare for Shipping</code> and <strong>append</strong> right afterward:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-    "name": "Restore Inventory",
-    "type": "operation",
-    "usedForCompensation": true,
-    "actions": [
-    {
-        "name": "printAction",
-        "functionRef": {
-        "refName": "printMessage",
-        "arguments": {
-            "message": "\"Restore Inventory\""
-        }
-        }
-    }
-    ]
-},</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: Restore Inventory
+  type: operation
+  usedForCompensation: true
+  actions:
+  - name: printAction
+    functionRef:
+      refName: printMessage
+      arguments:
+        message: Restore Inventory</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Inside <code>Prepare for Shipping</code> <strong>add</strong> the following property:</p>
+<p>Inside <code>Prepare for Shipping</code> <strong>append</strong> the following property:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"compensatedBy": "Restore Inventory",</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">  compensatedBy: Restore Inventory</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -517,22 +537,16 @@ Compensation activities are <strong>operation states</strong>, they could be pla
 <p>Locate <code>Forward to External Supplier</code> and <strong>append</strong> right afterward:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-    "name": "Cancel Supplier Order",
-    "type": "operation",
-    "usedForCompensation": true,
-    "actions": [
-    {
-        "name": "printAction",
-        "functionRef": {
-        "refName": "printMessage",
-        "arguments": {
-            "message": "\"Cancel Supplier Order\""
-        }
-        }
-    }
-    ]
-},</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: Cancel Supplier Order
+  type: operation
+  usedForCompensation: true
+  actions:
+  - name: cancelOrder
+    functionRef:
+      refName: cancelOrder
+      arguments:
+        supplier-id: sup-01
+        content: '.orderId'</code></pre>
 </div>
 </div>
 </li>
@@ -540,7 +554,7 @@ Compensation activities are <strong>operation states</strong>, they could be pla
 <p>Inside <code>Forward to External Supplier</code> <strong>add</strong> the following property:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"compensatedBy": "Cancel Supplier Order",</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">  compensatedBy: Cancel Supplier Order</code></pre>
 </div>
 </div>
 </li>
@@ -549,34 +563,10 @@ Compensation activities are <strong>operation states</strong>, they could be pla
 <div class="paragraph">
 <p>In the workflow diagram you should see the following situation:</p>
 </div>
-<div class="paragraph">
-<p><span class="image"><img src="_images/compensation-activities.png" alt="compensation activities"></span></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/compensation-activities.png" alt="compensation activities">
 </div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-At the time of writing, the diagram rendering has a bug that shows overlapping lines, so the final outcome is slightly confusing.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>You can compare your resulting workflow with the expected solution at this stage in <code>solution/05-compensation</code></p>
-</div>
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>
@@ -584,35 +574,14 @@ At the time of writing, the diagram rendering has a bug that shows overlapping l
 <h2 id="test-compensation"><a class="anchor" href="#test-compensation"></a>Testing the compensation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To test the compensation you have to send the following events:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>New order (<code>OrderEventType</code>)</p>
-</li>
-<li>
-<p>Cancel the order (<code>CancelEventType</code>)</p>
-</li>
-</ol>
+<p>Compensation comes in action when the workflow instance receives the cancel event: repeat the test procedure above.</p>
 </div>
 <div class="paragraph">
-<p>Then you can check if the compensation activity is triggered.</p>
+<p>In the workflow details page, you can see that the corresponding compensation state is triggered as shown in the following picture:</p>
 </div>
-<div class="paragraph">
-<p>Unless, you changed it before, the rest call provided in <code>probe.http</code> contains the item id <code>1110</code> which is supposed to trigger the internal shipping path. So when you trigger the cancellation you should see in the log the following line:</p>
-</div>
-<div class="listingblock console-output">
+<div class="imageblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">Restore Inventory</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Repeat the test using an item id with no <code>0</code> (e.g. <code>1234</code>), upon cancellation you should see in the log the following line:</p>
-</div>
-<div class="listingblock console-output">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">Cancel Supplier Order</code></pre>
+<img src="_images/05_compensated.png" alt="05 compensated">
 </div>
 </div>
 <div class="paragraph">
@@ -633,8 +602,8 @@ At the time of writing, the diagram rendering has a bug that shows overlapping l
 <footer class="footer">
   <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
 </footer>
-<script src="../_/js/vendor/clipboard.js"></script>
-<script src="../_/js/site.js"></script>
-<script async src="../_/js/vendor/highlight.js"></script>
+<script src="../../_/js/vendor/clipboard.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
   </body>
 </html>

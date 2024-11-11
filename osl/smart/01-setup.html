@@ -8,8 +8,8 @@
     <link rel="prev" href="index.html">
     <link rel="next" href="02-startup-project.html">
     <meta name="generator" content="Antora 3.0.0">
-    <link rel="stylesheet" href="../_/css/site.css">
-<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body class="article">
@@ -17,7 +17,7 @@
   <nav class="navbar">
     <div class="navbar-brand">
       <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
-          src="../_/img/RHDLogo.svg" height="40px" alt="Red Hat Developer Program"></a>
+          src="../../_/img/RHDLogo.svg" height="40px" alt="Red Hat Developer Program"></a>
       <a class="navbar-item" href="https://redhat-scholars.github.io/serverless-workflow/osl">OpenShift Serverless Logic Tutorial</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
@@ -62,7 +62,7 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="osl" data-version="master">
+<div class="nav-container" data-component="osl" data-version="smart">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
@@ -94,16 +94,13 @@
     <a class="nav-link" href="02-startup-project.html">2. Startup Project</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#structure">The project structure</a>
+    <a class="nav-link" href="02-startup-project.html#basic-workflow">A basic workflow</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="02-startup-project.html#run">Run the workflow</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#monitor">Monitor the runtime</a>
+    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow execution</a>
   </li>
 </ul>
   </li>
@@ -169,17 +166,17 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">OpenShift Serverless Logic Tutorial</span>
-    <span class="version">master</span>
+    <span class="version">smart</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">OpenShift Serverless Logic Tutorial</span>
       <ul class="versions">
-        <li class="version">
-          <a href="smart/index.html">smart</a>
-        </li>
         <li class="version is-current">
-          <a href="index.html">master</a>
+          <a href="index.html">smart</a>
+        </li>
+        <li class="version">
+          <a href="../index.html">master</a>
         </li>
       </ul>
     </li>
@@ -191,7 +188,7 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="smart/index.html" class="home-link"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Serverless Logic Tutorial</a></li>
@@ -199,13 +196,13 @@
   </ul>
 </nav>
 <div class="page-versions">
-  <button class="version-menu-toggle" title="Show other versions of page">master</button>
+  <button class="version-menu-toggle" title="Show other versions of page">smart</button>
   <div class="version-menu">
-    <a class="version" href="smart/01-setup.html">smart</a>
-    <a class="version is-current" href="01-setup.html">master</a>
+    <a class="version is-current" href="01-setup.html">smart</a>
+    <a class="version" href="../01-setup.html">master</a>
   </div>
 </div>
-  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/master/documentation/modules/ROOT/pages/01-setup.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/smart/documentation/modules/ROOT/pages/01-setup.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
@@ -213,8 +210,30 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section provides guidance on how to set up your local computer to host a OpenShift Serverless Logic development environment.</p>
+<p>There are several ways to develop on OpenShift Serverless Logic:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Pure Cloud</strong>: using <a href="https://start.kubesmarts.org/">Serverless Logic Web Tools</a> and OpenShift as the runtime engine.</p>
+</li>
+<li>
+<p><strong>Browser with local runtime</strong>: using <a href="https://start.kubesmarts.org/">Serverless Logic Web Tools</a> and <code>kn-workflow</code> command line (which leverages a local container engine, e.g. <code>podman</code>, <code>docker</code>)</p>
+</li>
+<li>
+<p><strong>Full-fledged local development workstation</strong>: using <em>Visual Studio Code</em> and <em>Quarkus</em>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This tutorial suggests the first option to minimize the workstation preparation work.
+The rest of this chapter provides instructions for setting up the <em>full local development workstation</em>, and <strong>you can skip it</strong>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="prerequisite"><a class="anchor" href="#prerequisite"></a>Prerequisite tools</h2>
+<div class="sectionbody">
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -222,19 +241,13 @@
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-It&#8217;s recommended to execute this section with a reliable connection. Avoid running this part of the lab together with other people because of the bandwidth required. Moreover, some tasks will take a long time to download resources.
+It is recommended that you complete this section using a reliable connection. Avoid doing this part of the lab on a shared connection because of the bandwidth requirements. Also, some tasks will take a long time to download resources.
 </td>
 </tr>
 </table>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="prerequisite"><a class="anchor" href="#prerequisite"></a>Prerequisite tools</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>The following CLI tools are required for running the exercises in this tutorial.
-Please have them installed and configured before you get started with any of the tutorial chapters.</p>
+<p>Here the tools to install:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -637,8 +650,8 @@ The first time you launch <code>maven</code> on this project, it is going to tak
 <footer class="footer">
   <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
 </footer>
-<script src="../_/js/vendor/clipboard.js"></script>
-<script src="../_/js/site.js"></script>
-<script async src="../_/js/vendor/highlight.js"></script>
+<script src="../../_/js/vendor/clipboard.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
   </body>
 </html>

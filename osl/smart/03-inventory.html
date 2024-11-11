@@ -8,8 +8,8 @@
     <link rel="prev" href="02-startup-project.html">
     <link rel="next" href="04-longrunning.html">
     <meta name="generator" content="Antora 3.0.0">
-    <link rel="stylesheet" href="../_/css/site.css">
-<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body class="article">
@@ -17,7 +17,7 @@
   <nav class="navbar">
     <div class="navbar-brand">
       <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
-          src="../_/img/RHDLogo.svg" height="40px" alt="Red Hat Developer Program"></a>
+          src="../../_/img/RHDLogo.svg" height="40px" alt="Red Hat Developer Program"></a>
       <a class="navbar-item" href="https://redhat-scholars.github.io/serverless-workflow/osl">OpenShift Serverless Logic Tutorial</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
@@ -62,7 +62,7 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="osl" data-version="master">
+<div class="nav-container" data-component="osl" data-version="smart">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
@@ -94,16 +94,13 @@
     <a class="nav-link" href="02-startup-project.html">2. Startup Project</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#structure">The project structure</a>
+    <a class="nav-link" href="02-startup-project.html#basic-workflow">A basic workflow</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="02-startup-project.html#run">Run the workflow</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-startup-project.html#monitor">Monitor the runtime</a>
+    <a class="nav-link" href="02-startup-project.html#inspect">Inspect the workflow execution</a>
   </li>
 </ul>
   </li>
@@ -169,17 +166,17 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">OpenShift Serverless Logic Tutorial</span>
-    <span class="version">master</span>
+    <span class="version">smart</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">OpenShift Serverless Logic Tutorial</span>
       <ul class="versions">
-        <li class="version">
-          <a href="smart/index.html">smart</a>
-        </li>
         <li class="version is-current">
-          <a href="index.html">master</a>
+          <a href="index.html">smart</a>
+        </li>
+        <li class="version">
+          <a href="../index.html">master</a>
         </li>
       </ul>
     </li>
@@ -191,7 +188,7 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="smart/index.html" class="home-link"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Serverless Logic Tutorial</a></li>
@@ -199,13 +196,13 @@
   </ul>
 </nav>
 <div class="page-versions">
-  <button class="version-menu-toggle" title="Show other versions of page">master</button>
+  <button class="version-menu-toggle" title="Show other versions of page">smart</button>
   <div class="version-menu">
-    <a class="version" href="smart/03-inventory.html">smart</a>
-    <a class="version is-current" href="03-inventory.html">master</a>
+    <a class="version is-current" href="03-inventory.html">smart</a>
+    <a class="version" href="../03-inventory.html">master</a>
   </div>
 </div>
-  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/master/documentation/modules/ROOT/pages/03-inventory.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/smart/documentation/modules/ROOT/pages/03-inventory.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
@@ -265,23 +262,26 @@ As any other tutorial use case, the situation we are going to consider is somewh
 <div class="paragraph">
 <p>In this sprint we are going to add the <strong>check inventory</strong> operation and based on the outcome call a <strong>prepare for shipping</strong> or <strong>forward to external supplier</strong>.</p>
 </div>
+<div class="paragraph">
+<p>Switch back to the <strong>Serverless Logic Web Tools</strong> to edit the <code>order</code> workflow:</p>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><strong>Open</strong> <code>order.sw.json</code> file</p>
-</li>
-<li>
-<p><strong>Replace</strong> <code>Order Received</code> with <code>Check Inventory</code> in the following places:</p>
+<p><strong>Rename</strong> the first state from <code>Order Received</code> to <code>Check Inventory</code> updating the following places:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>start</p>
+<p>the <code>start</code> value</p>
 </li>
 <li>
-<p>name of the state</p>
+<p>state <code>name</code></p>
 </li>
 <li>
-<p>the message</p>
+<p>the <code>message</code> content</p>
+</li>
+</ul>
+</div>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -295,17 +295,13 @@ To change all occurrences in one shot: select <code>Order Received</code>, press
 </table>
 </div>
 </li>
-</ul>
-</div>
-</li>
 <li>
-<p><strong>Add</strong> after the <code>functionRef</code> object the following logic:</p>
+<p>In the <code>Check Inventory</code> state, <strong>add</strong> the following definition just after the <code>functionRef</code> object (at the same level):</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"actionDataFilter": {
-  "fromStateData": ".",
-  "results": "{inventory: .item | test(\"0+\") }"
-}</code></pre>
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">        actionDataFilter:
+          fromStateData: .
+          results: '{inventory: .item | test("0+") }'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -325,113 +321,107 @@ The previous logic is an example of the <strong>JQ expression language</strong> 
 </div>
 </li>
 <li>
-<p><strong>Move the cursor</strong> to the end of previous state, <strong>type</strong> a comma and you should get the suggestion pop up</p>
+<p>Introduce a new switch state after the previous state:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Move the cursor</strong> to the end of yaml file at state level and <strong>type</strong> <code><code>- </code></code> (a dash followed by a space) and you should get the suggestion pop up, <strong>hit</strong> <code>Enter</code> to confirm the suggestion.</p>
 <div class="imageblock">
 <div class="content">
-<img src="_images/vscode-suggestion.png" alt="vscode suggestion">
+<img src="_images/03_suggest.png" alt="new switch state">
 </div>
 </div>
 </li>
 <li>
-<p><strong>Select</strong> <code>New switch state</code>, then <strong>edit</strong> the <code>name</code> and the <code>condition</code>:</p>
+<p><strong>Update</strong> the template keys <code>name</code> and <code>condition</code> as in the following snippet:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-  "name": "Item Available?",
-  "type": "switch",
-  "dataConditions": [
-  {
-    "condition": ".inventory",
-    "transition": "Transition to another state if condition is true"
-  }
-  ],
-  "defaultCondition": {
-    "transition": "Default transition of the workflow"
-  }
-}</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">  - name: 'Item Available?'
+    type: switch
+    dataConditions:
+      - condition: '.inventory'
+        transition: 'Transition to another state if condition is true'
+    defaultCondition:
+      transition: 'Default transition of the workflow'</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Go back to <code>Check Inventory</code> state and <strong>replace</strong> the end declaration with transition to point to the switch state:</p>
+<p>Go back to <code>Check Inventory</code> state and <strong>replace</strong> the <code>end</code> declaration with transition to point to the switch state:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">"transition": "Item Available?"</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">transition: Item Available?</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>After the switch, you have to add other two states:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Add</strong> a new operation state for <code>Prepare for Shipping</code>:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">  - name: 'Prepare for Shipping'
+    type: operation
+    actions:
+      - name: printAction
+        functionRef:
+          refName: printMessage
+          arguments:
+            message: Prepare for Shipping
+    end: true</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>After the switch state definition <strong>add</strong> a new operation state for <code>Prepare for Shipping</code>:</p>
+<p><strong>Add</strong> an new operation state for <code>Forward to External Supplier</code>:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-  "name": "Prepare for Shipping",
-  "type": "operation",
-  "end": true,
-  "actions": [
-    {
-      "name": "printAction",
-      "functionRef": {
-        "refName": "printMessage",
-        "arguments": {
-          "message": "\"Prepare for Shipping\""
-        }
-      }
-    }
-  ]
-},</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">  - name: 'Forward to External Supplier'
+    type: operation
+    actions:
+      - name: printAction
+        functionRef:
+          refName: printMessage
+          arguments:
+            message: Forward to External Supplier
+    end: true</code></pre>
 </div>
 </div>
 </li>
-<li>
-<p><strong>Add</strong> an operation state for <code>Forward to External Supplier</code>:</p>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-  "name": "Forward to External Supplier",
-  "type": "operation",
-  "end": true,
-  "actions": [
-    {
-      "name": "printAction",
-      "functionRef": {
-        "refName": "printMessage",
-        "arguments": {
-          "message": "\"Forward to External Supplier\""
-        }
-      }
-    }
-  ]
-},</code></pre>
-</div>
+</ol>
 </div>
 </li>
 <li>
 <p><strong>Update</strong> the switch state to point to the correct operation states:</p>
-<div class="ulist">
-<ul>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
 <li>
 <p>for the conditional branch set the transition to <code>Prepare for Shipping</code></p>
 <div class="imageblock">
 <div class="content">
-<img src="_images/vscode-suggestion-2.png" alt="vscode suggestion 2">
+<img src="_images/03_condition.png" alt="03 condition">
 </div>
 </div>
 </li>
 <li>
 <p>for the default condition set the transition to <code>Forward to External Supplier</code></p>
 </li>
-</ul>
+</ol>
 </div>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>This is the expected result:</p>
+<p>The workflow diagram should now resemble the following:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/inventory-final.png" alt="inventory final">
+<img src="_images/03_wf_switch.png" alt="03 wf switch">
 </div>
 </div>
 <div class="admonitionblock important">
@@ -459,19 +449,96 @@ The previous logic is an example of the <strong>JQ expression language</strong> 
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><strong>Open</strong> the http probing file: <code>src/test/resources/probe.http</code></p>
-</li>
+<p><strong>Deploy</strong> the current workflow:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
 <li>
-<p>Identify the first POST request in the file and just above it <strong>click</strong> on <code>Send Request</code></p>
+<p><strong>Select</strong> <code>Try on OpenShift</code> button and then <code>Upload "<strong>order</strong>" to Dev Mode</code>.</p>
 <div class="paragraph">
-<p><span class="image"><img src="_images/send-request.png" alt="send request"></span></p>
+<p><span class="image"><img src="_images/02_upload.png" alt="upload"></span></p>
 </div>
 </li>
 <li>
-<p><strong>Check</strong> the results and the workflow execution in the quarkus console</p>
+<p>Wait for the confirmation message and <strong>select</strong> <code>Go to Serverless Workflow Dev UI ↗</code> to open the <em>Dev UI</em> in a new browser tab.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/02_devui.png" alt="Dev UI"></span></p>
+</div>
+</li>
+</ol>
+</div>
 </li>
 <li>
-<p>Repeat the previous 2 steps to check that the workflow execution follow the other branch (Forward to External Supplier)</p>
+<p><strong>Trigger</strong> a new workflow instance:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Select</strong> <code>Workflow Definitions</code></p>
+</li>
+<li>
+<p><strong>Click</strong> on the arrow button in corresponding to the <code>order</code> row.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/02_wf-def.png" alt="Workflow definitions"></span></p>
+</div>
+</li>
+<li>
+<p><strong>Fill</strong> in the <code>Start Workflow Data</code> edit box with the following JSON payload:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "orderId": "1000",
+    "item": "1110"
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Select</strong> the <code>Start</code> button below.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>Check</strong> the results and the workflow execution:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Switch</strong> to the <em>Workflow Instances</em> page</p>
+</li>
+<li>
+<p><strong>Click</strong> on the latest instance to show the <em>Workflow Details</em> page</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>Trigger</strong> a new workflow instance with the following payload and make sure that the workflow execution follow the other branch (<code>Forward to External Supplier</code>)</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "orderId": "1001",
+    "item": "1111"
+}</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Another tool for checking the workflow execution is the <strong>Console</strong>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>At the bottom of the <em>Dev UI</em>, <strong>click</strong> on the <code>Open</code> toggle.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/03_open_con.png" alt="open console"></span></p>
+</div>
+</li>
+<li>
+<p>Among other log lines, you should spot the output of <code>printMessage</code>:</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/03_console.png" alt="console"></span></p>
+</div>
 </li>
 </ol>
 </div>
@@ -484,7 +551,7 @@ The previous logic is an example of the <strong>JQ expression language</strong> 
 <p>Serverless Workflow have a straightforward integration with OpenAPIs.</p>
 </div>
 <div class="paragraph">
-<p>For sake of simplicity, the project contains a Simple REST resource which exposes two operations:</p>
+<p>In order to experiment this capability, we&#8217;ll use a side application called <code>order-swf-tut-svc</code> that exposes two simple REST operations:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -496,30 +563,65 @@ The previous logic is an example of the <strong>JQ expression language</strong> 
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>The link between the workflow and the rest service is the <strong>OpenAPIs spec file</strong>.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>order-swf-tut-svc</code> application should be already deployed in the <code>swf-shared</code> namespace. However, if it&#8217;s not the case, you&#8217;ll find direction on how to deploy it in the <a href="01-setup.html" class="xref page">Setup</a> chapter.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>The Serverless Workflow expects to find the file in the <code>src/main/resources/specs</code> folder and since the startup project already provide it, you can easily consume it from workflow definition file:</p>
+<p>The link between the workflow and the rest service is the <strong>OpenAPIs spec file</strong> that should be located inside the <code>specs</code> folder.</p>
+</div>
+<div class="paragraph">
+<p>For sake of simplicity, you will import a project that contains all the required files: the workflow yaml, the OpenAPI spec and the <code>application.property</code> file. The latter contains information about the REST service endpoint.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Inspect the OpenAPI yaml file at <code>src/main/resources/specs/supplier.yaml</code></p>
+<p>Open the <a href="https://start.kubesmarts.org/">Serverless Logic Web Tools</a> in your browser (if you already have it in your browser window, make sure to click on the top banner to open the home page).</p>
 </li>
 <li>
-<p>Open workflow definition <code>src/main/resources/order.sw.json</code></p>
+<p>Locate the <code>Import</code> box in the page and <strong>copy</strong> the following address in the URL field: <code><a href="https://github.com/dmarrazzo/order-swf-tut.git" class="bare">https://github.com/dmarrazzo/order-swf-tut.git</a></code></p>
 </li>
 <li>
-<p>Go in the <code>functions</code> definition section, <strong>add a comma</strong> to the last definition the editor will propose you the two operation available, <strong>accept</strong> the suggestion and add both definitions</p>
+<p><strong>Click</strong> the <code>Clone</code> button</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The tool will take you to the Serverless Workflow designer, but you can switch to the other files in the project by clicking the arrow next the file name:</p>
+</div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/vscode-suggestion-3.png" alt="vscode suggestion 3">
+<img src="_images/03_repo_nav.png" alt="repository navigation">
+</div>
+</div>
+<div class="paragraph">
+<p>In the following steps, you&#8217;ll enhance the workflow design to call an external service:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Add</strong> the OpenAPI references in the <code>functions</code> declaration section:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: sendOrder
+  operation: specs/supplier.yaml#sendOrder
+  type: rest
+- name: cancelOrder
+  operation: specs/supplier.yaml#cancelOrder
+  type: rest</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p><strong>Identify</strong> the <code>Forward to External Supplier</code> state</p>
+<p><strong>Locate</strong> the <code>Forward to External Supplier</code> state declaration.</p>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -527,26 +629,23 @@ The previous logic is an example of the <strong>JQ expression language</strong> 
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-you can click on state in the workflow diagram and the tool will bring you on the state definition line in the textual representation.
+You can click on state in the workflow diagram and the tool will take the cursor to the declaration line in the yaml editor.
 </td>
 </tr>
 </table>
 </div>
 </li>
 <li>
-<p><strong>Replace</strong> the print action with the function call:</p>
+<p><strong>Replace</strong> <code>printAction</code> with <code>sendOrder</code>:</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-  "name": "sendOrderRestCall",
-  "functionRef": {
-    "refName": "sendOrder",
-    "arguments": {
-      "supplier-id":"\"1\"",
-      "content":".orderId"
-    }
-  }
-}</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">  actions:
+  - name: sendOrder
+    functionRef:
+      refName: sendOrder
+      arguments:
+        supplier-id: sup-01
+        content: '.orderId'</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -556,7 +655,7 @@ you can click on state in the workflow diagram and the tool will bring you on th
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The rest service is invoked with two <em>arguments</em>, a dummy <code>supplier-id</code> (<code>1</code>) and the <code>orderId</code>.
+The rest service is invoked with two <em>arguments</em>, a dummy <code>supplier-id</code> (<code>sup-01</code>) and the value of <code>orderId</code>.
 </td>
 </tr>
 </table>
@@ -564,52 +663,42 @@ The rest service is invoked with two <em>arguments</em>, a dummy <code>supplier-
 </li>
 </ol>
 </div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>You can compare your resulting workflow with the expected solution at this stage in <code>solution/02-rest</code></p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="test-rest"><a class="anchor" href="#test-rest"></a>Test the external REST service</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Repeat the test you did before.</p>
+<p>In order to test the REST call you have to <strong>trigger</strong> a new workflow instance with the following payload:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "orderId": "1002",
+    "item": "1111"
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>In the log file you should notice a different output coming from the REST implementation:</p>
 </div>
 <div class="listingblock console-output">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">2022-12-22 12:58:02,859 INFO  [org.kie.kog.ser.wor.dev.DevModeServerlessWorkflowLogger] (executor-thread-0) Triggered node 'Forward to External Supplier' for process 'order' (e6cdca5b-795c-407a-8c4d-a58ef3e59bc4)
-2022-12-22 12:58:02,860 INFO  [org.kie.kog.ser.wor.dev.DevModeServerlessWorkflowLogger] (executor-thread-0) Triggered node 'sendOrder' for process 'order' (e6cdca5b-795c-407a-8c4d-a58ef3e59bc4)
-Supplier 1 received the order order-123</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Triggered node 'Forward to External Supplier' for process 'order' (0ce6279c-2e84-42d0-b651-5e7b5257ef74)
+Triggered node 'sendOrder' for process 'order' (0ce6279c-2e84-42d0-b651-5e7b5257ef74)
+Property 'workflowdata.response' changed value from: 'null', to: '"receipt-sup-01-1002"'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, <strong>open</strong> the <em>workflow instance details</em> and pay attention to a new variable which is injected by the REST service response:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/03_response.png" alt="response variable">
 </div>
 </div>
 <div class="paragraph">
 <p><strong>CONGRATULATION!!!</strong> Now your Serverless Workflow call a REST service!</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-You can also notice that the workflow invocation returns a different payload. What&#8217;s changed? Why?
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>
@@ -633,8 +722,8 @@ You can also notice that the workflow invocation returns a different payload. Wh
 <footer class="footer">
   <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
 </footer>
-<script src="../_/js/vendor/clipboard.js"></script>
-<script src="../_/js/site.js"></script>
-<script async src="../_/js/vendor/highlight.js"></script>
+<script src="../../_/js/vendor/clipboard.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
   </body>
 </html>

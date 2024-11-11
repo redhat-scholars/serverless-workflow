@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Startup project :: OpenShift Serverless Logic Tutorial</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/serverless-workflow/osl/osl/smart/02-startup-project.html">
+    <link rel="prev" href="01-setup.html">
+    <link rel="next" href="03-inventory.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../../_/img/RHDLogo.svg" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="https://redhat-scholars.github.io/serverless-workflow/osl">OpenShift Serverless Logic Tutorial</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Books</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">CheatSheets</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">CheatSheet A</a>
+            <a class="navbar-item" href="#">CheatSheet B</a>
+            <a class="navbar-item" href="#">CheatSheet C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Upcoming Events</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Event A</a>
+            <a class="navbar-item" href="#">Event B</a>
+            <a class="navbar-item" href="#">Event C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Tutorial A</a>
+            <a class="navbar-item" href="#">Tutorial B</a>
+            <a class="navbar-item" href="#">Tutorial C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="osl" data-version="smart">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">OpenShift Serverless Logic Tutorial</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="01-setup.html">1. Setup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#prerequisite">Prerequisite tools</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#vscode-extensions">Visual Studio Code Extensions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#base-image">Pull the serverless data index image</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#project-start">Clone and build the startup project</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-startup-project.html">2. Startup Project</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#basic-workflow">A basic workflow</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#run">Run the workflow</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#inspect">Inspect the workflow execution</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-inventory.html">3. Inventory Logic</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#usecase">The use case</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#inventory">The Inventory Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#test">Test the workflow logic</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#call-rest">Call an external REST service</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-inventory.html#test-rest">Test the external REST service</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="04-longrunning.html">4. Long Running Workflows</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-longrunning.html#waitevent">Wait Event Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-longrunning.html#eventing">Eventing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-longrunning.html#test-events">Test the events</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="05-compensation.html">5. Compensation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#cancellingevent">Cancelling Event Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#test-cancel">Test the cancelling event</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#compensation-activities">Compensation Activities Sprint</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-compensation.html#test-compensation">Testing the compensation</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">OpenShift Serverless Logic Tutorial</span>
+    <span class="version">smart</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">OpenShift Serverless Logic Tutorial</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">smart</a>
+        </li>
+        <li class="version">
+          <a href="../index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Serverless Logic Tutorial</a></li>
+    <li><a href="02-startup-project.html">2. Startup Project</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="version-menu-toggle" title="Show other versions of page">smart</button>
+  <div class="version-menu">
+    <a class="version is-current" href="02-startup-project.html">smart</a>
+    <a class="version" href="../02-startup-project.html">master</a>
+  </div>
+</div>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/serverless-workflow/edit/smart/documentation/modules/ROOT/pages/02-startup-project.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Startup project</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section shows how to create a simple Serverless Workflow using <a href="https://start.kubesmarts.org/">Serverless Logic Web Tools</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="basic-workflow"><a class="anchor" href="#basic-workflow"></a>A basic workflow</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the <a href="https://start.kubesmarts.org/">Serverless Logic Web Tools</a> in your browser.</p>
+</li>
+<li>
+<p>Select <code>YAML</code> button in the <strong>Create</strong> pane
+<span class="image"><img src="_images/02_webtool.png" alt="alt"></span></p>
+</li>
+<li>
+<p><strong>Change</strong> the workflow name with <code>order</code>
+<span class="image"><img src="_images/02_new_swf.png" alt="alt"></span></p>
+</li>
+<li>
+<p><strong>Click</strong> the text <code>Create a Serverless Workflow</code> and select <code>Serverless Workflow Example</code>: a simple template is generated.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The workflow editor is split in two panes: the <em>text</em> editor and the <em>visual</em> representation of the workflow.</p>
+</div>
+<div class="paragraph">
+<p>At the moment there is no way to graphically edit the workflow, the user can edit the <em>yaml</em> file on the left side and see the diagram changes on the right.
+When the user clicks on a node of the graph, the cursor in the text editor is moved to the corresponding section of the <em>yaml</em> definition.</p>
+</div>
+<div class="paragraph">
+<p><strong>Change</strong> the template to match the following:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">id: order
+version: "1.0"
+specVersion: "0.8"
+name: Order Workflow
+description: Order Workflow Sample
+functions:
+  - name: printMessage
+    type: custom
+    operation: sysout
+start: Order Received
+states:
+  - name: Order Received
+    type: operation
+    actions:
+      - name: printAction
+        functionRef:
+          refName: printMessage
+          arguments:
+            message: '"Order received: " + .orderId'
+    end: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s analyze the content:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>At the beginning there are some identification details: the unique <code>id</code>, <code>version</code>, <code>name</code>, <code>description</code> and the <code>specVersion</code>.</p>
+</li>
+<li>
+<p>The <code>start</code> attribute point to the first state in the flow <code>Order Received</code>.</p>
+</li>
+<li>
+<p><code>functions</code> are a set of reusable definitions for service invocations or expression evaluation. In this example, <strong>printMessage</strong> is a custom function which print a message in the log.</p>
+</li>
+<li>
+<p><code>states</code> contains a set of states which are the building block of the workflow logic.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The workflow logic is pretty straightforward: when the workflow starts the <code>Order Received</code> state is executed then it ends. However, there are some other aspects:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The workflow is started with an input message that is copied in the internal workflow state.</p>
+</li>
+<li>
+<p>The <code>Order Received</code> state invokes the <code>printMessage</code> function: it&#8217;s worth noticing that <code>.orderId</code> is a <a href="https://jqlang.github.io/jq/manual"><strong>jq</strong> expression</a> to read the workflow state. In other word, it expect to find <code>orderId</code> in the workflow state.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To learn more about Serverless Workflow notation and semantic don&#8217;t hesitate to read the official specification document which is really clear and accessible: <a href="https://github.com/serverlessworkflow/specification/blob/0.8.x/specification.md" class="bare">https://github.com/serverlessworkflow/specification/blob/0.8.x/specification.md</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run"><a class="anchor" href="#run"></a>Run the workflow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can easily run your first workflow in your OpenShift environment:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Locate the <code>Try on OpenShift</code> button at the top right of the page and <strong>select</strong> it.</p>
+</li>
+<li>
+<p><strong>Select</strong> <code>Setup&#8230;&#8203;</code></p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/02_try_openshift.png" alt="try openshift"></span></p>
+</div>
+</li>
+<li>
+<p>In the <strong>OpenShift</strong> setting page select <code>Add connection</code> button</p>
+</li>
+<li>
+<p>Fill in the OpenShift connection details:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Namespace (project)</strong>: Use the namespace provided by the proctor (if you are running this tutorial on your own, create a new namespace and use it)</p>
+</li>
+<li>
+<p>To retrieve the values for <strong>Host</strong> and <strong>Token</strong>:</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p><strong>Open</strong> the OpenShift console in a different browser window.</p>
+</li>
+<li>
+<p>In the top right corner <strong>select</strong> the <em>username</em> and the <code>Copy login command</code> entry.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/02_oc_command.png" alt="oc command"></span></p>
+</div>
+</li>
+<li>
+<p>After the login process, <strong>select</strong> <code>Dysplay token</code> link to get a command line that resemble the following:</p>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login --token=sha256~VPMhRtYqHghxlRLWD5X92lg3ZIxr0V7dYYcP5DWxJq4 --server=https://api.ocp4.dmshift.eu:6443</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Copy</strong> the string after <code>--token</code> into the <em>Token</em> field in the other browser window.</p>
+</li>
+<li>
+<p>Likewise, <strong>copy</strong> the string after <code>--server</code> into the <em>Host</em> field in the other browser window.</p>
+</li>
+<li>
+<p>Finally, <strong>select</strong> the <code>Connect</code> button, you should see the following confirmation message:</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/02_connection_ok.png" alt="connection ok"></span></p>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Now that the OpenShift connection is up, you need to reopen the workflow:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go back on the main page <strong>clicking</strong> on the top banner:</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/02_home.png" alt="home"></span></p>
+</div>
+</li>
+<li>
+<p>From the left navigation menu <strong>select</strong> <code>Recent Models</code>.</p>
+</li>
+<li>
+<p><strong>Select</strong> <code>order</code> to open again the workflow designer.</p>
+</li>
+<li>
+<p><strong>Select</strong> again <code>Try on OpenShift</code> button and then <code>Upload "<strong>order</strong>" to Dev Mode</code>.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/02_upload.png" alt="upload"></span></p>
+</div>
+</li>
+<li>
+<p>Wait for the confirmation message and <strong>select</strong> <code>Go to Serverless Workflow Dev UI ↗</code> to open the <em>Dev UI</em> in a new browser tab.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/02_devui.png" alt="Dev UI"></span></p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>From <strong>Dev UI</strong> you can trigger a new workflow instance and inspect its execution:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Select</strong> <code>Workflow Definitions</code></p>
+</li>
+<li>
+<p><strong>Click</strong> on the arrow button in corresponding to the <code>order</code> row.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/02_wf-def.png" alt="Workflow definitions"></span></p>
+</div>
+</li>
+<li>
+<p><strong>Fill</strong> in the <code>Start Workflow Data</code> edit box with the following JSON payload:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{"orderId":"order-123"}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Select</strong> the <code>Start</code> button below.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You should get a confirmation message stating that your <em>workflow instance was triggered</em>.</p>
+</div>
+<div class="paragraph">
+<p><strong>CONGRATULATION!!!</strong> Your first Serverless Workflow was executed as expected!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="inspect"><a class="anchor" href="#inspect"></a>Inspect the workflow execution</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To inspect the workflow execution just triggered <strong>select</strong> <code>Go to workflow list</code> at the bottom of the confirmation message.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/02_started.png" alt="Workflow definitions"></span></p>
+</div>
+<div class="paragraph">
+<p>In the <em>Workflow Instances</em> page, <strong>select</strong> the first instance in the list:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/02_wf_list.png" alt="Workflow list"></span></p>
+</div>
+<div class="paragraph">
+<p>In this <em>Workflow Details</em> page, you can inspect all the details of the workflow execution from the following boxes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Diagram: the serverless workflow diagram is shown, with completed nodes colored green.</p>
+</li>
+<li>
+<p>Timeline: the main workflow tasks, listed in order of execution.</p>
+</li>
+<li>
+<p>Details: the workflow instance metadata.</p>
+</li>
+<li>
+<p>Variables: the internal state of the workflow instance.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Finally, have a look at the <strong>Monitoring</strong> page charts on your own!</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="01-setup.html" class="query-params-link">1. Setup</a></span>
+  <span class="next"><a href="03-inventory.html" class="query-params-link">3. Inventory Logic</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../../_/js/vendor/clipboard.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
