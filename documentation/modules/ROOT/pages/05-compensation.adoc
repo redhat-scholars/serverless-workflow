@@ -179,32 +179,25 @@ NOTE: Compensation activities are *operation states*, they could be placed anywh
 1. Locate `Prepare for Shipping` and *append* right afterward:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-{
-    "name": "Restore Inventory",
-    "type": "operation",
-    "usedForCompensation": true,
-    "actions": [
-    {
-        "name": "printAction",
-        "functionRef": {
-        "refName": "printMessage",
-        "arguments": {
-            "message": "\"Restore Inventory\""
-        }
-        }
-    }
-    ]
-},
+- name: Restore Inventory
+  type: operation
+  usedForCompensation: true
+  actions:
+  - name: printAction
+    functionRef:
+      refName: printMessage
+      arguments:
+        message: Restore Inventory
 ----
 
-2. Inside `Prepare for Shipping` *add* the following property:
+2. Inside `Prepare for Shipping` *append* the following property:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-"compensatedBy": "Restore Inventory",
+  compensatedBy: Restore Inventory
 ----
 +
 In the workflow diagram you should see the two states linked by a yellow dotted line:
@@ -214,43 +207,31 @@ image::restore-inventory.png[]
 3. Locate `Forward to External Supplier` and *append* right afterward:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-{
-    "name": "Cancel Supplier Order",
-    "type": "operation",
-    "usedForCompensation": true,
-    "actions": [
-    {
-        "name": "printAction",
-        "functionRef": {
-        "refName": "printMessage",
-        "arguments": {
-            "message": "\"Cancel Supplier Order\""
-        }
-        }
-    }
-    ]
-},
+- name: Cancel Supplier Order
+  type: operation
+  usedForCompensation: true
+  actions:
+  - name: cancelOrder
+    functionRef:
+      refName: cancelOrder
+      arguments:
+        supplier-id: sup-01
+        content: '.orderId'
 ----
 
 4. Inside `Forward to External Supplier` *add* the following property:
 +
 [.console-input]
-[source, json,subs="+macros,+attributes"]
+[source,yaml,subs="+macros,+attributes"]
 ----
-"compensatedBy": "Cancel Supplier Order",
+  compensatedBy: Cancel Supplier Order
 ----
 
 In the workflow diagram you should see the following situation:
 
 image:compensation-activities.png[]
-
-WARNING: At the time of writing, the diagram rendering has a bug that shows overlapping lines, so the final outcome is slightly confusing.
-
-:sol-stage: 05-compensation
-include::partial$sync-project.adoc[]
-:!sol-stage:
 
 [#test-compensation]
 == Testing the compensation
