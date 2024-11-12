@@ -301,8 +301,8 @@ WARNING: The remaining part of this tutorial does not need Visual Studio Code. H
 Launch Visual Studio Code to install the following extensions:
 
 * KIE Serverless Workflow Editor
-* Language Support for Java(TM) by Red Hat
-* REST Client (from Huachao Mao) - this optional but quite useful.
+* Language Support for Java(TM) by Red Hat - only required if you need to write Java code along with Serverless Workflow.
+* REST Client (from Huachao Mao) - this is optional but quite useful.
 
 There are 2 ways:
 
