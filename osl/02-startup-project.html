@@ -82,10 +82,10 @@
     <a class="nav-link" href="01-setup.html#vscode-extensions">Visual Studio Code Extensions</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="01-setup.html#base-image">Pull the serverless data index image</a>
+    <a class="nav-link" href="01-setup.html#project-start">Clone and build the startup project</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="01-setup.html#project-start">Clone and build the startup project</a>
+    <a class="nav-link" href="01-setup.html#optional-tools">Optional tools</a>
   </li>
 </ul>
   </li>
@@ -231,59 +231,57 @@ A production ready solution is supported by multiple services: persistence, data
 <p>The workflow core logic is hosted by a plain Quarkus project with some extensions.</p>
 </div>
 <div class="paragraph">
-<p>Serverless Workflow leverages some capabilities coming from of the <strong>Kogito</strong> upstream initiative. For such reason, the extensions have the <code>kogito</code> prefix:</p>
+<p>Serverless Workflow leverages some capabilities coming from of the <strong>SonataFlow</strong> upstream initiative.
+For such reason, the extensions have the <code>sonataflow</code> prefix:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>kogito-quarkus-serverless-workflow</code></p>
+<p>sonataflow-quarkus</p>
 </li>
 <li>
-<p><code>kogito-addons-quarkus-persistence-jdbc</code></p>
-</li>
-<li>
-<p><code>kogito-addons-quarkus-process-svg</code></p>
-</li>
-<li>
-<p><code>kogito-quarkus-serverless-workflow-devui</code></p>
+<p>sonataflow-quarkus-devui</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Other common Quarkus extensions used are:</p>
+<p>SonataFlow uses some foundational capabilities of other two upstream projects <code>kie</code> and <code>kogito</code>, those are the related quarkus extensions:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>quarkus-smallrye-openapi</code></p>
+<p>kie-addons-quarkus-knative-eventing</p>
 </li>
 <li>
-<p><code>quarkus-resteasy</code></p>
+<p>kie-addons-quarkus-process-management</p>
 </li>
 <li>
-<p><code>quarkus-resteasy-jackson</code></p>
+<p>kie-addons-quarkus-source-files</p>
 </li>
 <li>
-<p><code>quarkus-jdbc-postgresql</code></p>
+<p>kogito-addons-quarkus-data-index-inmemory</p>
+</li>
+<li>
+<p>kogito-addons-quarkus-jobs-service-embedded</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>It&#8217;s worth noticing that, at the moment, serverless workflow extensions are not aligned to the quarkus platform, so they relies a dedicated <em>bom</em>:</p>
+<p>It&#8217;s worth noticing that, at the moment, Serverless Workflow extensions are not aligned to the quarkus platform, so they relies a dedicated <em>bom</em>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
-  &lt;groupId&gt;org.kie.kogito&lt;/groupId&gt;
-  &lt;artifactId&gt;kogito-bom&lt;/artifactId&gt;
-  &lt;version&gt;1.35.0.Final-redhat-00003&lt;/version&gt;
-  &lt;type&gt;pom&lt;/type&gt;
-  &lt;scope&gt;import&lt;/scope&gt;
-&lt;/dependency&gt;</code></pre>
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">      &lt;dependency&gt;
+        &lt;groupId&gt;org.kie.kogito&lt;/groupId&gt;
+        &lt;artifactId&gt;kogito-bom&lt;/artifactId&gt;
+        &lt;version&gt;${kie.version}&lt;/version&gt;
+        &lt;type&gt;pom&lt;/type&gt;
+        &lt;scope&gt;import&lt;/scope&gt;
+      &lt;/dependency&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The version <code>1.27.0.Final-redhat-00005</code> comes from the developer preview.</p>
+<p>At the time of writing, the latest <code>kie.version</code> is <code>9.101.0.redhat-00007</code>.</p>
 </div>
 </div>
 </div>
