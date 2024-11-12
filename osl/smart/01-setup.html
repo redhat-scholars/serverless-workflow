@@ -76,13 +76,13 @@
     <a class="nav-link" href="01-setup.html">1. Setup</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#local-runtime">Local Runtime</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="#prerequisite">Prerequisite tools</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="#vscode-extensions">Visual Studio Code Extensions</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#base-image">Pull the serverless data index image</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="#project-start">Clone and build the startup project</a>
@@ -232,69 +232,16 @@ The rest of this chapter provides instructions for setting up the <em>full local
 </div>
 </div>
 <div class="sect1">
-<h2 id="prerequisite"><a class="anchor" href="#prerequisite"></a>Prerequisite tools</h2>
+<h2 id="local-runtime"><a class="anchor" href="#local-runtime"></a>Local Runtime</h2>
 <div class="sectionbody">
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-It is recommended that you complete this section using a reliable connection. Avoid doing this part of the lab on a shared connection because of the bandwidth requirements. Also, some tasks will take a long time to download resources.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p><code>kn-workflow</code> is a handy tool for deploying your project in OpenShift, but it can also be used to run the workflow locally in a container (so you don&#8217;t need to configure Java and Quarkus).</p>
 </div>
 <div class="paragraph">
-<p>Here the tools to install:</p>
+<p>Download the latest tar archive suitable for your environment, from the Serverless Logic <a href="https://mirror.openshift.com/pub/cgw/serverless-logic/latest/">download mirror</a> page.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-center valign-top"><strong>Tool</strong></th>
-<th class="tableblock halign-center valign-top"><strong>Fedora</strong></th>
-<th class="tableblock halign-center valign-top"><strong>MacOS</strong></th>
-<th class="tableblock halign-center valign-top"><strong>Windows</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>git</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y git</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://git-scm.com/download/mac">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://git-scm.com/download/win">Download</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/">Visual Studio Code</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions">Download</a> or <a href="https://code.visualstudio.com/docs/setup/linux#_installing-rpm-package-manually">Install from the provided USB Stick Resources</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/docs/setup/mac">Download</a>  or <strong>Install from the provided USB Stick Resources</strong></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/docs/setup/windows">Download</a> or <strong>Install from the provided USB Stick Resources</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">OpenJDK v11</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y java-11-openjdk-devel</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://adoptopenjdk.net/">Mac Version Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://developers.redhat.com/products/openjdk/download">Windows Download</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>Apache Maven</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y maven</code></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz">Download</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.zip">Download</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>podman</code> v4.3.1</p></td>
-<td class="tableblock halign-center valign-top" colspan="3"><p class="tableblock">Check the detailed instructions <strong>below</strong> under the proper tab</p></td>
-</tr>
-</tbody>
-</table>
+<div class="sect2">
+<h3 id="_podman_installation_and_configuration"><a class="anchor" href="#_podman_installation_and_configuration"></a>Podman Installation and configuration</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -509,6 +456,107 @@ systemctl reboot</code></pre>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_pull_the_serverless_workflow_devmode_image"><a class="anchor" href="#_pull_the_serverless_workflow_devmode_image"></a>Pull the Serverless Workflow devmode image</h3>
+<div class="paragraph">
+<p>In order to run and test the Serverless Workflow project locally, you need a container image which is <strong>lauched behind the scene by <code>kn-workflow</code></strong>.
+However, as it&#8217;s distributed through the official Red Hat registry, you&#8217;ll need to login before pulling the image.</p>
+</div>
+<div class="paragraph">
+<p>Find here the instruction on how to create / retrieve your credentials: <a href="https://access.redhat.com/RegistryAuthentication">Registry Authentication</a></p>
+</div>
+<div class="paragraph">
+<p>Login to <strong>registry.redhat.io</strong> with your Red Hat credentials;</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman login registry.redhat.io</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Pull the serverless data index image:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman pull --platform linux/amd64 registry.redhat.io/openshift-serverless-1/logic-swf-devmode-rhel8:1.34.0</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The parameter <code>--platform linux/amd64</code> is important when you run it on a Mac with an M1 chip (which has a different processor architecture)
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="prerequisite"><a class="anchor" href="#prerequisite"></a>Prerequisite tools</h2>
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+It is recommended that you complete this section using a reliable connection. Avoid doing this part of the lab on a shared connection because of the bandwidth requirements. Also, some tasks will take a long time to download resources.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Here the tools to install:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top"><strong>Tool</strong></th>
+<th class="tableblock halign-center valign-top"><strong>Fedora</strong></th>
+<th class="tableblock halign-center valign-top"><strong>MacOS</strong></th>
+<th class="tableblock halign-center valign-top"><strong>Windows</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>git</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y git</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://git-scm.com/download/mac">Download</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://git-scm.com/download/win">Download</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/">Visual Studio Code</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions">Download</a> or <a href="https://code.visualstudio.com/docs/setup/linux#_installing-rpm-package-manually">Install from the provided USB Stick Resources</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/docs/setup/mac">Download</a>  or <strong>Install from the provided USB Stick Resources</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://code.visualstudio.com/docs/setup/windows">Download</a> or <strong>Install from the provided USB Stick Resources</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">OpenJDK v11</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y java-11-openjdk-devel</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://adoptopenjdk.net/">Mac Version Download</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://developers.redhat.com/products/openjdk/download">Windows Download</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>Apache Maven</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>dnf install -y maven</code></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz">Download</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.zip">Download</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="sect1">
 <h2 id="vscode-extensions"><a class="anchor" href="#vscode-extensions"></a>Visual Studio Code Extensions</h2>
@@ -559,46 +607,6 @@ systemctl reboot</code></pre>
 </div>
 </li>
 </ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="base-image"><a class="anchor" href="#base-image"></a>Pull the serverless data index image</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>In order to run and test locally the Serverless Workflow project, you need the data index container image, it will be <strong>started behind the scene by Quarkus</strong>.
-However, since it&#8217;s distributed through the Red Hat official registry you have to login before pulling the image.</p>
-</div>
-<div class="paragraph">
-<p>Find here the instruction on how to create / retrieve your credentials: <a href="https://access.redhat.com/RegistryAuthentication">Registry Authentication</a></p>
-</div>
-<div class="paragraph">
-<p>Login to <strong>registry.redhat.io</strong> with your Red Hat credentials;</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman login registry.redhat.io</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Pull the serverless data index image:</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">podman pull --platform linux/amd64 registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.28</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The parameter <code>--platform linux/amd64</code> is important when you run it on a Mac with an M1 chip (which has a different processor architecture)
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>
