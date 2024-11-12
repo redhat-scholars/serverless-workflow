@@ -226,8 +226,44 @@
 </ul>
 </div>
 <div class="paragraph">
-<p>This tutorial suggests the first option to minimize the workstation preparation work.
-The rest of this chapter provides instructions for setting up the <em>full local development workstation</em>, and <strong>you can skip it</strong>.</p>
+<p>This tutorial suggests the first option to minimize the workstation preparation work.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deploy_the_supplier_microservice"><a class="anchor" href="#_deploy_the_supplier_microservice"></a>Deploy the supplier microservice</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As you progress through this tutorial, you&#8217;ll find out how to call an external OpenAPI, and the following Quarkus project will provide a simple API to call from within the workflow.</p>
+</div>
+<div class="paragraph">
+<p>Deployment instructions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Login</strong> in OpenShift from command line.</p>
+</li>
+<li>
+<p><strong>Create</strong> the <code>swf-shared</code> project:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc new-project swf-shared</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Clone</strong> <a href="https://github.com/dmarrazzo/order-swf-tut-svc">this repository</a>.</p>
+</li>
+<li>
+<p><strong>Build and deploy</strong> the application:</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./mvnw install -Pnative -Dquarkus.kubernetes.deploy=true</code></pre>
+</div>
+</div>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -474,7 +510,7 @@ However, as it&#8217;s distributed through the official Red Hat registry, you&#8
 </div>
 </div>
 <div class="paragraph">
-<p>Pull the serverless data index image:</p>
+<p>Pull the image:</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
@@ -561,19 +597,31 @@ It is recommended that you complete this section using a reliable connection. Av
 <div class="sect1">
 <h2 id="vscode-extensions"><a class="anchor" href="#vscode-extensions"></a>Visual Studio Code Extensions</h2>
 <div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The remaining part of this tutorial does not need Visual Studio Code. However, if you prefer to use it, here you&#8217;ll find some directions.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Launch Visual Studio Code to install the following extensions:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
+<p>KIE Serverless Workflow Editor</p>
+</li>
+<li>
 <p>Language Support for Java&#8482; by Red Hat</p>
 </li>
 <li>
-<p>Kogito Serverless Workflow Editor</p>
-</li>
-<li>
-<p>REST Client (from Huachao Mao)</p>
+<p>REST Client (from Huachao Mao) - this optional but quite useful.</p>
 </li>
 </ul>
 </div>
@@ -595,10 +643,10 @@ It is recommended that you complete this section using a reliable connection. Av
 <div class="ulist">
 <ul>
 <li>
-<p><code>ext install vscjava.vscode-java-pack</code></p>
+<p><code>ext install kie-group.swf-vscode-extension</code></p>
 </li>
 <li>
-<p><code>ext install redhat.vscode-extension-serverless-workflow-editor</code></p>
+<p><code>ext install vscjava.vscode-java-pack</code></p>
 </li>
 <li>
 <p><code>ext install humao.rest-client</code></p>
@@ -611,33 +659,19 @@ It is recommended that you complete this section using a reliable connection. Av
 </div>
 </div>
 <div class="sect1">
-<h2 id="project-start"><a class="anchor" href="#project-start"></a>Clone and build the startup project</h2>
+<h2 id="project-start"><a class="anchor" href="#project-start"></a>Quarkus project</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Get your local copy of the start-up project:</p>
+<p>If you are interested in running the workflow within a Quarkus project: please, select another edition of this tutorial for detailed guidance.</p>
 </div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone <a href="https://github.com/dmarrazzo/order-swf.git" class="bare">https://github.com/dmarrazzo/order-swf.git</a></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Enter in the project folder and start Quarkus in dev mode.</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd order-swf
-mvn quarkus:dev</code></pre>
-</div>
-</div>
-<div class="admonitionblock warning">
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-The first time you launch <code>maven</code> on this project, it is going to take a considerable amount of time because it has to download all the dependencies from the Internet.
+At the bottom of the navigation bar, there is a drawer to select the tutorial edition.
 </td>
 </tr>
 </table>
