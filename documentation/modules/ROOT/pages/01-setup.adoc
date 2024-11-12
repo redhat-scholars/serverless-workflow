@@ -10,43 +10,14 @@ There are several ways to develop on OpenShift Serverless Logic:
 This tutorial suggests the first option to minimize the workstation preparation work.
 The rest of this chapter provides instructions for setting up the _full local development workstation_, and *you can skip it*.
 
+[#local-runtime]
+== Local Runtime
 
-[#prerequisite]
-== Prerequisite tools
+`kn-workflow` is a handy tool for deploying your project in OpenShift, but it can also be used to run the workflow locally in a container (so you don't need to configure Java and Quarkus).
 
-WARNING: It is recommended that you complete this section using a reliable connection. Avoid doing this part of the lab on a shared connection because of the bandwidth requirements. Also, some tasks will take a long time to download resources.
+Download the latest tar archive suitable for your environment, from the Serverless Logic https://mirror.openshift.com/pub/cgw/serverless-logic/latest/[download mirror] page.
 
-Here the tools to install:
-
-[cols="4*^,4*.",options="header,+attributes"]
-|===
-|**Tool**|**Fedora**|**MacOS**|**Windows**
-
-| `git`
-| `dnf install -y git`
-| https://git-scm.com/download/mac[Download]
-| https://git-scm.com/download/win[Download]
-
-| https://code.visualstudio.com/[Visual Studio Code]
-| https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions[Download] or https://code.visualstudio.com/docs/setup/linux#_installing-rpm-package-manually[Install from the provided USB Stick Resources]
-| https://code.visualstudio.com/docs/setup/mac[Download]  or *Install from the provided USB Stick Resources*
-| https://code.visualstudio.com/docs/setup/windows[Download] or *Install from the provided USB Stick Resources*
-
-| OpenJDK v11
-| `dnf install -y java-11-openjdk-devel`
-| https://adoptopenjdk.net/[Mac Version Download]
-| https://developers.redhat.com/products/openjdk/download[Windows Download]
-
-| `Apache Maven`
-| `dnf install -y maven`
-| https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz[Download]
-| https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.zip[Download]
-
-| `podman` v4.3.1
-3+| Check the detailed instructions *below* under the proper tab
-
-|===
-
+=== Podman Installation and configuration
 
 NOTE: If you have already installed _Docker_ in your environment, or you feel more comfortable with it, feel free to replace Podman with Docker.
 
@@ -238,6 +209,63 @@ podman machine set --rootful
 --
 ====
 
+=== Pull the Serverless Workflow devmode image
+
+In order to run and test the Serverless Workflow project locally, you need a container image which is *lauched behind the scene by `kn-workflow`*. 
+However, as it's distributed through the official Red Hat registry, you'll need to login before pulling the image.
+
+Find here the instruction on how to create / retrieve your credentials: https://access.redhat.com/RegistryAuthentication[Registry Authentication]
+
+Login to *registry.redhat.io* with your Red Hat credentials;
+
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman login registry.redhat.io
+----
+
+Pull the serverless data index image:
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+podman pull --platform linux/amd64 registry.redhat.io/openshift-serverless-1/logic-swf-devmode-rhel8:1.34.0
+----
+
+NOTE: The parameter `--platform linux/amd64` is important when you run it on a Mac with an M1 chip (which has a different processor architecture)
+
+
+[#prerequisite]
+== Prerequisite tools
+
+WARNING: It is recommended that you complete this section using a reliable connection. Avoid doing this part of the lab on a shared connection because of the bandwidth requirements. Also, some tasks will take a long time to download resources.
+
+Here the tools to install:
+
+[cols="4*^,4*.",options="header,+attributes"]
+|===
+|**Tool**|**Fedora**|**MacOS**|**Windows**
+
+| `git`
+| `dnf install -y git`
+| https://git-scm.com/download/mac[Download]
+| https://git-scm.com/download/win[Download]
+
+| https://code.visualstudio.com/[Visual Studio Code]
+| https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions[Download] or https://code.visualstudio.com/docs/setup/linux#_installing-rpm-package-manually[Install from the provided USB Stick Resources]
+| https://code.visualstudio.com/docs/setup/mac[Download]  or *Install from the provided USB Stick Resources*
+| https://code.visualstudio.com/docs/setup/windows[Download] or *Install from the provided USB Stick Resources*
+
+| OpenJDK v11
+| `dnf install -y java-11-openjdk-devel`
+| https://adoptopenjdk.net/[Mac Version Download]
+| https://developers.redhat.com/products/openjdk/download[Windows Download]
+
+| `Apache Maven`
+| `dnf install -y maven`
+| https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz[Download]
+| https://archive.apache.org/dist/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.zip[Download]
+|===
+
 [#vscode-extensions]
 == Visual Studio Code Extensions
 
@@ -258,31 +286,6 @@ image::extensions-view-icon.png[]
 * `ext install vscjava.vscode-java-pack`
 * `ext install redhat.vscode-extension-serverless-workflow-editor`
 * `ext install humao.rest-client`
-
-[#base-image]
-== Pull the serverless data index image
-
-In order to run and test locally the Serverless Workflow project, you need the data index container image, it will be *started behind the scene by Quarkus*. 
-However, since it's distributed through the Red Hat official registry you have to login before pulling the image.
-
-Find here the instruction on how to create / retrieve your credentials: https://access.redhat.com/RegistryAuthentication[Registry Authentication]
-
-Login to *registry.redhat.io* with your Red Hat credentials;
-
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-podman login registry.redhat.io
-----
-
-Pull the serverless data index image:
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-podman pull --platform linux/amd64 registry.redhat.io/openshift-serverless-1-tech-preview/logic-data-index-ephemeral-rhel8:1.28
-----
-
-NOTE: The parameter `--platform linux/amd64` is important when you run it on a Mac with an M1 chip (which has a different processor architecture)
 
 [#project-start]
 == Clone and build the startup project
