@@ -224,7 +224,7 @@ Login to *registry.redhat.io* with your Red Hat credentials;
 podman login registry.redhat.io
 ----
 
-Pull the serverless data index image:
+Pull the image:
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
