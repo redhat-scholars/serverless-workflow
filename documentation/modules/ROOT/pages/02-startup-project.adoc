@@ -13,34 +13,34 @@ However, in this tutorial, we are going to focus on the core service which is re
 
 The workflow core logic is hosted by a plain Quarkus project with some extensions.
 
-Serverless Workflow leverages some capabilities coming from of the *Kogito* upstream initiative. For such reason, the extensions have the `kogito` prefix:
+Serverless Workflow leverages some capabilities coming from of the *SonataFlow* upstream initiative. 
+For such reason, the extensions have the `sonataflow` prefix:
 
-* `kogito-quarkus-serverless-workflow`
-* `kogito-addons-quarkus-persistence-jdbc`
-* `kogito-addons-quarkus-process-svg`
-* `kogito-quarkus-serverless-workflow-devui`
+* sonataflow-quarkus
+* sonataflow-quarkus-devui
 
-Other common Quarkus extensions used are:
+SonataFlow uses some foundational capabilities of other two upstream projects `kie` and `kogito`, those are the related quarkus extensions:
 
-* `quarkus-smallrye-openapi`
-* `quarkus-resteasy`
-* `quarkus-resteasy-jackson`
-* `quarkus-jdbc-postgresql`
+* kie-addons-quarkus-knative-eventing
+* kie-addons-quarkus-process-management
+* kie-addons-quarkus-source-files
+* kogito-addons-quarkus-data-index-inmemory
+* kogito-addons-quarkus-jobs-service-embedded
 
-It's worth noticing that, at the moment, serverless workflow extensions are not aligned to the quarkus platform, so they relies a dedicated _bom_:
+It's worth noticing that, at the moment, Serverless Workflow extensions are not aligned to the quarkus platform, so they relies a dedicated _bom_:
 
-[source, xml,subs="+macros,+attributes"]
+[source,xml,subs="+macros,+attributes"]
 ----
-<dependency>
-  <groupId>org.kie.kogito</groupId>
-  <artifactId>kogito-bom</artifactId>
-  <version>1.35.0.Final-redhat-00003</version>
-  <type>pom</type>
-  <scope>import</scope>
-</dependency>
+      <dependency>
+        <groupId>org.kie.kogito</groupId>
+        <artifactId>kogito-bom</artifactId>
+        <version>${kie.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
 ----
 
-The version `1.27.0.Final-redhat-00005` comes from the developer preview.
+At the time of writing, the latest `kie.version` is `9.101.0.redhat-00007`.
 
 [#run]
 == Run the workflow
