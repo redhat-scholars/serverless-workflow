@@ -8,7 +8,34 @@ There are several ways to develop on OpenShift Serverless Logic:
 * *Full-fledged local development workstation*: using _Visual Studio Code_ and _Quarkus_.
 
 This tutorial suggests the first option to minimize the workstation preparation work.
-The rest of this chapter provides instructions for setting up the _full local development workstation_, and *you can skip it*.
+
+== Deploy the supplier microservice
+
+As you progress through this tutorial, you'll find out how to call an external OpenAPI, and the following Quarkus project will provide a simple API to call from within the workflow.
+
+Deployment instructions:
+
+. *Login* in OpenShift from command line.
+
+. *Create* the `swf-shared` project:
+
++
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+oc new-project swf-shared
+----
+
+. *Clone* https://github.com/dmarrazzo/order-swf-tut-svc[this repository].
+
+. *Build and deploy* the application:
+
++
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
+----
+./mvnw install -Pnative -Dquarkus.kubernetes.deploy=true
+----
 
 [#local-runtime]
 == Local Runtime
@@ -269,11 +296,13 @@ Here the tools to install:
 [#vscode-extensions]
 == Visual Studio Code Extensions
 
+WARNING: The remaining part of this tutorial does not need Visual Studio Code. However, if you prefer to use it, here you'll find some directions.
+
 Launch Visual Studio Code to install the following extensions:
 
+* KIE Serverless Workflow Editor
 * Language Support for Java(TM) by Red Hat
-* Kogito Serverless Workflow Editor
-* REST Client (from Huachao Mao)
+* REST Client (from Huachao Mao) - this optional but quite useful.
 
 There are 2 ways:
 
@@ -283,28 +312,13 @@ image::extensions-view-icon.png[]
 
 2. Launch VS Code Quick Open (Ctrl+P), paste the following commands, and press enter:
 
+* `ext install kie-group.swf-vscode-extension`
 * `ext install vscjava.vscode-java-pack`
-* `ext install redhat.vscode-extension-serverless-workflow-editor`
 * `ext install humao.rest-client`
 
 [#project-start]
-== Clone and build the startup project
+== Quarkus project
 
-Get your local copy of the start-up project:
+If you are interested in running the workflow within a Quarkus project: please, select another edition of this tutorial for detailed guidance.
 
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-git clone https://github.com/dmarrazzo/order-swf.git
-----
-
-Enter in the project folder and start Quarkus in dev mode.
-
-[.console-input]
-[source,bash,subs="+macros,+attributes"]
-----
-cd order-swf
-mvn quarkus:dev
-----
-
-WARNING: The first time you launch `maven` on this project, it is going to take a considerable amount of time because it has to download all the dependencies from the Internet.
+TIP: At the bottom of the navigation bar, there is a drawer to select the tutorial edition.
