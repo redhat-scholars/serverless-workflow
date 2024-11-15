@@ -133,7 +133,7 @@ To _start_ the workflow and subsequently _advance_ it, you have to inject two *t
 * `OrderEventType`
 * `ShippingEventType`
 
-The Dev UI offers a convenient web form to inject _Cloud Events_ in the Serverless Workflow runtime:
+The Dev UI offers a convenient web form to inject _CloudEvents_ in the Serverless Workflow runtime:
 
 . *Open* the `Workflow Definitions` page.
 
@@ -146,18 +146,18 @@ image::04_cloud-event.png[cloud event button]
 
 - *Event Type* : `OrderEventType`
 
-- *Event Custom Headers* : `orderid = 1000`
+- *Event Custom Headers* : `ce-orderid = 1000`
 
 +
 +
-image::04_ce-header.png[cloud event header]
-
+image::04_ce-header.png[custom event header]
 
 - *Event Data* : `{"orderId": "1000", "item": "1111"}`
 
 . *Click* `Trigger`
 
-IMPORTANT: The *custom event header* `orderid` matches the `contextAttributeName` used in the event definition for correlation. In other words, `orderid` is the hook to the workflow instance, you can run multiple workflow instances in parallel, but they must wait for a distinct `orderid`.
+IMPORTANT: The CloudEvent is sent via the HTTP protocol, and by convention the CloudEvent attributes are sent as an HTTP header with a `ce-` prefix.
+The *CloudEvent attribute* `orderid` matches the `contextAttributeName` used in the event definition for correlation. In other words, `orderid` is the hook to the workflow instance, you can run multiple workflow instances in parallel, but they must wait for a distinct `orderid`.
 
 Open the *_Workflow Details_* page to inspect the instance status: you should see the the workflow instance still active, waiting for the shipping event:
 
@@ -176,7 +176,7 @@ image::04_cloud-event.png[cloud event button]
 
 - *Event Type* : `ShippingEventType`
 
-- *Event Custom Headers* : `orderid = 1000`
+- *Event Custom Headers* : `ce-orderid = 1000`
 
 . *Click* `Trigger`
 

@@ -143,13 +143,13 @@ image::04_cloud-event.png[cloud event button]
 
 - *Event Type* : `OrderEventType`
 
-- *Event Custom Headers* : `orderid = 1002`
+- *Event Custom Headers* : `ce-orderid = 1002`
 
 - *Event Data* : `{"orderId": "1002", "item": "1111"}`
 
 . *Click* `Trigger`
 
-Repeat the previous step to start a second workflow instance with `orderid = 1003`.
+Repeat the previous step to start a second workflow instance with `ce-orderid = 1003`.
 
 Inject other two CloudEvents:
 
@@ -157,13 +157,13 @@ Inject other two CloudEvents:
 
 - *Event Type* : `ShippingEventType`
 
-- *Event Custom Headers* : `orderid = 1002`
+- *Event Custom Headers* : `ce-orderid = 1002`
 
 . Second event will test the cancellation path:
 
 - *Event Type* : `CancelEventType`
 
-- *Event Custom Headers* : `orderid = 1003`
+- *Event Custom Headers* : `ce-orderid = 1003`
 
 NOTE: Even if you trigger the compensation no compensation activity is defined, so at this stage of the exercise you can only look for the `Compensate Order` string in the logs.
 
