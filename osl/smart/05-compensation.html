@@ -415,7 +415,7 @@ At the cancellation event, we can see the statement <code>eventDataFilter</code>
 <p><strong>Event Type</strong> : <code>OrderEventType</code></p>
 </li>
 <li>
-<p><strong>Event Custom Headers</strong> : <code>orderid = 1002</code></p>
+<p><strong>Event Custom Headers</strong> : <code>ce-orderid = 1002</code></p>
 </li>
 <li>
 <p><strong>Event Data</strong> : <code>{"orderId": "1002", "item": "1111"}</code></p>
@@ -429,7 +429,7 @@ At the cancellation event, we can see the statement <code>eventDataFilter</code>
 </ol>
 </div>
 <div class="paragraph">
-<p>Repeat the previous step to start a second workflow instance with <code>orderid = 1003</code>.</p>
+<p>Repeat the previous step to start a second workflow instance with <code>ce-orderid = 1003</code>.</p>
 </div>
 <div class="paragraph">
 <p>Inject other two CloudEvents:</p>
@@ -444,7 +444,7 @@ At the cancellation event, we can see the statement <code>eventDataFilter</code>
 <p><strong>Event Type</strong> : <code>ShippingEventType</code></p>
 </li>
 <li>
-<p><strong>Event Custom Headers</strong> : <code>orderid = 1002</code></p>
+<p><strong>Event Custom Headers</strong> : <code>ce-orderid = 1002</code></p>
 </li>
 </ul>
 </div>
@@ -457,7 +457,7 @@ At the cancellation event, we can see the statement <code>eventDataFilter</code>
 <p><strong>Event Type</strong> : <code>CancelEventType</code></p>
 </li>
 <li>
-<p><strong>Event Custom Headers</strong> : <code>orderid = 1003</code></p>
+<p><strong>Event Custom Headers</strong> : <code>ce-orderid = 1003</code></p>
 </li>
 </ul>
 </div>

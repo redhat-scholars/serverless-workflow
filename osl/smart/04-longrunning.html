@@ -450,7 +450,7 @@ In general, the Serverless Workflow runtime can expose multiple endpoints to ing
 </ul>
 </div>
 <div class="paragraph">
-<p>The Dev UI offers a convenient web form to inject <em>Cloud Events</em> in the Serverless Workflow runtime:</p>
+<p>The Dev UI offers a convenient web form to inject <em>CloudEvents</em> in the Serverless Workflow runtime:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -473,10 +473,10 @@ In general, the Serverless Workflow runtime can expose multiple endpoints to ing
 <p><strong>Event Type</strong> : <code>OrderEventType</code></p>
 </li>
 <li>
-<p><strong>Event Custom Headers</strong> : <code>orderid = 1000</code></p>
+<p><strong>Event Custom Headers</strong> : <code>ce-orderid = 1000</code></p>
 <div class="imageblock">
 <div class="content">
-<img src="_images/04_ce-header.png" alt="cloud event header">
+<img src="_images/04_ce-header.png" alt="custom event header">
 </div>
 </div>
 </li>
@@ -498,7 +498,8 @@ In general, the Serverless Workflow runtime can expose multiple endpoints to ing
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-The <strong>custom event header</strong> <code>orderid</code> matches the <code>contextAttributeName</code> used in the event definition for correlation. In other words, <code>orderid</code> is the hook to the workflow instance, you can run multiple workflow instances in parallel, but they must wait for a distinct <code>orderid</code>.
+The CloudEvent is sent via the HTTP protocol, and by convention the CloudEvent attributes are sent as an HTTP header with a <code>ce-</code> prefix.
+The <strong>CloudEvent attribute</strong> <code>orderid</code> matches the <code>contextAttributeName</code> used in the event definition for correlation. In other words, <code>orderid</code> is the hook to the workflow instance, you can run multiple workflow instances in parallel, but they must wait for a distinct <code>orderid</code>.
 </td>
 </tr>
 </table>
@@ -533,7 +534,7 @@ The <strong>custom event header</strong> <code>orderid</code> matches the <code>
 <p><strong>Event Type</strong> : <code>ShippingEventType</code></p>
 </li>
 <li>
-<p><strong>Event Custom Headers</strong> : <code>orderid = 1000</code></p>
+<p><strong>Event Custom Headers</strong> : <code>ce-orderid = 1000</code></p>
 </li>
 </ul>
 </div>
