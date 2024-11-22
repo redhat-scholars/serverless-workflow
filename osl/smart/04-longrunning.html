@@ -224,8 +224,10 @@
 <div class="paragraph">
 <p>The following picture shows an high level design:</p>
 </div>
-<div class="paragraph">
-<p><span class="image"><img src="_images/high-level-flow-2.png" alt="high level flow 2"></span></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/high-level-flow-2.png" alt="high level flow 2">
+</div>
 </div>
 </div>
 </div>
@@ -450,6 +452,29 @@ In general, the Serverless Workflow runtime can expose multiple endpoints to ing
 </ul>
 </div>
 <div class="paragraph">
+<p>Make sure that the workflow latest updates are <strong>deployed</strong>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Select</strong> <code>Try on OpenShift</code> button and then <code>Upload "<strong>order</strong>" to Dev Mode</code>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/02_upload.png" alt="upload">
+</div>
+</div>
+</li>
+<li>
+<p>Wait for the confirmation message and <strong>select</strong> <code>Go to Serverless Workflow Dev UI ↗</code> to open the <em>Dev UI</em> in a new browser tab.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/02_devui.png" alt="Dev UI">
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
 <p>The Dev UI offers a convenient web form to inject <em>CloudEvents</em> in the Serverless Workflow runtime:</p>
 </div>
 <div class="olist arabic">
@@ -507,8 +532,10 @@ The <strong>CloudEvent attribute</strong> <code>orderid</code> matches the <code
 <div class="paragraph">
 <p>Open the <strong><em>Workflow Details</em></strong> page to inspect the instance status: you should see the the workflow instance still active, waiting for the shipping event:</p>
 </div>
-<div class="paragraph">
-<p><span class="image"><img src="_images/04_shipping.png" alt="Shipping Event"></span></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/04_shipping.png" alt="Shipping Event">
+</div>
 </div>
 <div class="paragraph">
 <p>To advance the workflow execution, you have to send another event:</p>
