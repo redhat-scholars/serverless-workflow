@@ -130,6 +130,16 @@ In this section, we are going to test that the workflow is able to resume the ex
 * `ShippingEventType`
 * `CancelEventType`
 
+*Deploy* the  workflow latest updates:
+
+. *Select* `Try on OpenShift` button and then `Upload "*order*" to Dev Mode`.
++
+image::02_upload.png[upload]
+
+. Wait for the confirmation message and *select* `Go to Serverless Workflow Dev UI ↗` to open the _Dev UI_ in a new browser tab.
++
+image::02_devui.png[Dev UI]
+
 Start a new workflow instance:
 
 . *Open* the `Workflow Definitions` page.

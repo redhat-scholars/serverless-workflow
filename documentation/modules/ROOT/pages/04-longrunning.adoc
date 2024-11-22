@@ -133,6 +133,16 @@ To _start_ the workflow and subsequently _advance_ it, you have to inject two *t
 * `OrderEventType`
 * `ShippingEventType`
 
+Make sure that the workflow latest updates are *deployed*:
+
+. *Select* `Try on OpenShift` button and then `Upload "*order*" to Dev Mode`.
++
+image::02_upload.png[upload]
+
+. Wait for the confirmation message and *select* `Go to Serverless Workflow Dev UI ↗` to open the _Dev UI_ in a new browser tab.
++
+image::02_devui.png[Dev UI]
+
 The Dev UI offers a convenient web form to inject _CloudEvents_ in the Serverless Workflow runtime:
 
 . *Open* the `Workflow Definitions` page.

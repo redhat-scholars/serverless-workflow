@@ -261,6 +261,16 @@ NOTE: The rest service is invoked with two _arguments_, a dummy `supplier-id` (`
 [#test-rest]
 == Test the external REST service
 
+*Deploy* the  workflow latest updates:
+
+. *Select* `Try on OpenShift` button and then `Upload "*order*" to Dev Mode`.
++
+image::02_upload.png[upload]
+
+. Wait for the confirmation message and *select* `Go to Serverless Workflow Dev UI ↗` to open the _Dev UI_ in a new browser tab.
++
+image::02_devui.png[Dev UI]
+
 In order to test the REST call you have to *trigger* a new workflow instance with the following payload:
 
 [.console-input]
