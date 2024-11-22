@@ -99,6 +99,10 @@ oc login --token=sha256~VPMhRtYqHghxlRLWD5X92lg3ZIxr0V7dYYcP5DWxJq4 --server=htt
 
 ... Likewise, *copy* the string after `--server` into the _Host_ field in the other browser window.
 
+... *Select* `Enable Dev Mode` option.
++
+image::02_dev-mode.png[]
+
 ... Finally, *select* the `Connect` button, you should see the following confirmation message:
 +
 image::02_connection_ok.png[connection ok]
