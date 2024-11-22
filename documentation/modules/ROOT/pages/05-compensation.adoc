@@ -23,7 +23,7 @@ In our use case, we have to deal with situations where customers have to *cancel
 
 The following picture shows an high level design: 
 
-image:high-level-flow-3.png[]
+image::high-level-flow-3.png[]
 
 NOTE: Given the simplistic nature of the example, one might consider replacing compensation with a gateway followed by compensatory actions. However, it should be borne in mind that in an even slightly more complex flow, implementing compensation in imperative mode would make the implementation complex and error prone.
 

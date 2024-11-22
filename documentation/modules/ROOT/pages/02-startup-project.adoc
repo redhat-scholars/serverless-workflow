@@ -9,10 +9,10 @@ This section shows how to create a simple Serverless Workflow using https://star
 . Open the https://start.kubesmarts.org/[Serverless Logic Web Tools] in your browser.
 
 . Select `YAML` button in the *Create* pane 
-image:02_webtool.png[alt]
+image::02_webtool.png[alt]
 
 . *Change* the workflow name with `order`
-image:02_new_swf.png[alt]
+image::02_new_swf.png[alt]
 
 . *Click* the text `Create a Serverless Workflow` and select `Serverless Workflow Example`: a simple template is generated.
 
@@ -71,7 +71,7 @@ You can easily run your first workflow in your OpenShift environment:
 
 . *Select* `Setup...`
 +
-image:02_try_openshift.png[try openshift]
+image::02_try_openshift.png[try openshift]
 
 . In the *OpenShift* setting page select `Add connection` button
 
@@ -85,7 +85,7 @@ image:02_try_openshift.png[try openshift]
 
 ... In the top right corner *select* the _username_ and the `Copy login command` entry.
 +
-image:02_oc_command.png[oc command]
+image::02_oc_command.png[oc command]
 
 ... After the login process, *select* `Dysplay token` link to get a command line that resemble the following:
 +
@@ -101,13 +101,13 @@ oc login --token=sha256~VPMhRtYqHghxlRLWD5X92lg3ZIxr0V7dYYcP5DWxJq4 --server=htt
 
 ... Finally, *select* the `Connect` button, you should see the following confirmation message:
 +
-image:02_connection_ok.png[connection ok]
+image::02_connection_ok.png[connection ok]
 
 Now that the OpenShift connection is up, you need to reopen the workflow:
 
 . Go back on the main page *clicking* on the top banner:
 +
-image:02_home.png[home]
+image::02_home.png[home]
 
 . From the left navigation menu *select* `Recent Models`.
 
@@ -115,11 +115,11 @@ image:02_home.png[home]
 
 . *Select* again `Try on OpenShift` button and then `Upload "*order*" to Dev Mode`.
 +
-image:02_upload.png[upload]
+image::02_upload.png[upload]
 
 . Wait for the confirmation message and *select* `Go to Serverless Workflow Dev UI ↗` to open the _Dev UI_ in a new browser tab.
 +
-image:02_devui.png[Dev UI]
+image::02_devui.png[Dev UI]
 
 From *Dev UI* you can trigger a new workflow instance and inspect its execution:
 
@@ -127,7 +127,7 @@ From *Dev UI* you can trigger a new workflow instance and inspect its execution:
 
 . *Click* on the arrow button in corresponding to the `order` row.
 +
-image:02_wf-def.png[Workflow definitions]
+image::02_wf-def.png[Workflow definitions]
 
 . *Fill* in the `Start Workflow Data` edit box with the following JSON payload:
 +
@@ -149,11 +149,11 @@ You should get a confirmation message stating that your _workflow instance was t
 
 To inspect the workflow execution just triggered *select* `Go to workflow list` at the bottom of the confirmation message.
 
-image:02_started.png[Workflow definitions]
+image::02_started.png[Workflow definitions]
 
 In the _Workflow Instances_ page, *select* the first instance in the list:
 
-image:02_wf_list.png[Workflow list]
+image::02_wf_list.png[Workflow list]
 
 In this _Workflow Details_ page, you can inspect all the details of the workflow execution from the following boxes:
 

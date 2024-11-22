@@ -12,7 +12,7 @@ From a use case perspective, the workflow has to wait for an _asynchronous_ even
 
 The following picture shows an high level design: 
 
-image:high-level-flow-2.png[]
+image::high-level-flow-2.png[]
 
 [#waitevent]
 == Wait Event Sprint
@@ -161,7 +161,7 @@ The *CloudEvent attribute* `orderid` matches the `contextAttributeName` used in 
 
 Open the *_Workflow Details_* page to inspect the instance status: you should see the the workflow instance still active, waiting for the shipping event:
 
-image:04_shipping.png[Shipping Event]
+image::04_shipping.png[Shipping Event]
 
 To advance the workflow execution, you have to send another event:
 

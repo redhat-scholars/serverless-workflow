@@ -18,7 +18,7 @@ An e-commerce company has to implement the following **order management** workfl
 
 The following picture shows an high level design: 
 
-image:high-level-flow.png[]
+image::high-level-flow.png[]
 
 :sprint-note: pass:c,q[footnote:disclaimer[A Sprint is an iteration in the Agile methodology, which aims to be time-boxed, self container and always executable.]]
 
@@ -142,11 +142,11 @@ Before connecting the workflow to an external service is a good idea to probe it
 
 .. *Select* `Try on OpenShift` button and then `Upload "*order*" to Dev Mode`.
 +
-image:02_upload.png[upload]
+image::02_upload.png[upload]
 
 .. Wait for the confirmation message and *select* `Go to Serverless Workflow Dev UI ↗` to open the _Dev UI_ in a new browser tab.
 +
-image:02_devui.png[Dev UI]
+image::02_devui.png[Dev UI]
 
 . *Trigger* a new workflow instance:
 
@@ -154,7 +154,7 @@ image:02_devui.png[Dev UI]
 
 .. *Click* on the arrow button in corresponding to the `order` row.
 +
-image:02_wf-def.png[Workflow definitions]
+image::02_wf-def.png[Workflow definitions]
 
 .. *Fill* in the `Start Workflow Data` edit box with the following JSON payload:
 +
@@ -190,11 +190,11 @@ Another tool for checking the workflow execution is the *Console*:
 
 . At the bottom of the _Dev UI_, *click* on the `Open` toggle.
 +
-image:03_open_con.png[open console]
+image::03_open_con.png[open console]
 
 . Among other log lines, you should spot the output of `printMessage`:
 +
-image:03_console.png[console]
+image::03_console.png[console]
 
 
 [#call-rest]
