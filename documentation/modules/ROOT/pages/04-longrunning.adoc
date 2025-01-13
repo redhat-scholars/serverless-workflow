@@ -152,17 +152,17 @@ The Dev UI offers a convenient web form to inject _CloudEvents_ in the Serverles
 +
 image::04_cloud-event.png[cloud event button]
 
-. *Fill in* the form with the following values:
+. *Fill in* the form with the event information:
 
-- *Event Type* : `OrderEventType`
+- In _Event Type_ *type*: `OrderEventType`
 
-- *Event Custom Headers* : `ce-orderid = 1000`
+- *Click* `Add Header` to the right of _Event Custom Headers_ and *type* `ce-orderid` and `1000` for _Header Name_ and _Value_
 
 +
 +
 image::04_ce-header.png[custom event header]
 
-- *Event Data* : `{"orderId": "1000", "item": "1111"}`
+- In _Event Data_ *copy* the following json: `{"orderId": "1000", "item": "1111"}`
 
 . *Click* `Trigger`
 
