@@ -241,7 +241,7 @@ image::restore-inventory.png[]
 
 In the workflow diagram you should see the following situation:
 
-image::compensation-activities.png[]
+image::05_compensation-activities.png[]
 
 [#test-compensation]
 == Testing the compensation
