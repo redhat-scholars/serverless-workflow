@@ -8,13 +8,15 @@ This section shows how to create a simple Serverless Workflow using https://star
 
 . Open the https://start.kubesmarts.org/[Serverless Logic Web Tools] in your browser.
 
-. Select `YAML` button in the *Create* pane 
-image::02_webtool.png[alt]
+. *Select* `YAML` button in the _Create_ pane for _New Workflow_
++
+image::02_webtool.png[New workflow]
 
 . *Change* the workflow name with `order`
-image::02_new_swf.png[alt]
 
 . *Click* the text `Create a Serverless Workflow` and select `Serverless Workflow Example`: a simple template is generated.
++
+image::02_new_swf.png[Workflow example]
 
 The workflow editor is split in two panes: the _text_ editor and the _visual_ representation of the workflow.
 
