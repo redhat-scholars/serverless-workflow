@@ -3,8 +3,8 @@ include::_attributes.adoc[]
 
 There are several ways to develop on OpenShift Serverless Logic:
 
-* *Pure Cloud*: using https://start.kubesmarts.org/[Serverless Logic Web Tools] and OpenShift as the runtime engine.
-* *Browser with local runtime*: using https://start.kubesmarts.org/[Serverless Logic Web Tools] and `kn-workflow` command line (which leverages a local container engine, e.g. `podman`, `docker`)
+* *Pure Cloud*: using https://start.kubesmarts.org/dev[Serverless Logic Web Tools] and OpenShift as the runtime engine.
+* *Browser with local runtime*: using https://start.kubesmarts.org/dev[Serverless Logic Web Tools] and `kn-workflow` command line (which leverages a local container engine, e.g. `podman`, `docker`)
 * *Full-fledged local development workstation*: using _Visual Studio Code_ and _Quarkus_.
 
 This tutorial suggests the first option to minimize the workstation preparation work.

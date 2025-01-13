@@ -213,7 +213,11 @@ The link between the workflow and the rest service is the *OpenAPIs spec file* t
 
 For sake of simplicity, you will import a project that contains all the required files: the workflow yaml, the OpenAPI spec and the `application.property` file. The latter contains information about the REST service endpoint.
 
-. Open the https://start.kubesmarts.org/[Serverless Logic Web Tools] in your browser (if you already have it in your browser window, make sure to click on the top banner to open the home page).
+=== Clone the project repository
+
+. *Open* the home page of https://start.kubesmarts.org/dev[Serverless Logic Web Tools] 
+
+  - If you already have it in your browser window, make sure to click on the top banner to open the home page
 
 . Locate the `Import` box in the page and *copy* the following address in the URL field: `https://github.com/dmarrazzo/order-swf-tut.git`
 
@@ -223,7 +227,9 @@ The tool will take you to the Serverless Workflow designer, but you can switch t
 
 image::03_repo_nav.png[repository navigation]
 
-In the following steps, you'll enhance the workflow design to call an external service:
+=== Add the external external service
+
+Update the workflow definition:
 
 . *Add* the OpenAPI references in the `functions` declaration section:
 +

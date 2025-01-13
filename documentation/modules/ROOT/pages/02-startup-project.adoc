@@ -1,12 +1,12 @@
 = Startup project
 include::_attributes.adoc[]
 
-This section shows how to create a simple Serverless Workflow using https://start.kubesmarts.org/[Serverless Logic Web Tools].
+This section shows how to create a simple Serverless Workflow using https://start.kubesmarts.org/dev[Serverless Logic Web Tools].
 
 [#basic-workflow]
 == A basic workflow
 
-. Open the https://start.kubesmarts.org/[Serverless Logic Web Tools] in your browser.
+. Open the https://start.kubesmarts.org/dev[Serverless Logic Web Tools] in your browser.
 
 . *Select* `YAML` button in the _Create_ pane for _New Workflow_
 +
