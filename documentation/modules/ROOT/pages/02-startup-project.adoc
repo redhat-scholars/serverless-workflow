@@ -85,6 +85,10 @@ image::02_try_openshift.png[try openshift]
 
 ... *Open* the OpenShift console in a different browser window.
 
+... *Create* a new project named as your userid (e.g. `userX`)
++
+image::02_create_project.png[oc command]
+
 ... In the top right corner *select* the _username_ and the `Copy login command` entry.
 +
 image::02_oc_command.png[oc command]
@@ -104,6 +108,8 @@ oc login --token=sha256~VPMhRtYqHghxlRLWD5X92lg3ZIxr0V7dYYcP5DWxJq4 --server=htt
 ... *Select* `Enable Dev Mode` option.
 +
 image::02_dev-mode.png[]
+
+... *Select* `Insecurely disable TLS certificate validation`
 
 ... Finally, *select* the `Connect` button, you should see the following confirmation message:
 +
@@ -126,6 +132,8 @@ image::02_upload.png[upload]
 . Wait for the confirmation message and *select* `Go to Serverless Workflow Dev UI ↗` to open the _Dev UI_ in a new browser tab.
 +
 image::02_devui.png[Dev UI]
++
+WARNING: At time of writing a bug affect the link (it shows you an error page). To work around this issue: append the following subpath to the URL: `/q/dev-ui/org.apache.kie.sonataflow.sonataflow-quarkus-devui/workflows`
 
 From *Dev UI* you can trigger a new workflow instance and inspect its execution:
 
